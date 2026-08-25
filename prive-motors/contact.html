@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Privé Motors</title>
+<meta name="description" content="Talk to Privé Motors concierge — Dubai's finest collection of sports, executive, and luxury rental cars. One form, one line, any hour.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --surface: #101F38;
+    --surface-2: #162B4A;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #565D68;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ overflow-y:scroll; overflow-x:hidden; scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  body.locked{ overflow:hidden; height:100vh; }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+  .eyebrow{ font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--rose); font-weight:500; }
+  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  a{ color:inherit; }
+
+  .btn{ display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-size:0.82rem; font-weight:700;
+    letter-spacing:0.03em; text-decoration:none; cursor:pointer; border:1px solid transparent;
+    transition:transform 0.16s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--rose); color:#1A130D; padding:0.9rem 1.8rem; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; }
+
+  /* nav — identical spring + material-weight system used sitewide */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
+    will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+
+  /* over light sections, links flip dark; the CTA stays rose-gold but drops to
+     --rose-deep for AA contrast on white (same fix already applied to .eyebrow sitewide) */
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* hamburger — hidden on desktop, springs into a sheet on mobile */
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right;
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  /* reveal — same fire-once fade-up used sitewide */
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:0.1s; } .reveal-d2{ transition-delay:0.2s; } .reveal-d3{ transition-delay:0.3s; }
+
+  .section{ padding:7.5rem 0; }
+  @media (max-width:820px){ .section{ padding:5rem 0; } }
+
+  /* ===== contact hero — same video+scrim technique as the home page's .ethos section
+     (one looping video, no scroll-scrub/step narration — this is a static hero, not a
+     pinned section), scrim pushed noticeably darker per direction. Reduced-motion swaps
+     the video for the same static ambient gradient .ethos uses, never a blank panel. ===== */
+  .contact-hero{ position:relative; min-height:100vh; background:var(--bg-deep); overflow:hidden;
+    display:flex; align-items:center; }
+  .contact-video-wrap{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+  .contact-video-wrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
+    filter:saturate(0.72) brightness(0.72); transition:opacity 1.2s ease; }
+  .contact-video-wrap video.ready{ opacity:1; }
+  .contact-hero.reduced .contact-video-wrap{ display:none; }
+  .contact-hero.reduced{ background:
+      radial-gradient(ellipse at 24% 38%, rgba(212,175,140,0.1) 0%, transparent 55%),
+      radial-gradient(ellipse at 78% 68%, rgba(27,50,85,0.5) 0%, transparent 60%), var(--bg-deep); }
+  .contact-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(90deg, rgba(5,11,20,0.94) 0%, rgba(5,11,20,0.76) 42%, rgba(5,11,20,0.4) 72%, rgba(5,11,20,0.55) 100%),
+                linear-gradient(180deg, rgba(5,11,20,0.18) 0%, rgba(5,11,20,0.3) 55%, rgba(5,11,20,0.9) 100%); }
+
+  .contact-grid{ position:relative; z-index:2; display:grid; grid-template-columns:1.05fr 0.95fr;
+    gap:clamp(2.5rem,5vw,5rem); align-items:center;
+    padding:clamp(7.5rem,13vw,9.5rem) 0 clamp(4rem,7vw,5.5rem); }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  .contact-intro h1{ font-family:'Inter', var(--sans); font-weight:300; letter-spacing:-0.01em; text-transform:none;
+    font-size:clamp(2.1rem,4.6vw,3.6rem); line-height:1.1; color:var(--text); margin:1.2rem 0 1.3rem; max-width:15ch; }
+  .contact-intro > .eyebrow{ font-family:'Inter', var(--sans); font-size:0.72rem; font-weight:500; letter-spacing:0.26em; }
+  .contact-intro p{ font-family:'Inter', var(--sans); color:var(--text-dim); font-size:1rem; line-height:1.75; max-width:42ch; margin:0 0 2.2rem; }
+
+  .contact-quick{ display:flex; flex-direction:column; gap:0.9rem; }
+  .contact-quick-link{ display:flex; align-items:center; gap:0.9rem; text-decoration:none; color:var(--text);
+    font-size:0.92rem; padding:0.2rem 0; width:fit-content; }
+  .contact-quick-link .cq-icon{ flex:none; width:2.2rem; height:2.2rem; border-radius:50%; border:1px solid rgba(212,175,140,0.35);
+    display:flex; align-items:center; justify-content:center; transition:border-color 0.25s ease, background 0.25s ease, transform 0.15s cubic-bezier(.16,1,.3,1); }
+  .contact-quick-link .cq-icon svg{ stroke:var(--rose); width:15px; height:15px; }
+  .contact-quick-link .cq-label{ color:var(--text-faint); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; display:block; margin-bottom:0.1rem; }
+  .contact-quick-link .cq-value{ font-weight:600; }
+  @media (hover:hover) and (pointer:fine){
+    .contact-quick-link:hover .cq-icon{ border-color:var(--rose); background:rgba(212,175,140,0.1); }
+  }
+  .contact-quick-link:active .cq-icon{ transform:scale(0.92); }
+
+  /* glass form card — material weight per apple-design §12: a light translucent surface
+     floating over the dark video, bright top edge catching light, vibrant (not flat-dim) label text */
+  .contact-card{ position:relative; background:rgba(242,230,215,0.07);
+    backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%);
+    border:1px solid rgba(242,230,215,0.16); border-top-color:rgba(255,255,255,0.24);
+    border-radius:22px; padding:clamp(1.8rem,3vw,2.6rem); box-shadow:0 30px 80px -20px rgba(0,0,0,0.6); }
+  .contact-card-head h2{ font-size:1.4rem; margin:0 0 0.5rem; }
+  .contact-card-head p{ color:var(--text-dim); font-size:0.88rem; line-height:1.6; margin:0 0 1.8rem; max-width:38ch; }
+
+  .cf-row{ margin-bottom:1.1rem; }
+  .cf-row-split{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .cf-row-split > div{ min-width:0; }
+  .cf-row label{ display:block; font-family:var(--sans); font-size:0.72rem; font-weight:600; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--text); margin-bottom:0.5rem; }
+  .cf-row input, .cf-row select, .cf-row textarea{ width:100%; background:rgba(5,11,20,0.35);
+    border:1px solid rgba(242,230,215,0.16); border-radius:10px; padding:0.85rem 1rem;
+    color:var(--text); font-family:var(--sans); font-size:0.92rem;
+    transition:border-color 150ms ease-out, background 150ms ease-out; }
+  .cf-row input::placeholder, .cf-row textarea::placeholder{ color:rgba(242,230,215,0.4); }
+  .cf-row input:hover, .cf-row select:hover, .cf-row textarea:hover{ border-color:rgba(242,230,215,0.28); }
+  .cf-row input:focus-visible, .cf-row select:focus-visible, .cf-row textarea:focus-visible{
+    outline:none; border-color:var(--rose); background:rgba(5,11,20,0.5); }
+  .cf-row textarea{ resize:vertical; min-height:5.5rem; font-family:var(--sans); }
+  .cf-row select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%23D4AF8C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.4rem; }
+  .cf-consent{ display:flex; align-items:flex-start; gap:0.6rem; margin:0.3rem 0 1.1rem; cursor:pointer; }
+  .cf-consent input{ margin-top:0.2rem; accent-color:var(--rose); flex:none; }
+  .cf-consent span{ font-size:0.8rem; line-height:1.5; color:var(--text-dim); }
+  .cf-consent a{ color:var(--rose); text-decoration:underline; }
+  .cf-submit{ width:100%; justify-content:center; margin-top:0.4rem; border-radius:999px; }
+  .cf-note{ margin:0.9rem 0 0; font-size:0.8rem; color:var(--text-faint); text-align:center; }
+  @media (max-width:540px){ .cf-row-split{ grid-template-columns:1fr; } }
+
+  /* ===== faq — exact port of the home page #faq section (byte-identical HTML/CSS/JS) ===== */
+  #faq{ background:#ffffff;
+    --faq-line: var(--rose-deep);
+    --text-dim:rgba(5,11,20,0.62); --text-faint:rgba(5,11,20,0.42); }
+  #faq h2{ color:var(--bg-deep); }
+  #faq .eyebrow{ color:var(--rose-deep); }
+  #faq .section-head p{ color:var(--text-dim); max-width:36ch; }
+  .section-head{ display:grid; grid-template-columns:1.2fr 1fr; gap:2.5rem; margin-bottom:3.8rem; align-items:end; }
+  .section-head h2{ font-size:clamp(2rem,3.4vw,2.9rem); margin:0.6rem 0 0; max-width:26ch; line-height:1.08; }
+  .section-head p{ color:var(--text-dim); line-height:1.75; margin:0; max-width:40ch; }
+  @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
+
+  .faq-list{ max-width:860px; margin:3rem auto 0; border-top:1px solid var(--faq-line); }
+  .faq-item{ border-bottom:1px solid var(--faq-line); }
+  .faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+    background:none; border:0; margin:0; padding:1.6rem 0.2rem; cursor:pointer; text-align:left;
+    font-family:var(--sans); font-size:1.05rem; font-weight:600; color:var(--bg-deep); }
+  .faq-q:focus-visible{ outline:2px solid var(--rose-deep); outline-offset:4px; }
+  .faq-q svg{ flex-shrink:0; color:var(--rose-deep); transition:transform 250ms cubic-bezier(.16,1,.3,1); }
+  .faq-q[aria-expanded="true"] svg{ transform:rotate(180deg); }
+  .faq-a{ height:0; overflow:hidden; transition:height 300ms cubic-bezier(.16,1,.3,1); }
+  .faq-a-inner{ padding:0 2.2rem 1.7rem 0.2rem; }
+  .faq-a p{ margin:0; color:var(--text-dim); font-size:0.98rem; line-height:1.7; max-width:60ch; }
+  .faq-char{ display:inline-block; opacity:0; filter:blur(10px);
+    transition:opacity 0.35s cubic-bezier(.16,1,.3,1), filter 0.35s cubic-bezier(.16,1,.3,1); }
+  .faq-a-text.is-revealed .faq-char{ opacity:1; filter:blur(0); }
+  @media (prefers-reduced-motion:reduce){
+    .faq-a{ transition:none; }
+    .faq-q svg{ transition:none; }
+    .faq-char{ opacity:1; filter:none; transition:none; }
+    .reveal{ transform:none; transition:opacity 300ms ease; }
+    .contact-video-wrap video{ transition:opacity 300ms ease; }
+  }
+  @media (max-width:640px){
+    .faq-q{ font-size:0.98rem; padding:1.3rem 0; gap:1rem; }
+    .faq-a-inner{ padding-right:1.2rem; }
+  }
+
+  /* footer */
+  footer{ background:#000; border-top:1px solid var(--line); padding:5rem 0 2.2rem; }
+  .footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand p{ color:var(--text-faint); font-size:0.87rem; line-height:1.7; max-width:32ch; margin-top:1.1rem; }
+  .footer-col h4{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1.2rem; font-weight:700; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; transition:color 0.3s ease; }
+  .footer-col a:hover{ color:var(--rose); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:2.2rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.78rem; flex-wrap:wrap; gap:1rem; align-items:center; }
+  .footer-legal{ display:flex; gap:1.4rem; }
+  .footer-legal a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .footer-legal a:hover{ color:var(--rose); }
+  .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
+  .ph-footer{ color:var(--rose-deep); }
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo" fetchpriority="high"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html">Home</a></li>
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prive-motors.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="prive-motors.html#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<section class="contact-hero" id="contactHero">
+  <div class="contact-video-wrap">
+    <video id="contactVideo" muted loop playsinline preload="auto">
+      <source src="assets/video/ethos-loop.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="contact-scrim"></div>
+
+  <div class="container contact-grid">
+    <div class="contact-intro reveal">
+      <div class="eyebrow">Talk To Concierge</div>
+      <h1>Tell us what you're driving next.</h1>
+      <p>One form, one concierge, no hold music. Share the occasion and we'll have options waiting before you finish your coffee.</p>
+      <div class="contact-quick">
+        <a href="https://wa.me/971400000000" class="contact-quick-link">
+          <span class="cq-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+          <span><span class="cq-label">WhatsApp</span><span class="cq-value">+971 4 000 0000</span></span>
+        </a>
+        <a href="tel:+97140000000" class="contact-quick-link">
+          <span class="cq-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span><span class="cq-label">Call</span><span class="cq-value">+971 4 000 0000</span></span>
+        </a>
+        <a href="mailto:concierge@privemotors.ae" class="contact-quick-link">
+          <span class="cq-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" stroke="none"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg></span>
+          <span><span class="cq-label">Email</span><span class="cq-value">concierge@privemotors.ae</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-card reveal reveal-d1">
+      <div class="contact-card-head">
+        <h2>Request a Callback</h2>
+        <p>Every request goes straight to concierge — no ticket number, no queue.</p>
+      </div>
+      <form id="contactForm" novalidate>
+        <div class="cf-row">
+          <label for="cfName">Full Name</label>
+          <input id="cfName" name="name" type="text" placeholder="Your name" required>
+        </div>
+        <div class="cf-row cf-row-split">
+          <div>
+            <label for="cfEmail">Email</label>
+            <input id="cfEmail" name="email" type="email" placeholder="you@email.com" required>
+          </div>
+          <div>
+            <label for="cfPhone">Phone / WhatsApp</label>
+            <input id="cfPhone" name="phone" type="tel" placeholder="+971 ..." required>
+          </div>
+        </div>
+        <div class="cf-row cf-row-split">
+          <div>
+            <label for="cfDate">When do you need the car?</label>
+            <input id="cfDate" name="date" type="text" placeholder="e.g. This weekend">
+          </div>
+          <div>
+            <label for="cfInterest">Vehicle interest</label>
+            <select id="cfInterest" name="interest">
+              <option value="">Not sure yet</option>
+              <option>Sports</option>
+              <option>Executive / Sedan</option>
+              <option>SUV</option>
+              <option>Convertible</option>
+            </select>
+          </div>
+        </div>
+        <div class="cf-row">
+          <label for="cfMessage">Tell us more</label>
+          <textarea id="cfMessage" name="message" rows="4" placeholder="Dates, occasion, anything we should know" required></textarea>
+        </div>
+        <label class="cf-consent">
+          <input type="checkbox" id="cfConsent" required>
+          <span>I agree to the <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</span>
+        </label>
+        <!-- TODO: wire to Formspree/backend — UI-only placeholder for now, see contact.html plan -->
+        <button type="submit" class="btn btn-primary cf-submit" id="cfSubmit">Send Request</button>
+        <p class="cf-note" id="cfNote">We usually respond within the hour.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" data-nav-theme="light">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow">Common Questions</div>
+        <h2>Everything before you call.</h2>
+      </div>
+      <p class="reveal reveal-d1">Can't find what you're looking for? Message our concierge on WhatsApp — the same line, day or night.</p>
+    </div>
+
+    <div class="faq-list reveal reveal-d1">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What's included in the price?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">The vehicle, comprehensive insurance, and delivery and collection anywhere in the Emirates. No cleaning fees, no "insurance excess" sprung on you at pickup — Salik tolls and fuel are the only extras, and only for what you actually use.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What documents do I need to book?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">A valid driving license (UAE, GCC, or an internationally recognized license), a passport or Emirates ID, and a credit card in the driver's name for the security hold. Bring them once — verified for every booking after.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Is a security deposit required?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Yes, held on your card at handover and released after the car comes back. Every inspection is filmed and timestamped, both ways, so there's nothing left to argue about — zero disputed deposits in 2025.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What's the minimum age to drive?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">25 for the core fleet, 30 for the ultra-performance tier. Under that, you can still ride — just book a chauffeur instead.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can someone else drive the car?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Yes. Any additional driver just needs to be verified and added to the reservation before delivery — same documents, same nine-minute process.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Do you deliver outside Dubai?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Anywhere in the Emirates, including straight to the arrivals gate at the airport — no delivery surcharge, no waiting at a counter.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What happens if there's an accident or the car needs attention?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Call our concierge line first, any hour — we coordinate with police, recovery, and your replacement vehicle from there. One number, the same one on your invoice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var reduceMotionFAQ = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('#faq .faq-item');
+
+  function buildChars(item){
+    var textEl = item.querySelector('.faq-a-text');
+    if (textEl.dataset.built) return;
+    textEl.dataset.built = '1';
+    if (reduceMotionFAQ) return;
+    var raw = textEl.textContent;
+    textEl.textContent = '';
+    raw.split('').forEach(function(ch, i){
+      var span = document.createElement('span');
+      span.className = 'faq-char';
+      span.style.transitionDelay = (i * 12) + 'ms';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      textEl.appendChild(span);
+    });
+  }
+
+  function openItem(item){
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    var textEl = item.querySelector('.faq-a-text');
+    buildChars(item);
+    btn.setAttribute('aria-expanded', 'true');
+    panel.style.height = panel.scrollHeight + 'px';
+    requestAnimationFrame(function(){ textEl.classList.add('is-revealed'); });
+    panel.addEventListener('transitionend', function te(e){
+      if (e.propertyName === 'height') {
+        panel.removeEventListener('transitionend', te);
+        if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
+      }
+    });
+  }
+
+  function closeItem(item){
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    if (btn.getAttribute('aria-expanded') !== 'true') return;
+    panel.style.height = panel.scrollHeight + 'px';
+    void panel.offsetHeight;
+    btn.setAttribute('aria-expanded', 'false');
+    panel.style.height = '0px';
+  }
+
+  items.forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', function(){
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      items.forEach(function(other){ if (other !== item) closeItem(other); });
+      if (isOpen) closeItem(item); else openItem(item);
+    });
+  });
+})();
+</script>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="prive-motors.html" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="prive-motors.html#proof">Reviews</a><a href="prive-motors.html#features">What's Included</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="#">+971 4 000 0000</a><a href="#">concierge@privemotors.ae</a><a href="#">Downtown Dubai, UAE</a></div>
+      <div class="footer-col"><h4>Book</h4><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // in-page anchor links get their smooth scroll from here instead of the global CSS
+  // scroll-behavior (see the html{} rule for why it isn't set there anymore)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---- custom scrollbar thumb ---- */
+  const scrollThumb = document.getElementById('scrollThumb');
+  /* ---- nav: identical spring + material-weight system used sitewide ---- */
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){ navTargetY = y; if (!navRAF) navRAF = requestAnimationFrame(springNav); }
+
+  // nav text flips dark whenever a light section sits behind it
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30;
+  function updateNavTheme(){
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+    nav.classList.toggle('on-light', onLight);
+  }
+
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
+     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
+     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
+     back-to-back on every native scroll event, the second listener's geometry read
+     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
+     right after the first listener's style write — layout thrashing on every scroll tick,
+     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
+     geometry READ done before any style WRITE, lets the browser batch it into one recalc
+     per frame instead of several per raw scroll event. */
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+
+    // ---- reads ----
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    // ---- compute ----
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt;
+    lastScrollY = y; lastScrollT = t;
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    // ---- writes ----
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+  function openSheet(){ navSheet.classList.add('open'); requestAnimationFrame(() => navSheet.classList.add('in')); navToggle.setAttribute('aria-expanded', 'true'); document.body.classList.add('locked'); }
+  function closeSheet(){ navSheet.classList.remove('in'); navToggle.setAttribute('aria-expanded', 'false'); document.body.classList.remove('locked'); setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400); }
+  navToggle.addEventListener('click', () => { navSheet.classList.contains('in') ? closeSheet() : openSheet(); });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  /* ---- reveal — same fire-once fade-up used sitewide ---- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---- contact hero video — same ready/reduced-motion pattern as the home page .ethos video ---- */
+  const contactHero = document.getElementById('contactHero');
+  const contactVideo = document.getElementById('contactVideo');
+  if (reduceMotion) {
+    contactHero.classList.add('reduced');
+  } else {
+    if (contactVideo.readyState >= 3) contactVideo.classList.add('ready');
+    else contactVideo.addEventListener('canplay', () => contactVideo.classList.add('ready'), { once:true });
+    contactVideo.play().catch(() => {});
+  }
+
+  /* ---- contact form — UI-only placeholder submit, no backend wired yet (see TODO above the button) ---- */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const note = document.getElementById('cfNote');
+      if (!document.getElementById('cfConsent').checked) {
+        note.textContent = 'Please accept the Privacy Policy and Terms to continue.';
+        return;
+      }
+      const btn = document.getElementById('cfSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Request Sent';
+      note.textContent = 'Thank you — our concierge will reach out shortly.';
+    });
+  }
+</script>
+
+</body>
+</html>

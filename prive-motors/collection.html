@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Collection — Privé Motors</title>
+<meta name="description" content="Browse Privé Motors' full Dubai fleet — sports, executive, and luxury rental cars. Filter by marque, category, or occasion. Real prices, no bait.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --surface: #101F38;
+    --surface-2: #162B4A;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #737B87;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible,
+  [tabindex]:focus-visible{ outline:2px solid var(--rose); outline-offset:3px; border-radius:2px; }
+  /* native OS scrollbars (esp. Windows Fluent) ignore width/track-color CSS and add arrow
+     buttons — hidden entirely in favor of a custom floating thumb built below */
+  html{ overflow-y:scroll; overflow-x:hidden;
+    scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+  .eyebrow{ font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--rose); font-weight:500; }
+  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  a{ color:inherit; }
+
+  .btn{ display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-size:0.82rem; font-weight:700;
+    letter-spacing:0.03em; text-decoration:none; cursor:pointer; border:1px solid transparent;
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+  .btn-primary{ background:var(--rose); color:#1A130D; padding:0.9rem 1.8rem; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+  .btn-line{ padding:0.9rem 0; border:none; border-bottom:1px solid var(--line-strong); border-radius:0; }
+  .btn-line:hover{ border-bottom-color:var(--rose); color:var(--rose); }
+
+  body.locked{ overflow:hidden; height:100vh; }
+
+  .grain{ position:absolute; inset:0; pointer-events:none; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+
+  /* nav — identical to home; JS drives the same continuous material weight + spring hide/show */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
+    will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+
+  /* over light sections, links flip dark; the CTA stays rose-gold but drops to
+     --rose-deep for AA contrast on white (same fix already applied to .eyebrow sitewide) */
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* hamburger — hidden on desktop, springs into a sheet on mobile */
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right;
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:0.1s; } .reveal-d2{ transition-delay:0.2s; } .reveal-d3{ transition-delay:0.3s; }
+
+  .section{ padding:7.5rem 0; }
+  @media (max-width:820px){ .section{ padding:5rem 0; } }
+
+  /* light zone — header + filter bar + grid live on an off-white page (never pure #fff —
+     a light card on pure white loses its edge; see apple-design §12 materials). CTA/footer
+     stay dark bookends, same alternating pattern already used on the home page. */
+  .light-zone{ background:#ffffff;
+    --line:rgba(5,11,20,0.08); --line-strong:rgba(5,11,20,0.18);
+    --text-dim:rgba(5,11,20,0.55); --text-faint:rgba(5,11,20,0.42); }
+  .light-zone h1, .light-zone h2, .light-zone h3{ color:var(--bg-deep); }
+
+  /* page header */
+  .collection-head{ padding:9.5rem 0 3rem; text-align:center; }
+  .collection-head h1{ font-size:clamp(2.3rem,4.6vw,3.6rem); margin:0.7rem auto 0.9rem; max-width:24ch; line-height:1.05; }
+  /* editorial light-sweep on the hero headline — same "About page" character (a colored
+     duplicate revealed through a moving mask), just abstract (no photography) and gated to
+     min-width:768px, the point above which this h1 is confirmed single-line (it wraps to two
+     lines below that, where the absolutely-positioned duplicate spans would misalign).
+     display:none by default is load-bearing, not cosmetic — without it these aria-hidden
+     duplicate spans fall into normal inline flow below 768px and the headline visibly repeats
+     itself three times over. */
+  .sweep-gold, .sweep-glow{ display:none; }
+  @media (min-width:768px){
+    .sweep-wrap{ position:relative; display:inline-block; }
+    .sweep-gold, .sweep-glow{ display:block; position:absolute; inset:0; color:transparent; pointer-events:none;
+      background:linear-gradient(115deg, transparent 42%, var(--rose-deep) 48%, var(--rose-bright) 50%, var(--rose-deep) 52%, transparent 58%);
+      background-size:260% 100%; -webkit-background-clip:text; background-clip:text;
+      background-position:95% 0; transition:background-position 2.6s ease-in-out; }
+    .sweep-glow{ filter:blur(9px); opacity:0.65; }
+    .sweep-wrap.in-view .sweep-gold, .sweep-wrap.in-view .sweep-glow{ background-position:-5% 0; }
+  }
+  .collection-head p{ color:var(--text-dim); max-width:48ch; line-height:1.75; margin:0 auto; }
+
+  /* filter bar — static, stays in normal document flow (not sticky/pinned to the viewport) —
+     scrolls away with the page like any other section. Category (primary) and Marque (secondary)
+     are deliberately different weights so the row doesn't read as one flat wall of chips. */
+  .filter-bar{ position:static; background:rgba(255,255,255,0.94); backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:1.3rem 0; }
+  .filter-row{ display:flex; align-items:flex-end; gap:1.4rem; flex-wrap:wrap; min-width:0; }
+  .filter-row-cat{ border-bottom:1px solid var(--line); padding-bottom:0; }
+  .filter-group{ display:flex; align-items:flex-end; gap:0.6rem; min-width:0; flex:1 1 auto; }
+  .filter-label{ font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); margin-right:0.4rem; flex-shrink:0; padding-bottom:1.05rem; }
+
+  /* category — editorial underline tabs (no pill backgrounds): plain tracked text with a
+     thin sliding underline, closer to a magazine section nav than a filter-chip row */
+  #categoryChips{ position:relative; display:flex; gap:2.1rem; flex-wrap:wrap; }
+  #categoryChips .chip{ position:relative; border:none; background:transparent; cursor:pointer; padding:0 0 1.05rem;
+    font-family:var(--display); font-size:0.82rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-faint); font-weight:500; transition:color 250ms ease; white-space:nowrap; }
+  #categoryChips .chip:hover{ color:var(--bg-deep); }
+  #categoryChips .chip.active{ color:var(--bg-deep); }
+  .category-underline{ position:absolute; bottom:0; height:2px; background:var(--rose-deep);
+    transition:transform 420ms cubic-bezier(.16,1,.3,1), width 420ms cubic-bezier(.16,1,.3,1); }
+
+  /* marque — logo row: natural color, generous equal bounding box, name label below,
+     small dot marks the active one. No card/pill background anywhere. */
+  #brandChips{ display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; flex:1 1 100%; padding:0.3rem 0 0.6rem; }
+  #brandChips .chip{ position:relative; flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+    padding:0 0 0.7rem; border:none; background:none; cursor:pointer; opacity:0.82; transition:opacity 260ms ease, transform 260ms ease; }
+  #brandChips .chip:hover{ opacity:1; transform:translateY(-1px); }
+  #brandChips .chip.active{ opacity:1; }
+  #brandChips .chip-logo{ position:relative; width:68px; height:44px; display:flex; align-items:center; justify-content:center; }
+  #brandChips .chip-logo img{ max-width:100%; max-height:100%; object-fit:contain; }
+  #brandChips .chip-name{ position:relative; font-size:0.66rem; color:var(--text-faint); letter-spacing:0.02em; white-space:nowrap; transition:color 260ms ease; }
+  #brandChips .chip.active .chip-name{ color:var(--rose-deep); font-weight:700; }
+  #brandChips .chip-dot{ position:absolute; left:50%; bottom:0; width:4px; height:4px; border-radius:50%; background:var(--rose-deep);
+    transform:translateX(-50%) scale(0); transition:transform 260ms cubic-bezier(.34,1.4,.4,1); }
+  #brandChips .chip.active .chip-dot{ transform:translateX(-50%) scale(1); }
+
+  .filter-spacer{ flex:1; }
+
+  /* sort — custom dropdown replacing the raw <select> (its popover can't be styled cross-browser).
+     Editorial trigger: no box/border/shadow — a small tracked-caps label over the current value,
+     thin underline only, same visual language as the Category tabs to its left. */
+  .sort-wrap{ position:relative; margin-bottom:1.1rem; }
+  .sort-wrap-label{ display:block; font-family:var(--display); font-size:0.62rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--text-faint); margin-bottom:0.3rem; }
+  .sort-btn{ display:flex; align-items:center; gap:0.4rem; background:none; border:none; border-bottom:1px solid var(--line-strong);
+    border-radius:0; padding:0 0 0.5rem; cursor:pointer; font-family:var(--display); font-size:0.88rem;
+    font-weight:500; color:var(--bg-deep); transition:border-color 200ms ease; }
+  .sort-btn:hover{ border-bottom-color:var(--rose); }
+  .sort-btn svg{ transition:transform 260ms cubic-bezier(.16,1,.3,1); flex:none; }
+  .sort-wrap.open .sort-btn svg{ transform:rotate(180deg); }
+  .sort-menu{ position:absolute; top:calc(100% + 8px); right:0; min-width:200px; background:#fff;
+    border:1px solid var(--line); border-radius:12px; box-shadow:0 18px 44px -18px rgba(5,11,20,0.28), 0 2px 8px -2px rgba(5,11,20,0.06);
+    padding:6px; opacity:0; visibility:hidden; transform:translateY(-6px) scale(0.98); transform-origin:top right;
+    transition:opacity 200ms ease, transform 220ms cubic-bezier(.16,1,.3,1), visibility 200ms; z-index:5; }
+  .sort-wrap.open .sort-menu{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+  .sort-opt{ display:block; width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    padding:0.62rem 0.7rem; border-radius:8px; font-family:var(--sans); font-size:0.83rem; color:var(--text-dim); transition:background-color 160ms ease, color 160ms ease; }
+  .sort-opt:hover{ background:rgba(212,175,140,0.12); color:var(--bg-deep); }
+  .sort-opt.active{ color:var(--rose-deep); font-weight:700; }
+
+  .active-filters{ display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap; margin-top:1rem; min-height:1.6rem; }
+  .active-filters:empty{ margin-top:0; }
+  .filter-tag{ display:inline-flex; align-items:center; gap:0.5rem; padding:0.4rem 0.4rem 0.4rem 0.9rem;
+    background:rgba(212,175,140,0.14); border:1px solid rgba(212,175,140,0.35); border-radius:999px;
+    font-size:0.76rem; font-weight:600; color:#9C6B3E; }
+  .filter-tag button{ display:flex; align-items:center; justify-content:center; width:1.2rem; height:1.2rem;
+    border-radius:50%; border:none; background:rgba(212,175,140,0.3); color:#9C6B3E; cursor:pointer; font-size:0.9rem;
+    line-height:1; padding:0; }
+  .filter-tag button:hover{ background:var(--rose); color:#1A130D; }
+  .clear-all{ font-size:0.76rem; color:var(--text-faint); text-decoration:underline; cursor:pointer; background:none; border:none; font-family:var(--sans); padding:0; }
+  .clear-all:hover{ color:var(--rose); }
+
+  .finder-toggle{ display:inline-flex; align-items:center; gap:0.5rem; background:none; border:none; color:var(--rose);
+    font-family:var(--sans); font-size:0.82rem; font-weight:700; cursor:pointer; padding:0; margin-top:1.1rem; }
+  .finder-toggle:hover{ color:#9C6B3E; }
+
+  /* grid + cards — cut-out style, light card on the off-white page (approved variant E) */
+  .grid-head{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin:3.5rem 0 2rem; flex-wrap:wrap; }
+  .grid-head h2{ font-size:clamp(1.5rem,2.6vw,2rem); margin:0; }
+  .grid-count{ color:var(--text-faint); font-size:0.82rem; }
+  .fleet-grid{ display:grid; grid-template-columns:repeat(3, 1fr); grid-auto-flow:dense; gap:1.6rem; min-height:1000px; }
+  @media (max-width:1080px){ .fleet-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:640px){ .fleet-grid{ grid-template-columns:1fr; } }
+
+  .car-card{ position:relative; background:#FFFFFF; border-radius:14px; padding:1.7rem 1.6rem 1.5rem;
+    text-decoration:none; color:#151A22; overflow:hidden;
+    box-shadow:0 22px 48px -26px rgba(0,0,0,0.55);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease; }
+  .car-card:hover{ transform:translateY(-4px); box-shadow:0 30px 60px -24px rgba(0,0,0,0.65); }
+  .car-card::before{ content:''; position:absolute; inset:0; opacity:0.5; pointer-events:none;
+    background-image:radial-gradient(rgba(10,22,40,0.10) 1px, transparent 1px);
+    background-size:14px 14px; -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+    mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%); }
+  /* hover-reveal: badges + stat chips collapse to nothing at rest, expand back in on hover;
+     the car photo itself scales up slightly on hover — same card, same grid, quieter resting state */
+  .f-badges-wrap{ position:relative; max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s cubic-bezier(.16,1,.3,1), opacity 0.3s ease, margin-bottom 0.4s cubic-bezier(.16,1,.3,1); }
+  .car-card:hover .f-badges-wrap{ max-height:2.2rem; opacity:1; margin-bottom:0.9rem; }
+  .car-card-badges{ display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .car-badge{ font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:700;
+    color:var(--rose-deep); background:none; border:1px solid rgba(212,175,140,0.45); padding:0.25rem 0.56rem; border-radius:999px; }
+  .car-card h3{ position:relative; font-family:var(--sans); font-weight:800; font-size:1.05rem; margin:0 0 0.35rem; color:#151A22; }
+  .car-price{ position:relative; display:flex; align-items:center; gap:0.6rem; color:#5A6270; font-size:0.86rem; margin-bottom:0.4rem;
+    border-left:2px solid var(--rose); padding-left:0.65rem; margin-left:-0.1rem; }
+  .car-price b{ font-family:var(--display); color:#151A22; font-weight:700; font-size:0.98rem; }
+  .f-stats-wrap{ max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s cubic-bezier(.16,1,.3,1) 0.05s, opacity 0.3s ease 0.05s, margin-bottom 0.4s cubic-bezier(.16,1,.3,1) 0.05s; }
+  .car-card:hover .f-stats-wrap{ max-height:2.2rem; opacity:1; margin-bottom:0.6rem; }
+  .car-stats{ display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .car-stat-chip{ padding:0.26rem 0.55rem; border:1px solid rgba(21,26,34,0.1); border-radius:4px;
+    font-size:0.68rem; color:#5A6270; font-weight:600; white-space:nowrap; }
+  .car-media{ position:relative; margin-top:0.4rem; overflow:hidden; border-radius:4px; }
+  .car-media-glow{ position:absolute; left:50%; top:52%; width:74%; aspect-ratio:1; transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(212,175,140,0.22), transparent 70%); border-radius:50%; }
+  .car-media img{ position:relative; width:100%; aspect-ratio:1500/938; transition:transform 0.5s cubic-bezier(.16,1,.3,1); }
+  .car-card:hover .car-media img{ transform:scale(1.06); }
+  .car-card-cta{ position:relative; display:flex; align-items:center; justify-content:space-between; margin-top:0.9rem;
+    padding-top:0.9rem; border-top:1px solid rgba(21,26,34,0.08); font-size:0.76rem; color:#5A6270; }
+  .car-card-cta span{ font-weight:700; color:#151A22; }
+
+  /* featured — position-driven (slot 0, then every 7th), not content-driven: whatever lands
+     in the slot gets promoted. Breaks the "identical 3×3 grid" rhythm without picking favorites.
+     Refined treatment (approved via card-featured-v3.html + aurora-brand-variants.html demos):
+     the "premium" cue comes from space + a bigger photo + a thin hairline frame, not from a
+     filled/shadowed card — quieter typography, no bold, no uppercase. */
+  .car-card.featured{ grid-column:span 2; grid-row:span 2; position:relative;
+    background:#FFFFFF; border:1px solid rgba(21,26,34,0.12); border-radius:0; box-shadow:none;
+    padding:3rem 3rem 2.4rem; display:flex; flex-direction:column; justify-content:space-between;
+    transition:border-color 0.3s ease, transform 0.35s cubic-bezier(.16,1,.3,1); }
+  .car-card.featured:hover{ border-color:var(--rose-deep); transform:translateY(-4px); box-shadow:0 30px 60px -24px rgba(0,0,0,0.35); }
+  .car-card.featured::before{ display:none; }
+  .car-card.featured .featured-eyebrow{ position:relative; z-index:2; font-family:var(--display); font-size:0.7rem;
+    letter-spacing:0.22em; text-transform:uppercase; color:var(--rose-deep); margin-bottom:1.1rem; }
+  .car-card.featured h3{ position:relative; z-index:2; font-family:var(--display); font-weight:400; text-transform:none;
+    letter-spacing:0; font-size:clamp(2rem,3vw,2.7rem); margin:0 0 0.9rem; line-height:1.05; color:#151A22; }
+  .car-card.featured .featured-meta{ position:relative; z-index:2; display:flex; gap:2.2rem; flex-wrap:wrap; }
+  .car-card.featured .featured-meta .v{ display:block; font-family:var(--display); font-size:1.02rem; font-weight:600; color:#151A22; font-variant-numeric:tabular-nums; }
+  .car-card.featured .featured-meta .l{ display:block; font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:#7A8190; margin-top:0.15rem; }
+  .car-card.featured .featured-media{ position:relative; z-index:2; margin:2rem -0.5rem; }
+  .car-card.featured .featured-media img{ width:100%; aspect-ratio:1500/938; }
+  .car-card.featured .featured-foot{ position:relative; z-index:2; display:flex; align-items:baseline; justify-content:space-between;
+    padding-top:1.5rem; border-top:1px solid rgba(21,26,34,0.1); }
+  .car-card.featured .featured-price{ font-size:0.85rem; color:#5A6270; }
+  .car-card.featured .featured-price b{ font-family:var(--display); font-size:1.4rem; color:#151A22; font-weight:600; display:block; margin-top:0.15rem; font-variant-numeric:tabular-nums; }
+  .car-card.featured .featured-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; color:var(--rose-deep); }
+  @media (max-width:1080px){ .car-card.featured{ grid-column:span 2; } }
+  @media (max-width:640px){ .car-card.featured{ grid-column:span 1; grid-row:span 1; padding:2.2rem 2rem 1.8rem; } }
+
+  /* featured-only backdrop — literal port of Aceternity's Aurora Background (structure/blur/
+     mask/animation untouched), recolored to pale navy tints (--aurora token) instead of the
+     original blue/indigo/violet so it matches the site's own palette. Confined to the card's
+     top area with a smooth fade — not a hard-edged box. */
+  .car-card.featured .aurora-clip{ position:absolute; top:0; left:0; right:0; height:65%; overflow:hidden; z-index:1; pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+    mask-image:linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%); }
+  .car-card.featured .aurora-native{ position:absolute; top:0; left:0; width:1200px; height:800px;
+    transform-origin:top left; transform:scale(var(--scale-ratio, 0.45));
+    --white: #ffffff; --transparent: transparent;
+    --white-gradient: repeating-linear-gradient(100deg, var(--white) 0%, var(--white) 7%, var(--transparent) 10%, var(--transparent) 12%, var(--white) 16%);
+    --aurora: repeating-linear-gradient(100deg, #E7ECF3 8%, #B7C6DA 15%, #F4F1EC 22%, #9BB0CA 28%, #DCE4EF 34%); }
+  .car-card.featured .aurora-layer{ pointer-events:none; position:absolute; inset:-10px; opacity:0.5;
+    background-image:var(--white-gradient), var(--aurora); background-size:300%, 200%; background-position:50% 50%, 50% 50%;
+    filter:blur(10px) invert(1);
+    -webkit-mask-image:radial-gradient(ellipse at 100% 0%, black 10%, var(--transparent) 70%);
+    mask-image:radial-gradient(ellipse at 100% 0%, black 10%, var(--transparent) 70%); }
+  .car-card.featured .aurora-layer::after{ content:''; position:absolute; inset:0;
+    background-image:var(--white-gradient), var(--aurora); background-size:200%, 100%;
+    animation:aurora 60s linear infinite; background-attachment:fixed; mix-blend-mode:difference; }
+  @keyframes aurora{ from{ background-position:50% 50%, 50% 50%; } to{ background-position:350% 50%, 350% 50%; } }
+
+  .empty-state{ text-align:center; padding:5rem 1rem; color:var(--text-dim); }
+  .empty-state button{ margin-top:1rem; }
+
+  /* guided finder — fullscreen takeover, deliberately dark against the white catalog (a
+     concierge moment, not another form). One question per screen, big tap targets, auto-advance. */
+  .finder-overlay{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column;
+    opacity:0; pointer-events:none; transform:scale(1.03); filter:blur(6px);
+    transition:opacity 0.45s cubic-bezier(.16,1,.3,1), transform 0.45s cubic-bezier(.16,1,.3,1), filter 0.45s ease; }
+  .finder-overlay.open{ opacity:1; pointer-events:auto; transform:scale(1); filter:blur(0); }
+  .finder-bg{ position:absolute; inset:0; z-index:0; background:
+      radial-gradient(ellipse 900px 600px at 20% 15%, rgba(212,175,140,0.16), transparent 60%),
+      radial-gradient(ellipse 800px 700px at 82% 85%, rgba(27,50,85,0.55), transparent 60%), var(--bg-deep); }
+  .finder-progress{ position:relative; z-index:2; height:2px; background:rgba(242,230,215,0.14); margin-top:0; }
+  .finder-progress-fill{ height:100%; width:0%; background:var(--rose); transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .finder-close{ position:absolute; top:1.8rem; right:clamp(1.5rem,4vw,3rem); z-index:3; width:2.6rem; height:2.6rem;
+    border-radius:50%; border:1px solid rgba(242,230,215,0.25); background:transparent; color:var(--text);
+    font-size:1.3rem; line-height:1; cursor:pointer; transition:border-color 0.25s ease, background-color 0.25s ease; }
+  .finder-close:hover{ border-color:var(--rose); background:rgba(212,175,140,0.08); }
+  .finder-back{ position:absolute; bottom:2.2rem; left:clamp(1.5rem,4vw,3rem); z-index:3; background:none; border:none;
+    color:var(--text-dim); font-family:var(--sans); font-size:0.82rem; font-weight:600; cursor:pointer; padding:0;
+    opacity:0; pointer-events:none; transition:opacity 0.25s ease, color 0.25s ease; }
+  .finder-back.visible{ opacity:1; pointer-events:auto; }
+  .finder-back:hover{ color:var(--rose); }
+  .finder-stage{ position:relative; z-index:2; flex:1; display:flex; align-items:center; justify-content:center; padding:2rem clamp(1.5rem,4vw,3rem); }
+  .finder-step-inner{ max-width:640px; width:100%; text-align:center;
+    opacity:0; transform:translateY(16px); transition:opacity 0.35s cubic-bezier(.16,1,.3,1), transform 0.35s cubic-bezier(.16,1,.3,1); }
+  .finder-step-inner.in{ opacity:1; transform:translateY(0); }
+  .finder-eyebrow{ font-size:0.7rem; letter-spacing:0.26em; text-transform:uppercase; color:var(--rose); font-weight:700; margin-bottom:1rem; }
+  .finder-question{ font-size:clamp(1.7rem,3.6vw,2.6rem); margin:0 0 2.6rem; line-height:1.15; }
+  .finder-answers{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .finder-answers.single-col{ grid-template-columns:1fr; max-width:420px; margin:0 auto; }
+  @media (max-width:640px){ .finder-answers{ grid-template-columns:1fr; } }
+  .finder-answer{ padding:1.4rem 1.5rem; border:1px solid rgba(242,230,215,0.2); border-radius:6px; background:rgba(255,255,255,0.02);
+    color:var(--text); font-family:var(--sans); font-size:1rem; font-weight:600; cursor:pointer; text-align:left;
+    transition:border-color 0.25s ease, background-color 0.25s ease, transform 0.15s cubic-bezier(.16,1,.3,1); }
+  .finder-answer:hover{ border-color:var(--rose); background:rgba(212,175,140,0.06); }
+  .finder-answer:active{ transform:scale(0.98); }
+
+  /* cta */
+  .cta{ position:relative; padding:9rem 0; overflow:hidden; text-align:center; background:var(--bg-deep); }
+  .cta-bg{ position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, rgba(212,175,140,0.16), transparent 60%); }
+  .cta-inner{ position:relative; z-index:2; }
+  .cta h2{ font-size:clamp(2.1rem,4.2vw,3.6rem); max-width:24ch; line-height:1.08; margin:0.9rem auto 1.8rem; }
+  .cta p{ color:var(--text-dim); max-width:38ch; margin:0 auto 1.6rem; line-height:1.7; }
+  .cta-micro{ color:var(--text-faint); font-size:0.8rem; margin-top:1.4rem; }
+  .hero-actions{ display:flex; align-items:center; justify-content:center; gap:2rem; }
+
+  footer{ background:#000; border-top:1px solid var(--line); padding:5rem 0 2.2rem; }
+  .footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand p{ color:var(--text-faint); font-size:0.87rem; line-height:1.7; max-width:32ch; margin-top:1.1rem; }
+  .footer-col h3{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1.2rem; font-weight:700; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; transition:color 0.3s ease; }
+  .footer-col a:hover{ color:var(--rose); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:2.2rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.78rem; flex-wrap:wrap; gap:1rem; align-items:center; }
+  .footer-legal{ display:flex; gap:1.4rem; }
+  .footer-legal a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .footer-legal a:hover{ color:var(--rose); }
+  .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
+  .ph-footer{ color:var(--rose-deep); }
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html">Home</a></li>
+      <li><a href="collection.html" class="current">Collection</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prive-motors.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="prive-motors.html#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<main>
+<div class="light-zone" data-nav-theme="light">
+  <header class="collection-head">
+    <div class="container">
+      <div class="eyebrow reveal">The Full Collection</div>
+      <h1 class="reveal reveal-d1 sweep-wrap">Every Car, Every Price.<span class="sweep-gold" aria-hidden="true">Every Car, Every Price.</span><span class="sweep-glow" aria-hidden="true">Every Car, Every Price.</span></h1>
+      <p class="reveal reveal-d2">No brochures, no bait. Filter by marque, category, or occasion — the price you see is the price you pay.</p>
+    </div>
+  </header>
+
+  <div class="filter-bar" id="filterBar">
+    <div class="container">
+      <div class="filter-row filter-row-cat">
+        <div class="filter-group">
+          <span class="filter-label">Category</span>
+          <div id="categoryChips"><div class="category-underline" id="categoryUnderline"></div></div>
+        </div>
+        <div class="filter-spacer"></div>
+        <div class="sort-wrap" id="budgetWrap">
+          <span class="sort-wrap-label">Budget</span>
+          <button class="sort-btn" id="budgetBtn" type="button">
+            <span id="budgetLabel">Any</span>
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#96602E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="sort-menu" id="budgetMenu"></div>
+        </div>
+        <div class="sort-wrap" id="yearWrap">
+          <span class="sort-wrap-label">Year</span>
+          <button class="sort-btn" id="yearBtn" type="button">
+            <span id="yearLabel">Any</span>
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#96602E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="sort-menu" id="yearMenu"></div>
+        </div>
+        <div class="sort-wrap" id="sortWrap">
+          <span class="sort-wrap-label">Sort</span>
+          <button class="sort-btn" id="sortBtn" type="button">
+            <span id="sortLabel">Featured</span>
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#96602E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="sort-menu" id="sortMenu">
+            <button class="sort-opt active" data-value="default">Featured</button>
+            <button class="sort-opt" data-value="price-asc">Price: Low to High</button>
+            <button class="sort-opt" data-value="price-desc">Price: High to Low</button>
+            <button class="sort-opt" data-value="year-desc">Newest First</button>
+          </div>
+        </div>
+      </div>
+      <div class="filter-row" style="margin-top:1.3rem;">
+        <div class="filter-group" style="flex:1 1 100%;">
+          <span class="filter-label" style="align-self:flex-start; padding-bottom:0; margin-top:0.15rem;">Marque</span>
+          <div id="brandChips"></div>
+        </div>
+      </div>
+
+      <div class="active-filters" id="activeFilters"></div>
+
+      <button class="finder-toggle" id="finderToggle">Not sure which car? Answer us →</button>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:2.5rem;">
+    <div class="container">
+      <div class="grid-head">
+        <h2 id="gridTitle">The Collection</h2>
+        <span class="grid-count" id="gridCount"></span>
+      </div>
+      <div class="fleet-grid" id="fleetGrid"></div>
+    </div>
+  </section>
+</div>
+
+<div class="finder-overlay" id="finderOverlay">
+  <div class="finder-bg"></div>
+  <button class="finder-close" id="finderClose" aria-label="Close">&times;</button>
+  <div class="finder-progress"><div class="finder-progress-fill" id="finderProgressFill"></div></div>
+  <button class="finder-back" id="finderBack">&larr; Back</button>
+  <div class="finder-stage" id="finderStage"></div>
+</div>
+
+<section class="cta" id="contact">
+  <div class="cta-bg"></div>
+  <div class="grain"></div>
+  <div class="container cta-inner">
+    <div class="eyebrow reveal">Found The One?</div>
+    <h2 class="reveal reveal-d1">Message us. We'll have it ready.</h2>
+    <p class="reveal reveal-d2">Tell our concierge which car and when — the same WhatsApp line, day or night.</p>
+    <div class="hero-actions reveal reveal-d3" style="justify-content:center;">
+      <a href="https://wa.me/971400000000" class="btn btn-primary">Message on WhatsApp</a>
+    </div>
+    <p class="cta-micro reveal reveal-d3">Typically replies in under 5 minutes.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="prive-motors.html" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div class="footer-col"><h3>Company</h3><a href="about.html">About Us</a><a href="prive-motors.html#proof">Reviews</a><a href="prive-motors.html#features">What's Included</a></div>
+      <div class="footer-col"><h3>Contact</h3><a href="#">+971 4 000 0000</a><a href="#">concierge@privemotors.ae</a><a href="#">Downtown Dubai, UAE</a></div>
+      <div class="footer-col"><h3>Book</h3><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data/fleet.js"></script>
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // in-page anchor links get their smooth scroll from here instead of the global CSS
+  // scroll-behavior (see the html{} rule for why it isn't set there anymore)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---- custom scrollbar thumb (native OS scrollbars don't respect thin/color styling) ---- */
+  const scrollThumb = document.getElementById('scrollThumb');
+  /* ---- nav: identical spring + material-weight system used on the home page ---- */
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){ navTargetY = y; if (!navRAF) navRAF = requestAnimationFrame(springNav); }
+
+  // nav text flips dark whenever a light section sits behind it
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30;
+  function updateNavTheme(){
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+    nav.classList.toggle('on-light', onLight);
+  }
+
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
+     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
+     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
+     back-to-back on every native scroll event, the second listener's geometry read
+     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
+     right after the first listener's style write — layout thrashing on every scroll tick,
+     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
+     geometry READ done before any style WRITE, lets the browser batch it into one recalc
+     per frame instead of several per raw scroll event. */
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+
+    // ---- reads ----
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    // ---- compute ----
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt;
+    lastScrollY = y; lastScrollT = t;
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    // ---- writes ----
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+  function openSheet(){ navSheet.classList.add('open'); requestAnimationFrame(() => navSheet.classList.add('in')); navToggle.setAttribute('aria-expanded', 'true'); document.body.classList.add('locked'); }
+  function closeSheet(){ navSheet.classList.remove('in'); navToggle.setAttribute('aria-expanded', 'false'); document.body.classList.remove('locked'); setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400); }
+  navToggle.addEventListener('click', () => { navSheet.classList.contains('in') ? closeSheet() : openSheet(); });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  /* reveal — same fire-once pattern as home, but re-armed after every grid render since cards are rebuilt */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  function observeReveals(root = document){ root.querySelectorAll('.reveal:not(.in-view)').forEach(el => io.observe(el)); }
+  observeReveals();
+
+  /* ============ COLLECTION LOGIC ============ */
+  const CATEGORIES = [
+    { id: 'all', label: 'All' },
+    { id: 'sports', label: 'Sports' },
+    { id: 'suv', label: 'SUV' },
+    { id: 'convertible', label: 'Convertible' },
+    { id: 'sedan', label: 'Sedan' },
+    { id: 'electric', label: 'Electric' },
+  ];
+  const SEAT_BUCKETS = [
+    { id: '2', label: '2', min: 0, max: 2 },
+    { id: '4', label: '4', min: 3, max: 4 },
+    { id: '5', label: '5+', min: 5, max: 99 },
+  ];
+  const BUDGET_BUCKETS = [
+    { id: 'low', label: 'Up to AED 1,000', max: 1000 },
+    { id: 'mid', label: 'AED 1,000–2,000', max: 2000 },
+    { id: 'high', label: 'AED 2,000+', max: Infinity },
+  ];
+  const YEAR_BUCKETS = [
+    { id: 'new', label: '2023–2024', min: 2023, max: Infinity },
+    { id: 'mid', label: '2021–2022', min: 2021, max: 2022 },
+    { id: 'old', label: '2020 & Older', min: -Infinity, max: 2020 },
+  ];
+
+  // read filters from the #hash, not ?query — see the comment on the discovery links in
+  // prive-motors.html: a hash is never sent to the server, so no redirect/rewrite can drop it
+  const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const state = {
+    category: hashParams.get('category') || 'all',
+    brand: hashParams.get('brand') || null,
+    occasion: hashParams.get('occasion') || null,
+    terrain: hashParams.get('terrain') || null,
+    seats: hashParams.get('seats') || null,
+    budget: hashParams.get('budget') || null,
+    year: hashParams.get('year') || null,
+    sort: 'default',
+  };
+
+  const slug = (s) => s.toLowerCase().replace(/\s+/g, '-');
+
+  function brandLabel(slugVal){
+    const found = BRANDS.find(b => slug(b) === slugVal);
+    return found || slugVal;
+  }
+  function occasionLabel(id){
+    const found = OCCASIONS.find(o => o.id === id);
+    return found ? found.label : id;
+  }
+
+  // ---- filter bar chips ----
+  const categoryChips = document.getElementById('categoryChips');
+  CATEGORIES.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (c.id === state.category ? ' active' : '');
+    btn.textContent = c.label;
+    btn.dataset.category = c.id;
+    btn.addEventListener('click', () => { state.category = c.id; render(); });
+    categoryChips.appendChild(btn);
+  });
+
+  const brandChips = document.getElementById('brandChips');
+  BRANDS.forEach(b => {
+    const id = slug(b);
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (state.brand === id ? ' active' : '');
+    btn.innerHTML = `<span class="chip-logo"><img src="${BRAND_LOGOS[b]}" alt="${b}"></span><span class="chip-name">${b}</span><span class="chip-dot"></span>`;
+    btn.dataset.brand = id;
+    btn.addEventListener('click', () => { state.brand = (state.brand === id ? null : id); render(); });
+    brandChips.appendChild(btn);
+  });
+
+  function placeCategoryUnderline(){
+    const active = categoryChips.querySelector('.chip.active');
+    const underline = document.getElementById('categoryUnderline');
+    if (!active || !underline) return;
+    underline.style.width = active.offsetWidth + 'px';
+    underline.style.transform = 'translateX(' + active.offsetLeft + 'px)';
+  }
+  window.addEventListener('resize', placeCategoryUnderline);
+
+  // ---- sort — custom dropdown (replaces native <select>, whose popover can't be styled) ----
+  (function(){
+    const wrap = document.getElementById('sortWrap');
+    const btn = document.getElementById('sortBtn');
+    const label = document.getElementById('sortLabel');
+    const menu = document.getElementById('sortMenu');
+    const opts = Array.from(menu.querySelectorAll('.sort-opt'));
+    btn.addEventListener('click', (e) => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    opts.forEach(opt => opt.addEventListener('click', () => {
+      opts.forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      label.textContent = opt.textContent;
+      wrap.classList.remove('open');
+      state.sort = opt.dataset.value;
+      render();
+    }));
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) wrap.classList.remove('open'); });
+  })();
+
+  // ---- budget — same custom-dropdown pattern as sort, reuses the existing state.budget /
+  // BUDGET_BUCKETS filter logic that previously was only reachable through the Finder quiz ----
+  (function(){
+    const wrap = document.getElementById('budgetWrap');
+    const btn = document.getElementById('budgetBtn');
+    const label = document.getElementById('budgetLabel');
+    const menu = document.getElementById('budgetMenu');
+    const allOpts = [{ id: null, label: 'Any' }, ...BUDGET_BUCKETS];
+    allOpts.forEach(o => {
+      const opt = document.createElement('button');
+      opt.className = 'sort-opt' + (state.budget === o.id ? ' active' : '');
+      opt.textContent = o.label;
+      opt.dataset.value = o.id || '';
+      opt.addEventListener('click', () => {
+        state.budget = o.id;
+        syncBudgetDropdown();
+        wrap.classList.remove('open');
+        render();
+      });
+      menu.appendChild(opt);
+    });
+    btn.addEventListener('click', (e) => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) wrap.classList.remove('open'); });
+    window.syncBudgetDropdown = function syncBudgetDropdown(){
+      const active = allOpts.find(o => o.id === state.budget) || allOpts[0];
+      label.textContent = active.label;
+      Array.from(menu.querySelectorAll('.sort-opt')).forEach(o => o.classList.toggle('active', o.dataset.value === (state.budget || '')));
+    };
+    syncBudgetDropdown();
+  })();
+
+  // ---- year — same custom-dropdown pattern as budget/sort ----
+  (function(){
+    const wrap = document.getElementById('yearWrap');
+    const btn = document.getElementById('yearBtn');
+    const label = document.getElementById('yearLabel');
+    const menu = document.getElementById('yearMenu');
+    const allOpts = [{ id: null, label: 'Any' }, ...YEAR_BUCKETS];
+    allOpts.forEach(o => {
+      const opt = document.createElement('button');
+      opt.className = 'sort-opt' + (state.year === o.id ? ' active' : '');
+      opt.textContent = o.label;
+      opt.dataset.value = o.id || '';
+      opt.addEventListener('click', () => {
+        state.year = o.id;
+        syncYearDropdown();
+        wrap.classList.remove('open');
+        render();
+      });
+      menu.appendChild(opt);
+    });
+    btn.addEventListener('click', (e) => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) wrap.classList.remove('open'); });
+    window.syncYearDropdown = function syncYearDropdown(){
+      const active = allOpts.find(o => o.id === state.year) || allOpts[0];
+      label.textContent = active.label;
+      Array.from(menu.querySelectorAll('.sort-opt')).forEach(o => o.classList.toggle('active', o.dataset.value === (state.year || '')));
+    };
+    syncYearDropdown();
+  })();
+
+  // ---- guided finder: fullscreen takeover, one question per screen, auto-advance on click ----
+  const TERRAIN_OPTIONS = [
+    { id: 'city', label: 'City & Highway' },
+    { id: 'desert', label: 'Desert & Dunes' },
+  ];
+  const FINDER_STEPS = [
+    { key: 'occasion', question: 'What’s the Occasion?', options: OCCASIONS.map(o => ({ value: o.id, label: o.label })) },
+    { key: 'terrain', question: 'Where Will You Drive?', options: TERRAIN_OPTIONS.map(t => ({ value: t.id, label: t.label })) },
+    { key: 'seats', question: 'How Many Are Traveling?', options: SEAT_BUCKETS.map(s => ({ value: s.id, label: s.label + ' Seats' })) },
+    { key: 'budget', question: 'Daily Budget?', options: BUDGET_BUCKETS.map(b => ({ value: b.id, label: b.label })) },
+  ];
+  let finderStepIndex = 0;
+  const finderAnswers = {};
+
+  const finderOverlay = document.getElementById('finderOverlay');
+  const finderStage = document.getElementById('finderStage');
+  const finderProgressFill = document.getElementById('finderProgressFill');
+  const finderBackBtn = document.getElementById('finderBack');
+  const finderCloseBtn = document.getElementById('finderClose');
+  const finderToggle = document.getElementById('finderToggle');
+
+  function renderFinderStep(){
+    const step = FINDER_STEPS[finderStepIndex];
+    finderProgressFill.style.width = `${(finderStepIndex / FINDER_STEPS.length) * 100}%`;
+    finderBackBtn.classList.toggle('visible', finderStepIndex > 0);
+
+    const cols = step.options.length % 2 === 1 && step.options.length <= 3 ? ' single-col' : '';
+    finderStage.innerHTML = `
+      <div class="finder-step-inner" id="finderStepInner">
+        <div class="finder-eyebrow">Step ${finderStepIndex + 1} of ${FINDER_STEPS.length}</div>
+        <h2 class="finder-question">${step.question}</h2>
+        <div class="finder-answers${cols}">
+          ${step.options.map(o => `<button class="finder-answer" data-value="${o.value}">${o.label}</button>`).join('')}
+        </div>
+      </div>`;
+    requestAnimationFrame(() => finderStage.querySelector('#finderStepInner').classList.add('in'));
+
+    finderStage.querySelectorAll('.finder-answer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        finderAnswers[step.key] = btn.dataset.value;
+        if (finderStepIndex < FINDER_STEPS.length - 1) {
+          finderStepIndex++;
+          renderFinderStep();
+        } else {
+          finishFinder();
+        }
+      });
+    });
+  }
+
+  function openFinderOverlay(){
+    finderStepIndex = 0;
+    renderFinderStep();
+    finderOverlay.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  function closeFinderOverlay(){
+    finderOverlay.classList.remove('open');
+    document.body.classList.remove('locked');
+  }
+  function finishFinder(){
+    state.occasion = finderAnswers.occasion || state.occasion;
+    state.terrain = finderAnswers.terrain || state.terrain;
+    state.seats = finderAnswers.seats || state.seats;
+    state.budget = finderAnswers.budget || state.budget;
+    closeFinderOverlay();
+    render();
+    document.getElementById('fleetGrid').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  finderToggle.addEventListener('click', openFinderOverlay);
+  finderCloseBtn.addEventListener('click', closeFinderOverlay);
+  finderBackBtn.addEventListener('click', () => { if (finderStepIndex > 0) { finderStepIndex--; renderFinderStep(); } });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && finderOverlay.classList.contains('open')) closeFinderOverlay(); });
+
+  if (hashParams.get('finder') === 'open') openFinderOverlay();
+
+  // ---- active filter tags ----
+  const activeFiltersEl = document.getElementById('activeFilters');
+  function renderActiveTags(){
+    activeFiltersEl.innerHTML = '';
+    const tags = [];
+    if (state.category !== 'all') tags.push({ key: 'category', label: CATEGORIES.find(c => c.id === state.category).label });
+    if (state.brand) tags.push({ key: 'brand', label: brandLabel(state.brand) });
+    if (state.occasion) tags.push({ key: 'occasion', label: occasionLabel(state.occasion) });
+    if (state.terrain) tags.push({ key: 'terrain', label: TERRAIN_OPTIONS.find(t => t.id === state.terrain).label });
+    if (state.seats) tags.push({ key: 'seats', label: SEAT_BUCKETS.find(s => s.id === state.seats).label + ' seats' });
+    if (state.budget) tags.push({ key: 'budget', label: BUDGET_BUCKETS.find(b => b.id === state.budget).label });
+    if (state.year) tags.push({ key: 'year', label: YEAR_BUCKETS.find(y => y.id === state.year).label });
+
+    tags.forEach(t => {
+      const tag = document.createElement('span');
+      tag.className = 'filter-tag';
+      tag.innerHTML = `${t.label} <button aria-label="Remove filter">&times;</button>`;
+      tag.querySelector('button').addEventListener('click', () => {
+        if (t.key === 'category') state.category = 'all'; else state[t.key] = null;
+        render();
+      });
+      activeFiltersEl.appendChild(tag);
+    });
+
+    if (tags.length) {
+      const clear = document.createElement('button');
+      clear.className = 'clear-all';
+      clear.textContent = 'Clear all';
+      clear.addEventListener('click', () => {
+        state.category = 'all'; state.brand = null; state.occasion = null; state.terrain = null; state.seats = null; state.budget = null; state.year = null;
+        render();
+      });
+      activeFiltersEl.appendChild(clear);
+    }
+  }
+
+  // ---- grid render ----
+  const fleetGrid = document.getElementById('fleetGrid');
+  const gridTitle = document.getElementById('gridTitle');
+  const gridCount = document.getElementById('gridCount');
+
+  function matchesState(car){
+    if (state.category !== 'all' && car.category !== state.category) return false;
+    if (state.brand && slug(car.brand) !== state.brand) return false;
+    if (state.occasion && !car.occasions.includes(state.occasion)) return false;
+    if (state.terrain && !(car.terrain || []).includes(state.terrain)) return false;
+    if (state.seats) {
+      const bucket = SEAT_BUCKETS.find(s => s.id === state.seats);
+      if (car.seats < bucket.min || car.seats > bucket.max) return false;
+    }
+    if (state.budget) {
+      const bucket = BUDGET_BUCKETS.find(b => b.id === state.budget);
+      if (car.day > bucket.max) return false;
+    }
+    if (state.year) {
+      const bucket = YEAR_BUCKETS.find(y => y.id === state.year);
+      if (car.year < bucket.min || car.year > bucket.max) return false;
+    }
+    return true;
+  }
+
+  function cardHTML(car, i, featured){
+    // per-card stagger, not a 3-value cycle: first few cards step up 60ms at a time,
+    // then hold at the cap so a 20+ result grid doesn't take seconds to finish revealing
+    const delayStyle = ` style="transition-delay:${(Math.min(i, 5) * 0.06).toFixed(2)}s"`;
+    const imgSmall = car.img.replace('-1500.webp', '-900.webp');
+
+    if (featured) {
+      const imgSizes = '(max-width:640px) 92vw, (max-width:1080px) 92vw, 800px';
+      return `
+      <a class="car-card featured reveal"${delayStyle} href="${car.id}.html">
+        <div class="aurora-clip"><div class="aurora-native"><div class="aurora-layer"></div></div></div>
+        <div>
+          <div class="featured-eyebrow">Top Match</div>
+          <h3>${car.brand} ${car.model}</h3>
+          <div class="featured-meta">
+            <div><span class="v">${car.seats}</span><span class="l">Seats</span></div>
+            <div><span class="v">${car.hp} HP</span><span class="l">Power</span></div>
+            <div><span class="v">${car.accel}s</span><span class="l">0–100</span></div>
+            <div><span class="v">${car.year}</span><span class="l">Year</span></div>
+          </div>
+        </div>
+        <div class="featured-media"><img src="${car.img}" srcset="${imgSmall} 900w, ${car.img} 1500w" sizes="${imgSizes}" alt="${car.brand} ${car.model}" loading="lazy"></div>
+        <div class="featured-foot">
+          <div class="featured-price">from<b>AED ${car.day.toLocaleString()} <span style="font-size:0.9rem;font-weight:400;color:#7A8190;">/ day</span></b></div>
+          <div class="featured-cta">View details →</div>
+        </div>
+      </a>`;
+    }
+
+    const badges = car.badges.map(b => `<span class="car-badge">${BADGE_LABELS[b] || b}</span>`).join('');
+    const imgSizes = '(max-width:640px) 92vw, (max-width:1080px) 46vw, 390px';
+    return `
+      <a class="car-card reveal"${delayStyle} href="${car.id}.html">
+        <div class="f-badges-wrap"><div class="car-card-badges">${badges}</div></div>
+        <h3>${car.brand} ${car.model}</h3>
+        <div class="car-price">from <b>AED ${car.day.toLocaleString()}</b> / day</div>
+        <div class="f-stats-wrap"><div class="car-stats"><span class="car-stat-chip">${car.seats} Seats</span><span class="car-stat-chip">${car.hp} HP</span><span class="car-stat-chip">${car.year}</span></div></div>
+        <div class="car-media"><div class="car-media-glow"></div><img src="${car.img}" srcset="${imgSmall} 900w, ${car.img} 1500w" sizes="${imgSizes}" alt="${car.brand} ${car.model}" loading="lazy"></div>
+        <div class="car-card-cta"><span>View details</span><span>0–100 in ${car.accel}s</span></div>
+      </a>`;
+  }
+
+  // the featured card's aurora backdrop is authored at a native 1200px canvas (matching the
+  // approved demo) then shrunk with transform:scale() to whatever width the card actually
+  // renders at, since the featured card spans a variable-width grid column.
+  function syncAuroraScale(){
+    document.querySelectorAll('.car-card.featured .aurora-clip').forEach(clip => {
+      const ratio = clip.clientWidth / 1200;
+      clip.style.setProperty('--scale-ratio', ratio);
+    });
+  }
+  window.addEventListener('resize', syncAuroraScale);
+
+  function render(){
+    let results = FLEET.filter(matchesState);
+
+    if (state.sort === 'price-asc') results = results.slice().sort((a, b) => a.day - b.day);
+    else if (state.sort === 'price-desc') results = results.slice().sort((a, b) => b.day - a.day);
+    else if (state.sort === 'year-desc') results = results.slice().sort((a, b) => b.year - a.year);
+
+    // grid title reacts to the strongest active facet
+    if (state.occasion) gridTitle.textContent = `For ${occasionLabel(state.occasion).toLowerCase()}`;
+    else if (state.brand) gridTitle.textContent = brandLabel(state.brand);
+    else if (state.category !== 'all') gridTitle.textContent = CATEGORIES.find(c => c.id === state.category).label;
+    else gridTitle.textContent = 'The Collection';
+    gridCount.textContent = `${results.length} vehicle${results.length === 1 ? '' : 's'}`;
+
+    document.querySelectorAll('#categoryChips .chip').forEach(c => c.classList.toggle('active', c.dataset.category === state.category));
+    document.querySelectorAll('#brandChips .chip').forEach(c => c.classList.toggle('active', c.dataset.brand === state.brand));
+    placeCategoryUnderline();
+    if (window.syncBudgetDropdown) syncBudgetDropdown();
+    if (window.syncYearDropdown) syncYearDropdown();
+
+    renderActiveTags();
+
+    if (results.length) {
+      // grid rhythm rule: position 0, then every 7th, is promoted to the featured layout —
+      // driven by slot, not by a hand-picked car, so it stays meaningful under any filter/sort.
+      // Below 4 results a "hero" card next to one or two small ones looks unbalanced, so it's off.
+      const useRhythm = results.length >= 4;
+      fleetGrid.innerHTML = results.map((car, i) => cardHTML(car, i, useRhythm && i % 7 === 0)).join('');
+    } else {
+      fleetGrid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+        <p>No cars match that combination yet.</p>
+        <button class="btn btn-line clear-empty">Clear filters</button>
+      </div>`;
+      fleetGrid.querySelector('.clear-empty').addEventListener('click', () => {
+        state.category = 'all'; state.brand = null; state.occasion = null; state.terrain = null; state.seats = null; state.budget = null; state.year = null;
+        render();
+      });
+    }
+
+    observeReveals(fleetGrid);
+    syncAuroraScale();
+
+    // keep the URL shareable without reloading the page
+    const qp = new URLSearchParams();
+    if (state.category !== 'all') qp.set('category', state.category);
+    if (state.brand) qp.set('brand', state.brand);
+    if (state.occasion) qp.set('occasion', state.occasion);
+    if (state.terrain) qp.set('terrain', state.terrain);
+    if (state.seats) qp.set('seats', state.seats);
+    if (state.budget) qp.set('budget', state.budget);
+    if (state.year) qp.set('year', state.year);
+    const qs = qp.toString();
+    history.replaceState(null, '', qs ? `#${qs}` : location.pathname);
+  }
+
+  render();
+
+  // keep the page in sync if the hash changes without a full navigation (back/forward, manual edit)
+  window.addEventListener('hashchange', () => {
+    const hp = new URLSearchParams(location.hash.replace(/^#/, ''));
+    state.category = hp.get('category') || 'all';
+    state.brand = hp.get('brand') || null;
+    state.occasion = hp.get('occasion') || null;
+    state.terrain = hp.get('terrain') || null;
+    state.seats = hp.get('seats') || null;
+    state.budget = hp.get('budget') || null;
+    state.year = hp.get('year') || null;
+    if (hp.get('finder') === 'open') openFinderOverlay();
+    render();
+  });
+</script>
+
+</body>
+</html>

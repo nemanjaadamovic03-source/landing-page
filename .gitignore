@@ -9,3 +9,18 @@ Thumbs.db
 # Claude internal
 CLAUDE.md
 memory/
+
+# Secrets
+.env
+
+.vercel
+
+# Node / build artifacts (Remotion subprojects)
+node_modules/
+prive-motors/remotion-prive/out/
+prive-motors/remotion-hero-edit/out/
+
+# Local-only source projects (kept on disk, not pushed)
+prive-motors/remotion-prive/
+prive-motors/remotion-hero-edit/
+prive-motors/pdf-prive/

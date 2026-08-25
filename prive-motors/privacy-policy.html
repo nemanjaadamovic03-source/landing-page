@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Privé Motors</title>
+<meta name="description" content="How Privé Motors collects, uses, and protects your personal data, in line with the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021).">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!--
+  Content status: placeholder LLC/trade-license, phone, address and specific figures
+  (retention period) are marked with the .ph style below — swap for real values before
+  this page is treated as final. Arabic version is a known deferred gap (Federal Law
+  15/2020 expects consumer-facing terms in Arabic) — not solved in this pass, flagged
+  here so it isn't silently forgotten. No cookie-consent banner is included because the
+  site currently sets no analytics/advertising cookies — see §6.
+-->
+
+<style>
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --surface: #101F38;
+    --surface-2: #162B4A;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #565D68;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ overflow-y:scroll; overflow-x:hidden; scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  body.locked{ overflow:hidden; height:100vh; }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+  .eyebrow{ font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--rose); font-weight:500; }
+  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  a{ color:inherit; }
+
+  .btn{ display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-size:0.82rem; font-weight:700;
+    letter-spacing:0.03em; text-decoration:none; cursor:pointer; border:1px solid transparent;
+    transition:transform 0.16s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--rose); color:#1A130D; padding:0.9rem 1.8rem; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+
+  /* nav — identical to the rest of the site */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem); will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right;
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ===== legal hero — short dark band, title + last-updated, no video/imagery needed ===== */
+  .legal-hero{ padding:clamp(8.5rem,14vw,10.5rem) 0 3.5rem; background:var(--bg-deep); }
+  .legal-hero h1{ font-size:clamp(2.1rem,4.2vw,3.2rem); margin:0.6rem 0 0.8rem; }
+  .legal-hero .updated{ color:var(--text-faint); font-size:0.88rem; }
+
+  /* ===== legal body — white prose page, same light-zone token-override pattern used by
+     #faq/.discovery elsewhere on the site ===== */
+  .legal-body{ background:#ffffff; color:var(--bg-deep);
+    --text-dim:rgba(5,11,20,0.62); --text-faint:rgba(5,11,20,0.42); padding:4.5rem 0 6rem; }
+  .legal-layout{ display:grid; grid-template-columns:15rem 1fr; gap:4rem; align-items:start; }
+  @media (max-width:900px){ .legal-layout{ grid-template-columns:1fr; gap:2.5rem; } }
+
+  .legal-toc{ position:sticky; top:7rem; }
+  .legal-toc h4{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1rem; font-weight:700; }
+  .legal-toc ol{ list-style:none; margin:0; padding:0; counter-reset:toc; }
+  .legal-toc li{ counter-increment:toc; margin-bottom:0.6rem; }
+  .legal-toc a{ text-decoration:none; color:var(--text-dim); font-size:0.85rem; line-height:1.4; display:block;
+    transition:color 0.2s ease; }
+  .legal-toc a::before{ content:counter(toc) '. '; color:var(--rose-deep); font-weight:700; }
+  .legal-toc a:hover{ color:var(--bg-deep); }
+  @media (max-width:900px){ .legal-toc{ position:static; } }
+
+  .legal-content{ max-width:64ch; }
+  .legal-content > p.intro{ font-size:1.02rem; line-height:1.75; color:var(--text-dim); margin:0 0 3rem; }
+  .legal-section{ padding-top:2.6rem; margin-top:2.6rem; border-top:1px solid rgba(5,11,20,0.08); scroll-margin-top:6.5rem; }
+  .legal-section:first-of-type{ border-top:none; padding-top:0; margin-top:0; }
+  .legal-section h2{ font-size:1.15rem; margin:0 0 1.1rem; letter-spacing:0.02em; }
+  .legal-section h3{ font-family:var(--sans); font-weight:700; text-transform:none; font-size:0.95rem;
+    margin:1.4rem 0 0.6rem; color:var(--bg-deep); }
+  .legal-section p{ line-height:1.75; color:var(--text-dim); margin:0 0 1rem; font-size:0.95rem; }
+  .legal-section ul{ margin:0 0 1rem; padding-left:1.3rem; color:var(--text-dim); line-height:1.75; font-size:0.95rem; }
+  .legal-section li{ margin-bottom:0.4rem; }
+  .legal-section table{ width:100%; border-collapse:collapse; margin:0 0 1.2rem; font-size:0.86rem; }
+  .legal-section th, .legal-section td{ text-align:left; padding:0.6rem 0.8rem; border-bottom:1px solid rgba(5,11,20,0.08); color:var(--text-dim); }
+  .legal-section th{ color:var(--bg-deep); font-weight:700; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; }
+
+  /* placeholder marker — distinct so unresolved figures/details are easy to spot and swap */
+  .ph{ color:var(--rose-deep); border-bottom:1px dashed rgba(150,96,46,0.5); font-weight:600; white-space:nowrap; }
+
+  .legal-note{ background:rgba(212,175,140,0.08); border:1px solid rgba(212,175,140,0.3); border-radius:10px;
+    padding:1rem 1.2rem; font-size:0.88rem; line-height:1.65; color:var(--text-dim); margin:0 0 1.2rem; }
+  .legal-note b{ color:var(--bg-deep); }
+
+  /* footer — identical to the rest of the site */
+  footer{ background:#000; border-top:1px solid var(--line); padding:5rem 0 2.2rem; }
+  .footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand p{ color:var(--text-faint); font-size:0.87rem; line-height:1.7; max-width:32ch; margin-top:1.1rem; }
+  .footer-col h4{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1.2rem; font-weight:700; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; transition:color 0.3s ease; }
+  .footer-col a:hover{ color:var(--rose); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:2.2rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.78rem; flex-wrap:wrap; gap:1rem; align-items:center; }
+  .footer-legal{ display:flex; gap:1.4rem; }
+  .footer-legal a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .footer-legal a:hover{ color:var(--rose); }
+  .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
+  .ph-footer{ color:var(--rose-deep); }
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo" fetchpriority="high"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html">Home</a></li>
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prive-motors.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="prive-motors.html#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<header class="legal-hero" data-nav-theme="dark">
+  <div class="container">
+    <div class="eyebrow reveal">Legal</div>
+    <h1 class="reveal">Privacy Policy</h1>
+    <div class="updated reveal">Last updated: <span class="ph">[DD Month YYYY]</span></div>
+  </div>
+</header>
+
+<section class="legal-body" data-nav-theme="light">
+  <div class="container legal-layout">
+
+    <nav class="legal-toc" aria-label="Sections on this page">
+      <h4>On This Page</h4>
+      <ol>
+        <li><a href="#who-we-are">Who We Are</a></li>
+        <li><a href="#what-we-collect">Information We Collect</a></li>
+        <li><a href="#how-we-use">How We Use Information</a></li>
+        <li><a href="#sharing">Who We Share It With</a></li>
+        <li><a href="#retention">How Long We Keep It</a></li>
+        <li><a href="#cookies">Cookies</a></li>
+        <li><a href="#transfers">International Transfers</a></li>
+        <li><a href="#rights">Your Rights (UAE PDPL)</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#changes">Changes to This Policy</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ol>
+    </nav>
+
+    <div class="legal-content">
+      <p class="intro">This policy explains what personal data Privé Motors collects when you browse our fleet, submit a booking enquiry, or message our concierge team — and what rights you have over it under the UAE's Personal Data Protection Law (Federal Decree-Law No. 45 of 2021, "PDPL").</p>
+
+      <div class="legal-section" id="who-we-are">
+        <h2>1. Who We Are</h2>
+        <p><span class="ph">[Privé Motors LLC — Trade License No. XXXXXXX]</span>, with a registered address at <span class="ph">[Downtown Dubai, UAE — full address]</span>, is the data controller for the personal data described in this policy.</p>
+        <p>For any privacy question or request, contact us at <a href="mailto:concierge@privemotors.ae">concierge@privemotors.ae</a>.</p>
+      </div>
+
+      <div class="legal-section" id="what-we-collect">
+        <h2>2. Information We Collect</h2>
+        <h3>Booking &amp; enquiry data</h3>
+        <p>When you submit a booking request or callback form, we collect your name, email address, phone/WhatsApp number, requested dates, delivery preference, and any message or vehicle interest you share with us.</p>
+        <h3>Identity documents — collected in person, not online</h3>
+        <p>Before handover, we verify a valid driving licence (UAE, GCC, or an internationally recognized licence) and a passport or Emirates ID in person. We do not collect or store document numbers through this website — only at the point of handover.</p>
+        <h3>WhatsApp messages</h3>
+        <p>If you message us on WhatsApp, we receive whatever you send us in that conversation, subject to WhatsApp's own privacy policy (see §4).</p>
+        <h3>What we don't collect online</h3>
+        <ul>
+          <li>No payment card details are collected through this website — no online payment is processed at this time</li>
+          <li>No document numbers (licence, passport, Emirates ID) are collected online</li>
+          <li>No precise device location data</li>
+        </ul>
+      </div>
+
+      <div class="legal-section" id="how-we-use">
+        <h2>3. How We Use Information</h2>
+        <ul>
+          <li>To respond to your booking enquiry and arrange a rental</li>
+          <li>To verify eligibility (age, licence) before confirming a booking</li>
+          <li>To communicate with you about your reservation, delivery, or an active rental</li>
+          <li>To meet legal and regulatory obligations (for example, records requested by the RTA or in relation to a traffic fine)</li>
+        </ul>
+        <p>We process this data on the basis of your consent (submitting the form) and, once a booking is confirmed, because it's necessary to perform our agreement with you.</p>
+      </div>
+
+      <div class="legal-section" id="sharing">
+        <h2>4. Who We Share It With</h2>
+        <table>
+          <tr><th>Who</th><th>Why</th></tr>
+          <tr><td>WhatsApp (Meta)</td><td>Messaging platform used for booking conversations</td></tr>
+          <tr><td><span class="ph">[Email provider]</span></td><td>Sending and receiving booking-related email</td></tr>
+          <tr><td><span class="ph">[Hosting provider]</span></td><td>Hosting this website</td></tr>
+          <tr><td>UAE authorities (RTA, police)</td><td>Only where legally required — e.g. traffic fines, accident reports</td></tr>
+        </table>
+        <p>We do not sell your personal data, and we do not share it with third parties for their own marketing purposes.</p>
+      </div>
+
+      <div class="legal-section" id="retention">
+        <h2>5. How Long We Keep It</h2>
+        <p>Enquiry and booking data is kept for the duration of your enquiry or rental, plus <span class="ph">[24 months — confirm]</span> afterwards for legal, tax, and dispute-resolution purposes, then deleted or anonymized. Document numbers checked at handover are never stored online in the first place.</p>
+      </div>
+
+      <div class="legal-section" id="cookies">
+        <h2>6. Cookies</h2>
+        <div class="legal-note"><b>Short version:</b> this site does not currently use analytics, advertising, or tracking cookies, so no cookie-consent banner is shown. If that changes — for example, if we add Google Analytics — this section and a consent banner will be updated first.</div>
+        <p>The site may set strictly-necessary cookies required for the page to function correctly. These cannot be disabled and do not track you across other websites.</p>
+      </div>
+
+      <div class="legal-section" id="transfers">
+        <h2>7. International Transfers</h2>
+        <p>Some of the providers listed in §4 (for example, WhatsApp/Meta) may process data outside the UAE. Where this happens, we rely on that provider's own safeguards and, where applicable, your consent to using that channel to contact us.</p>
+      </div>
+
+      <div class="legal-section" id="rights">
+        <h2>8. Your Rights Under the UAE PDPL</h2>
+        <p>Under the UAE Personal Data Protection Law, you have the right to:</p>
+        <ul>
+          <li>Access the personal data we hold about you</li>
+          <li>Request correction of inaccurate data</li>
+          <li>Request erasure of your data, where applicable</li>
+          <li>Object to or restrict certain processing</li>
+          <li>Withdraw consent at any time</li>
+          <li>Request a copy of your data in a portable format</li>
+          <li>Lodge a complaint with the UAE Data Office</li>
+        </ul>
+        <p>To exercise any of these rights, email <a href="mailto:concierge@privemotors.ae">concierge@privemotors.ae</a>. We aim to respond within 30 days.</p>
+      </div>
+
+      <div class="legal-section" id="children">
+        <h2>9. Children</h2>
+        <p>Our services are not directed at, and we do not knowingly collect data from, anyone under 18 — renting a vehicle already requires a valid driving licence and minimum age (see our <a href="terms.html">Terms &amp; Conditions</a>).</p>
+      </div>
+
+      <div class="legal-section" id="security">
+        <h2>10. Security</h2>
+        <p>This site is served over HTTPS. We do not store payment card details or document numbers online, which limits what could be exposed in the event of a security incident. No method of transmission or storage is 100% secure, and we cannot guarantee absolute security.</p>
+      </div>
+
+      <div class="legal-section" id="changes">
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this policy from time to time. Material changes will be reflected in the "Last updated" date at the top of this page.</p>
+      </div>
+
+      <div class="legal-section" id="contact">
+        <h2>12. Contact Us</h2>
+        <p>Questions about this policy or your data: <a href="mailto:concierge@privemotors.ae">concierge@privemotors.ae</a> or <a href="https://wa.me/971400000000">WhatsApp</a>.</p>
+        <p style="margin-top:2rem; font-size:0.82rem; color:var(--text-faint);">This page is provided for transparency and is not a substitute for legal advice. We recommend review by a UAE-qualified lawyer before relying on it as a final compliance document.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="prive-motors.html" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="prive-motors.html#proof">Reviews</a><a href="prive-motors.html#features">What's Included</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="#">+971 4 000 0000</a><a href="#">concierge@privemotors.ae</a><a href="#">Downtown Dubai, UAE</a></div>
+      <div class="footer-col"><h4>Book</h4><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  const scrollThumb = document.getElementById('scrollThumb');
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){ navTargetY = y; if (!navRAF) navRAF = requestAnimationFrame(springNav); }
+
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30;
+
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt;
+    lastScrollY = y; lastScrollT = t;
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+  function openSheet(){ navSheet.classList.add('open'); requestAnimationFrame(() => navSheet.classList.add('in')); navToggle.setAttribute('aria-expanded', 'true'); document.body.classList.add('locked'); }
+  function closeSheet(){ navSheet.classList.remove('in'); navToggle.setAttribute('aria-expanded', 'false'); document.body.classList.remove('locked'); setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400); }
+  navToggle.addEventListener('click', () => { navSheet.classList.contains('in') ? closeSheet() : openSheet(); });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

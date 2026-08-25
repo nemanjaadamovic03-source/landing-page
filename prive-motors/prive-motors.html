@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privé Motors — Dubai's Finest Collection</title>
+<meta name="description" content="Dubai's finest collection of sports, executive, and luxury rental cars — delivered with a concierge standard, any hour.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,100..1000,25..151&display=swap" onload="this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,100..1000,25..151&display=swap" rel="stylesheet"></noscript>
+
+<style>
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --surface: #101F38;
+    --surface-2: #162B4A;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #737B87;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible,
+  [tabindex]:focus-visible{ outline:2px solid var(--rose); outline-offset:3px; border-radius:2px; }
+  /* native OS scrollbars (esp. Windows Fluent) ignore width/track-color CSS and add arrow
+     buttons — hidden entirely in favor of a custom floating thumb built below */
+  /* scroll-behavior:smooth deliberately NOT set here — at the html level it hijacks every
+     scroll input (wheel/trackpad included, not just anchor jumps), and rapid successive
+     scroll events each queue their own smooth-scroll animation that Chrome doesn't always
+     merge cleanly, producing exactly the stutter/rubber-band feel this was meant to fix.
+     In-page anchor links get their smooth scroll from JS instead (scrollIntoView, scoped to
+     click only), so section jumps still animate but raw wheel/trackpad scrolling is instant
+     and un-hijacked. */
+  html{ overflow-y:scroll; overflow-x:hidden;
+    scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--sans); -webkit-font-smoothing:antialiased;
+  }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+
+  .eyebrow{
+    font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase;
+    color:var(--rose); font-weight:500;
+  }
+
+  /* ---- section eyebrows, Safaniah script treatment (8 top-level section labels only —
+     bumped up from the 12px tracked-caps size since a script font that small isn't legible).
+     Compound selectors (not bare .eyebrow-ar) so this reliably wins over .ethos-eyebrow and
+     .p-eyebrow, which are declared later in the file and would otherwise win the cascade tie. ---- */
+  @font-face{ font-family:'Safaniah'; src:url('fonts/Safaniah.otf') format('opentype'); font-display:swap; }
+  .eyebrow.eyebrow-ar, .ethos-eyebrow.eyebrow-ar, .p-eyebrow.eyebrow-ar{
+    font-family:'Safaniah', var(--display); font-size:1.5rem; font-weight:400;
+    letter-spacing:0.01em; text-transform:none;
+  }
+
+  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+
+  a{ color:inherit; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans);
+    font-size:0.82rem; font-weight:700; letter-spacing:0.03em; text-decoration:none; cursor:pointer;
+    border:1px solid transparent; transition:transform 0.35s cubic-bezier(.16,1,.3,1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  .btn-primary{ background:var(--rose); color:#1A130D; padding:0.9rem 1.8rem; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+  .btn-line{ padding:0.9rem 0; border:none; border-bottom:1px solid var(--line-strong); border-radius:0; }
+  .btn-line:hover{ border-bottom-color:var(--rose); color:var(--rose); }
+
+  body.locked{ overflow:hidden; height:100vh; }
+
+  /* film grain */
+  .grain{ position:absolute; inset:0; pointer-events:none; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+
+  /* nav — no pill, no background, no blur, no border. Just the logo + links
+     floating directly on the page; text color adapts per-section via the
+     [data-nav-theme] mechanism (JS still owns the hide/show spring on scroll,
+     it just no longer has any background/blur material to interpolate). */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
+    will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+
+  /* over light sections, links flip dark; the CTA stays rose-gold but drops to
+     --rose-deep for AA contrast on white (same fix already applied to .eyebrow sitewide) */
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* hamburger — hidden on desktop, springs into a sheet on mobile */
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  /* mobile sheet — anchored to the toggle, dims and pushes the page back (apple-design §7, §12) */
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right; /* springs open from the hamburger, not the center */
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  /* hero — video fills the full screen, no overlay copy */
+  /* poster is a plain CSS background here — always visible immediately, zero dependency on
+     JS or whether the video ever loads/plays (some conditions, e.g. iOS Low Power Mode,
+     silently block video from loading at all with no error to catch). The video is a pure
+     visual upgrade layered on top when/if it becomes ready; worst case, the poster stays. */
+  .hero{ position:relative; height:100vh; overflow:hidden;
+    background:var(--bg-deep) url('assets/video/hero-poster.jpg') center/cover no-repeat; }
+
+  .hero-video-wrap{ position:absolute; inset:0; width:100%; height:100%; overflow:hidden; perspective:1000px; }
+  .hero-video-wrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
+    transform:scale3d(1,1,1) translateZ(0); transform-origin:center center; transition:opacity 1.1s ease;
+    backface-visibility:hidden; will-change:transform; }
+  .hero-video-wrap video.ready{ opacity:1; }
+  .hero-video-wrap .grain{ z-index:2; opacity:0.05; }
+
+  .hero-scrim{ position:absolute; inset:0; z-index:3; pointer-events:none;
+    background:linear-gradient(180deg, rgba(5,11,20,0) 42%, rgba(5,11,20,0.55) 74%, rgba(5,11,20,0.92) 100%); }
+
+  .hero-actions{ display:flex; align-items:center; justify-content:center; gap:2rem; }
+  .hero-cta{ position:absolute; left:50%; bottom:3rem; z-index:4; transform:translateX(-50%); }
+  .hero-cta .btn-line{ color:var(--text); }
+
+  /* reveal */
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:0.1s; } .reveal-d2{ transition-delay:0.2s; } .reveal-d3{ transition-delay:0.3s; }
+
+  /* discovery — full white, two lanes split by a hairline: known marque vs. undecided occasion */
+  .discovery{ background:#ffffff;
+    --line:rgba(5,11,20,0.08); --line-strong:rgba(5,11,20,0.18);
+    --text-dim:rgba(5,11,20,0.55); --text-faint:rgba(5,11,20,0.4); }
+  .discovery h2, .discovery h3{ color:var(--bg-deep); }
+  .discovery .eyebrow{ color:var(--rose-deep); }
+  .discovery-lane{ padding:5.5rem 0; }
+  .discovery-lane h2{ font-size:clamp(1.9rem,3.2vw,2.6rem); margin:0.6rem 0 0.6rem; max-width:26ch; line-height:1.1; }
+  .discovery-lane p{ color:var(--text-dim); margin:0 0 2.4rem; max-width:42ch; line-height:1.7; }
+
+  /* lane 1 — centered, minimal header: the brand strip is the visual lead, this text is just its caption */
+  .discovery-lane--center .container{ text-align:center; }
+  .discovery-lane--center h2{ font-size:clamp(1.6rem,2.6vw,2.1rem); margin:0.5rem auto 0.4rem; max-width:none; }
+  .discovery-lane--center p{ font-size:0.9rem; margin:0 auto 2.6rem; max-width:40ch; }
+
+  /* lane 2 — poster-scale question on the left, answer+CTA framed as its own unit on the right.
+     Gap is kept tight and the divider uses --rose (not a neutral line) so the two halves read as
+     one connected thought, not two unrelated columns — the eye should carry rightward on its own. */
+  .discovery-split{ display:grid; grid-template-columns:1.6fr 1fr; gap:1.6rem; align-items:center; }
+  .discovery-split h2{ font-size:clamp(2.2rem,4.6vw,3.6rem); line-height:1; margin:0; max-width:none; }
+  .discovery-help{ font-size:0.9rem; color:var(--text-faint); margin-top:0.7rem; }
+  .discovery-side{ border-left:1px solid var(--rose); padding-left:1.6rem; }
+  .discovery-side p{ font-size:1.05rem; line-height:1.55; color:var(--text-dim); margin:0 0 1.4rem; max-width:36ch; }
+  .discovery-side p b{ color:var(--bg-deep); font-weight:700; }
+  @media (max-width:820px){
+    .discovery-split{ grid-template-columns:1fr; gap:2rem; }
+    .discovery-side{ border-left:none; border-top:1px solid var(--rose); padding-left:0; padding-top:1.6rem; }
+  }
+
+  .btn-answer{ display:inline-flex; align-items:center; border:1px solid var(--line-strong); border-radius:999px;
+    padding:0.8rem 3.6rem 0.8rem 1.7rem; color:var(--bg-deep); font-size:0.86rem; position:relative;
+    transition:border-color 0.3s ease; }
+  .btn-answer .arrow-circle{ position:absolute; right:-2px; top:50%; transform:translateY(-50%); width:2.9rem; height:2.9rem;
+    border-radius:50%; background:var(--rose); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 16px -6px rgba(150,96,46,0.55); transition:background 0.3s ease, transform 0.3s cubic-bezier(.16,1,.3,1); }
+  .btn-answer:hover{ border-color:var(--rose); }
+  .btn-answer:hover .arrow-circle{ background:var(--rose-bright); transform:translateY(-50%) translateX(3px); }
+  .discovery-divider{ height:1px; background:var(--line); margin:0 clamp(1.5rem,4vw,4.5rem); }
+
+  .brand-strip-wrap{ overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .brand-strip{ display:flex; gap:clamp(1.2rem,2.4vw,2rem); width:max-content; padding:0 clamp(1.5rem,4vw,4.5rem);
+    animation:brandScroll 32s linear infinite; }
+  .brand-strip-wrap:hover .brand-strip{ animation-play-state:paused; }
+  .brand-strip a{ position:relative; display:flex; align-items:center; justify-content:center;
+    width:140px; height:76px; border-radius:4px; text-decoration:none; }
+  .brand-strip a::before{ content:''; position:absolute; inset:0; border-radius:4px; background:rgba(150,96,46,0.06);
+    opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
+  .brand-strip a:hover::before{ opacity:1; }
+  .brand-strip a img{ position:relative; max-width:80%; max-height:72%; object-fit:contain; }
+  .brand-strip a img[alt="Range Rover"],
+  .brand-strip a img[alt="Porsche"]{ max-width:98%; max-height:94%; }
+  .brand-strip a img[alt="Mercedes-Benz"]{ max-width:88%; max-height:88%; }
+  @keyframes brandScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* sections */
+  .section{ padding:7.5rem 0; }
+  .section-head{ display:grid; grid-template-columns:1.2fr 1fr; gap:2.5rem; margin-bottom:3.8rem; align-items:end; }
+  .section-head h2{ font-size:clamp(2rem,3.4vw,2.9rem); margin:0.6rem 0 0; max-width:26ch; line-height:1.08; }
+  .section-head p{ color:var(--text-dim); line-height:1.75; margin:0; max-width:40ch; }
+  @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
+
+  /* problem — dark, stacked pain rows (shares .process-row grid) */
+  .process-row, .pain-row{ display:grid; grid-template-columns:5rem 1fr 2fr; gap:2rem; align-items:center; padding:2.2rem 0; border-top:1px solid var(--line); }
+  .process-row:last-child, .pain-row:last-child{ border-bottom:1px solid var(--line); }
+  .process-num, .pain-num{ font-family:var(--display); font-weight:600; color:var(--text-faint); font-size:1.3rem; }
+  .process-row h3, .pain-row h3{ font-size:1.3rem; margin:0; }
+  .process-row p, .pain-row p{ color:var(--text-dim); margin:0; line-height:1.7; max-width:46ch; }
+  @media (max-width:700px){ .process-row, .pain-row{ grid-template-columns:1fr; gap:0.5rem; } }
+
+  /* problem — drag-to-compare slider (true occlusion) */
+  .e-compare{ position:relative; border-radius:6px; overflow:hidden; border:1px solid var(--line); background:var(--bg-deep); cursor:col-resize; touch-action:none; }
+  .e-panel{ position:absolute; inset:0; -webkit-user-select:none; user-select:none; }
+  .e-us{ z-index:1; }
+  .e-them{ z-index:2; background:var(--bg-deep); }
+  .e-panel-label{ position:absolute; top:1.7rem; font-family:var(--display); font-size:0.68rem; font-weight:500; letter-spacing:0.24em; text-transform:uppercase; }
+  .e-us .e-panel-label{ right:clamp(1.5rem,3vw,3rem); color:var(--rose); }
+  .e-them .e-panel-label{ left:clamp(1.5rem,3vw,3rem); color:var(--text-faint); }
+  .e-us-logo{ top:1.55rem; }
+  .e-us-logo img{ height:1.35rem; width:auto; display:block; }
+  .e-rows{ padding-top:4.2rem; padding-bottom:2.6rem; }
+  .e-row{ box-sizing:border-box; display:flex; align-items:center; gap:1rem; padding:1.3rem clamp(1.5rem,3vw,3rem);
+    border-top:1px solid var(--line); border-left:3px solid transparent; }
+  .e-row:first-child{ border-top:none; }
+  .e-them .e-row{ border-left-color:rgba(154,161,172,0.3); }
+  .e-us .e-row{ border-left-color:var(--rose); }
+  .e-num{ flex:none; width:2.4rem; font-family:var(--display); font-weight:600; font-size:1.05rem; letter-spacing:0.02em; }
+  .e-them .e-num{ color:var(--text-faint); }
+  .e-us .e-num{ color:var(--rose); }
+  .e-row p{ margin:0; font-size:0.95rem; line-height:1.65; }
+  .e-us .e-row p{ color:var(--text); }
+  .e-them .e-row p{ color:var(--text-dim); }
+  .e-handle-track{ position:absolute; top:0; bottom:0; width:1px; background:var(--rose); z-index:5; pointer-events:none;
+    opacity:0; transition:opacity 700ms ease; }
+  .e-handle{ position:absolute; top:50%; width:2.6rem; height:2.6rem; border-radius:50%;
+    border:1px solid rgba(212,175,140,0.35); background:var(--bg-deep); transform:translate(-50%,-50%);
+    z-index:6; display:flex; align-items:center; justify-content:center; pointer-events:none;
+    opacity:0; transition:opacity 700ms ease, background 200ms ease, box-shadow 200ms ease; }
+  .e-handle svg{ width:14px; height:14px; stroke:var(--rose); transition:stroke 200ms ease; }
+  .e-compare:hover .e-handle, .e-compare.dragging .e-handle{ background:var(--rose); box-shadow:0 6px 18px rgba(5,11,20,0.35); }
+  .e-compare:hover .e-handle svg, .e-compare.dragging .e-handle svg{ stroke:var(--bg-deep); }
+  .e-compare.revealed .e-handle-track, .e-compare.revealed .e-handle{ opacity:1; }
+  .e-hint{ position:absolute; bottom:1.4rem; left:clamp(1.5rem,3vw,3rem); z-index:3;
+    display:flex; align-items:center; gap:0.5rem; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--text-faint); pointer-events:none; opacity:0; transition:opacity 700ms ease; white-space:nowrap; }
+  .e-compare.revealed .e-hint{ opacity:1; }
+  .e-compare.dragging .e-hint{ opacity:0; }
+  .e-hint svg{ width:12px; height:12px; opacity:0.7; }
+  @media (max-width:820px){
+    .e-panel-label{ top:1.3rem; font-size:0.6rem; }
+    .e-them .e-panel-label{ left:1.3rem; } .e-us .e-panel-label{ right:1.3rem; }
+    .e-us-logo{ top:1.15rem; }
+    .e-us-logo img{ height:1.05rem; }
+    .e-rows{ padding-top:3.4rem; padding-bottom:2.2rem; }
+    .e-row{ padding:1.1rem 1.3rem; gap:0.7rem; }
+    .e-num{ width:1.8rem; font-size:0.9rem; }
+    .e-row p{ font-size:0.82rem; line-height:1.55; }
+    .e-handle{ width:2.2rem; height:2.2rem; }
+  }
+  #problem .section-head .btn-answer{ justify-self:end; color:var(--text); }
+  @media (max-width:820px){ #problem .section-head .btn-answer{ justify-self:start; margin-top:0.8rem; } }
+  .cta-actions.hero-actions{ gap:2.75rem; }
+  .cta-actions .btn-answer{ color:var(--text); }
+  @media (max-width:560px){ .cta-actions.hero-actions{ flex-direction:column; gap:1rem; } }
+
+  /* fleet — full white, real vehicles: left/right big cards, two medium stacked in the middle, staggered heights */
+  #fleet{ background:#ffffff;
+    --line:rgba(5,11,20,0.08); --line-strong:rgba(5,11,20,0.18);
+    --text-dim:rgba(5,11,20,0.55); --text-faint:rgba(5,11,20,0.4); }
+  #fleet h2, #fleet h3{ color:var(--bg-deep); }
+  #fleet .eyebrow{ color:var(--rose-deep); }
+  #fleet .section-head{ margin-bottom:1.4rem; }
+  .fleet-row{ display:flex; align-items:flex-start; gap:1.4rem; margin:0.6rem 0 1.2rem; }
+  .fleet-col{ flex:1; min-width:0; }
+  .fleet-col-left, .fleet-col-right{ margin-top:1.1rem; }
+  .fleet-col-mid{ flex:0.8; display:flex; flex-direction:column; gap:1.4rem; margin-top:-1.14rem; }
+
+  /* card skin ported from collection.html's .car-card system (white card, radius, shadow,
+     dotted texture, hover-reveal badges/stats, media glow, footer row) — same fleet-row/
+     fleet-col grid and same image aspect ratios as before, only the chrome changed. */
+  .fleet-card{ position:relative; background:#FFFFFF; border-radius:14px; padding:1.1rem 1.1rem 1rem;
+    text-decoration:none; color:#151A22; overflow:hidden; display:block;
+    box-shadow:0 22px 48px -26px rgba(0,0,0,0.55);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease; }
+  .fleet-card:hover{ transform:translateY(-4px); box-shadow:0 30px 60px -24px rgba(0,0,0,0.65); }
+  .fleet-card::before{ content:''; position:absolute; inset:0; opacity:0.5; pointer-events:none;
+    background-image:radial-gradient(rgba(10,22,40,0.10) 1px, transparent 1px);
+    background-size:14px 14px; -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+    mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%); }
+
+  .f-badges-wrap{ position:relative; max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s cubic-bezier(.16,1,.3,1), opacity 0.3s ease, margin-bottom 0.4s cubic-bezier(.16,1,.3,1); }
+  .fleet-card:hover .f-badges-wrap{ max-height:2.2rem; opacity:1; margin-bottom:0.6rem; }
+  .fleet-card-badges{ display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .fleet-badge{ font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:700;
+    color:var(--rose-deep); background:none; border:1px solid rgba(212,175,140,0.45); padding:0.22rem 0.5rem; border-radius:999px; }
+
+  /* image box footprint is unchanged (16/9 regular, 1/1 for .big) — only the fit-mode changed
+     from a padded/contained thumbnail to an edge-to-edge photo, plus hover-zoom + radial glow.
+     .big stays on object-fit:contain (not cover): the source photos are wide (~16:10) and a
+     square box under cover crops the car's nose/tail off, so big cards letterbox instead. */
+  .fleet-media{ position:relative; overflow:hidden; border-radius:4px; margin-bottom:0.7rem; }
+  .fleet-media-glow{ position:absolute; left:50%; top:52%; width:74%; aspect-ratio:1; transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(212,175,140,0.22), transparent 70%); border-radius:50%; }
+  .fleet-media img{ position:relative; width:100%; aspect-ratio:16/9; object-fit:cover;
+    transition:transform 0.5s cubic-bezier(.16,1,.3,1); }
+  .fleet-card.big .fleet-media img{ aspect-ratio:1/1; object-fit:contain; }
+  .fleet-card:hover .fleet-media img{ transform:scale(1.06); }
+
+  .fleet-card h3{ position:relative; font-family:var(--sans); font-weight:800; font-size:0.95rem;
+    text-transform:none; margin:0 0 0.35rem; color:#151A22; }
+  .fleet-card.big h3{ font-size:1.05rem; }
+  .fleet-price{ position:relative; display:flex; align-items:center; gap:0.6rem; color:#5A6270; font-size:0.84rem; margin-bottom:0.4rem;
+    border-left:2px solid var(--rose); padding-left:0.6rem; margin-left:-0.05rem; }
+  .fleet-price b{ font-family:var(--display); color:#151A22; font-weight:700; font-size:0.94rem; }
+
+  .f-stats-wrap{ max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s cubic-bezier(.16,1,.3,1) 0.05s, opacity 0.3s ease 0.05s, margin-bottom 0.4s cubic-bezier(.16,1,.3,1) 0.05s; }
+  .fleet-card:hover .f-stats-wrap{ max-height:2.2rem; opacity:1; margin-bottom:0.5rem; }
+  .fleet-stats{ display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .fleet-stat-chip{ padding:0.24rem 0.5rem; border:1px solid rgba(21,26,34,0.1); border-radius:4px;
+    font-size:0.64rem; color:#5A6270; font-weight:600; white-space:nowrap; }
+
+  .fleet-card-cta{ position:relative; display:flex; align-items:center; justify-content:space-between; margin-top:0.7rem;
+    padding-top:0.7rem; border-top:1px solid rgba(21,26,34,0.08); font-size:0.72rem; color:#5A6270; }
+  .fleet-card-cta span:first-child{ font-weight:700; color:#151A22; }
+  .fleet-cta-top{ display:inline-flex; align-items:center; gap:0.9rem; text-decoration:none; color:var(--rose-deep);
+    font-family:var(--sans); font-size:0.84rem; font-weight:600; letter-spacing:0.16em; text-transform:uppercase;
+    justify-self:end; margin-bottom:0.5rem; }
+  .fleet-cta-top .circ{ width:2.6rem; height:2.6rem; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    transition:border-color 160ms ease-out, background 160ms ease-out, transform 160ms ease-out; }
+  @media (hover:hover) and (pointer:fine){
+    .fleet-cta-top:hover .circ{ border-color:var(--rose); background:var(--rose); transform:translateX(3px); }
+    .fleet-cta-top:hover .circ svg path{ stroke:#fff; }
+  }
+  @media (max-width:820px){ .fleet-cta-top{ justify-self:start; margin-top:0.8rem; } }
+  @media (max-width:900px){ .fleet-row{ flex-wrap:wrap; } .fleet-col-left,.fleet-col-right{ margin-top:0; flex:1 1 45%; }
+    .fleet-col-mid{ flex:1 1 100%; order:3; flex-direction:row; margin-top:1.2rem; } .fleet-col-mid .fleet-card{ flex:1; } }
+  @media (max-width:560px){ .fleet-col-left,.fleet-col-right{ flex:1 1 100%; } .fleet-col-mid{ flex-direction:column; } }
+
+  /* ethos — AVATR-style scroll section: pinned viewport, headline swaps as a segmented line-progress bar fills,
+     ambient gradient shifts mood per step. rAF-throttled scroll handler; prefers-reduced-motion gets a static
+     stacked fallback (no pin, no scroll-jack) via .ethos.reduced below. */
+  .ethos{ position:relative; height:400vh; background:var(--bg-deep); }
+  .ethos-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; align-items:center; }
+  .ethos-video-wrap{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+  .ethos-video-wrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
+    filter:saturate(0.82) brightness(0.88); transition:opacity 1.2s ease; }
+  .ethos-video-wrap video.ready{ opacity:1; }
+  .ethos-bg{ position:absolute; inset:0; z-index:1; transition:background 900ms ease;
+    background:radial-gradient(ellipse at 78% 32%, rgba(212,175,140,0.22) 0%, transparent 58%),
+                radial-gradient(ellipse at 20% 72%, rgba(27,50,85,0.4) 0%, transparent 55%); }
+  .ethos-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(90deg, rgba(5,11,20,0.88) 0%, rgba(5,11,20,0.6) 40%, rgba(5,11,20,0.12) 70%, rgba(5,11,20,0.3) 100%),
+                linear-gradient(180deg, rgba(5,11,20,0) 68%, rgba(5,11,20,0.78) 100%); }
+  .ethos-inner{ position:relative; z-index:2; max-width:760px; padding:0 clamp(1.5rem,4vw,4.5rem); font-family:'Inter', var(--sans); }
+  .ethos-eyebrow{ font-family:'Inter', var(--sans); font-size:0.72rem; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--rose); }
+  .ethos-headline{ font-family:'Inter', var(--sans); font-weight:300; letter-spacing:-0.01em;
+    font-size:clamp(2rem,4.6vw,3.6rem); line-height:1.12; color:var(--text); margin:1.2rem 0 1.4rem;
+    transition:opacity 0.4s ease, transform 0.4s ease; }
+  .ethos-body{ font-family:'Inter', var(--sans); font-weight:400; color:var(--text-dim); font-size:0.98rem;
+    line-height:1.75; max-width:46ch; transition:opacity 0.4s ease, transform 0.4s ease; }
+  .ethos-progress{ position:absolute; left:0; right:0; bottom:0; z-index:2;
+    display:flex; gap:clamp(1.2rem,3vw,2.6rem); padding:0 clamp(1.5rem,4vw,4.5rem) clamp(1.6rem,3vw,2.4rem); }
+  .ethos-step{ flex:1; min-width:0; }
+  .ethos-step-line{ position:relative; height:2px; background:rgba(242,230,215,0.16); margin-bottom:0.75rem; overflow:hidden; }
+  .ethos-step-fill{ position:absolute; inset:0; width:0%; background:var(--rose); }
+  .ethos-step-label{ font-family:'Inter', var(--sans); font-size:0.68rem; font-weight:500; letter-spacing:0.09em;
+    text-transform:uppercase; color:var(--text-faint); transition:color 0.3s ease; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ethos-step.active .ethos-step-label{ color:var(--text); }
+  @media (max-width:820px){ .ethos-progress{ gap:0.8rem; } .ethos-step-label{ font-size:0.6rem; } }
+
+  /* reduced-motion fallback: no pin, no scroll-jack, all 4 statements stacked and visible */
+  .ethos.reduced{ height:auto; padding:5rem 0; }
+  .ethos.reduced .ethos-sticky{ position:static; height:auto; display:block; }
+  .ethos.reduced .ethos-progress{ display:none; }
+  .ethos.reduced .ethos-inner{ display:none; }
+  .ethos.reduced .ethos-video-wrap{ display:none; }
+  .ethos-stack{ display:none; }
+  .ethos.reduced .ethos-stack{ display:block; position:relative; z-index:1; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  .ethos-stack-item{ max-width:760px; margin:0 0 3.5rem; padding-bottom:3rem; border-bottom:1px solid rgba(242,230,215,0.1); font-family:'Inter', var(--sans); }
+  .ethos-stack-item:last-child{ border-bottom:none; margin-bottom:0; }
+  .ethos-stack-item .num{ font-family:'Inter', var(--sans); font-size:0.72rem; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--rose); display:block; margin-bottom:1rem; }
+  .ethos-stack-item h3{ font-family:'Inter', var(--sans); font-weight:300; letter-spacing:-0.01em; font-size:clamp(1.6rem,3.4vw,2.4rem); line-height:1.15; margin:0 0 1rem; text-transform:none; }
+  .ethos-stack-item p{ color:var(--text-dim); font-size:0.98rem; line-height:1.75; max-width:46ch; margin:0; }
+
+  /* proof — exact port of prive-motors/proof-stepout-precise.html (the
+     "Stepout"-referenced bento stat cards). Ported verbatim on purpose — do
+     not redesign/reinterpret this block. Only two things were adapted from
+     the standalone demo, both required so nothing else on the page breaks:
+     (1) --text/--text-dim/--text-faint are scoped here as --proof-text* since
+     the site's global tokens of the same name are light-on-dark values (this
+     section is light-on-white) — reusing the global names as-is would make
+     the numbers nearly invisible; (2) .container is renamed .proof-container
+     because the site already has a global .container at a different
+     max-width used by every other section. Everything else (class names,
+     values, structure) is identical to the demo file. */
+  #proof{ background:#ffffff;
+    --navy:#050B14; --navy-2:#0D1826; --gold:#A9723C; --gold-bright:#C9955E; --gold-pale:#E8CBA8;
+    --proof-text:#0A1628; --proof-text-dim:#4A5461; --proof-text-faint:#8A93A0; --cream:#F7F2EA; }
+  #proof .proof-container{ max-width:1160px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4rem); }
+  #proof .p-head{ text-align:center; margin-bottom:2.8rem; }
+  #proof .p-eyebrow{ font-family:var(--display); font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
+  #proof .p-eyebrow.eyebrow-ar{ font-family:'Safaniah', var(--display); font-size:1.5rem; font-weight:400; letter-spacing:0.01em; text-transform:none; }
+  #proof .p-title{ font-family:var(--display); font-weight:700; font-size:clamp(1.8rem,3.4vw,2.6rem); color:var(--proof-text); margin:0; }
+
+  #proof .grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:1.1rem; aspect-ratio:2.05/1; }
+  @media (max-width:820px){ #proof .grid{ grid-template-columns:1fr; aspect-ratio:auto; } }
+  #proof .bcard{ border-radius:32px; padding:2.1rem; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; }
+
+  #proof .bgrid{ position:absolute; inset:0; pointer-events:none;
+    background-image:
+      repeating-linear-gradient(0deg, var(--grid-line, rgba(255,255,255,0.07)) 0 1px, transparent 1px 34px),
+      repeating-linear-gradient(90deg, var(--grid-line, rgba(255,255,255,0.07)) 0 1px, transparent 1px 34px);
+    -webkit-mask-image:radial-gradient(circle at 14% 14%, transparent 0%, transparent 15%, #000 78%);
+    mask-image:radial-gradient(circle at 14% 14%, transparent 0%, transparent 15%, #000 78%); }
+
+  #proof .bicon{ width:2.1rem; height:2.1rem; position:relative; z-index:1; perspective:400px; }
+  #proof .bicon svg{ width:100%; height:100%; }
+  #proof .bicon.css-flip svg{ transform-style:preserve-3d; transition:transform 1.3s cubic-bezier(.65,0,.35,1); }
+  #proof .bcard:hover .bicon.css-flip svg{ transform:rotateY(360deg); }
+  #proof .bicon.lottie-icon{ width:2.6rem; height:2.6rem; }
+
+  #proof .bnum{ font-family:'Roboto Flex', var(--display); line-height:0.9; letter-spacing:-0.01em; position:relative; z-index:1; white-space:nowrap; }
+  #proof .bnum .ch{ display:inline-block; font-variation-settings:'wght' 460, 'wdth' 95;
+    transition:font-variation-settings 220ms cubic-bezier(.34,1.56,.64,1); }
+  #proof .bcap{ font-size:0.88rem; line-height:1.4; margin-top:0.5rem; position:relative; z-index:1; }
+
+  #proof .bcard.bhero{ --grid-line:rgba(255,255,255,0.07); background:
+      linear-gradient(150deg, rgba(201,149,94,0.09) 0%, transparent 45%), var(--navy); color:#fff; }
+  #proof .bcard.bhero .bnum{ font-size:clamp(6rem,20vw,16rem); color:var(--gold-bright); }
+  #proof .bcard.bhero .bcap{ color:rgba(255,255,255,0.6); max-width:20ch; text-align:right; margin-left:auto; }
+  #proof .bcard.bhero .bicon{ position:absolute; top:2.1rem; left:2.1rem; }
+  #proof .bcard.bhero .bicon svg{ stroke:var(--gold-bright); }
+  #proof .bcard.bhero > .bnum-wrap{ display:flex; flex-direction:column; margin-top:auto; }
+
+  #proof .bcard.light{ --grid-line:rgba(10,22,40,0.05); background:linear-gradient(135deg, #ffffff 0%, var(--cream) 100%); border:1px solid rgba(10,22,40,0.06); }
+  #proof .bcard.light .bicon svg{ stroke:var(--gold); }
+  #proof .bcard.light .bnum{ font-size:clamp(3rem,9vw,6.2rem); color:var(--proof-text); }
+  #proof .bcard.light .bcap{ color:var(--proof-text-faint); }
+  #proof .bnum-dubai{ margin-left:-0.5rem; }
+
+  #proof .cta-wrap{ display:flex; justify-content:center; margin-top:1.6rem; }
+  #proof .cta-b{ display:inline-flex; align-items:center; border:1.5px solid rgba(10,22,40,0.14); border-radius:999px;
+    padding:1.05rem 4.6rem 1.05rem 2.2rem; position:relative; text-decoration:none; color:var(--proof-text);
+    font-family:var(--display); font-weight:600; font-size:1.05rem;
+    transition:border-color 300ms ease, padding-right 300ms cubic-bezier(.16,1,.3,1); }
+  #proof .cta-b:hover{ border-color:var(--gold); }
+  #proof .cta-b .arrow-circle{ position:absolute; right:-1.5px; top:50%; transform:translateY(-50%); width:3.6rem; height:3.6rem;
+    border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 22px -8px rgba(169,114,60,0.5); transition:background 300ms ease, transform 300ms cubic-bezier(.34,1.56,.64,1); }
+  #proof .cta-b:hover .arrow-circle{ background:var(--gold-bright); transform:translateY(-50%) translateX(5px) rotate(-8deg); }
+
+  /* features — dark ambient (matches Ethos gradient), concierge + process */
+  #features{ position:relative; overflow:hidden; background:radial-gradient(ellipse at 24% 38%, rgba(212,175,140,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse at 78% 68%, rgba(27,50,85,0.55) 0%, transparent 60%), var(--bg-deep); }
+  .feature-sub{ display:flex; align-items:baseline; gap:0.9rem; margin:0 0 1.8rem; }
+  .feature-sub::after{ content:''; flex:1; height:1px; background:var(--line-strong); }
+  .feature-block + .feature-block{ margin-top:5rem; }
+  /* concierge services — same numbered/thin-line editorial language as The Process below it
+     (no card background/border/hover-lift — a plain number label standing in for the icon) */
+  .concierge-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem;
+    padding-top:2.2rem; border-top:1px solid var(--line-strong); }
+  .concierge-card{ position:relative; }
+  .concierge-card .num{ font-family:var(--display); font-size:0.85rem; color:var(--text-faint); display:block; margin-bottom:0.9rem; }
+  .concierge-card h3{ font-size:0.98rem; text-transform:none; letter-spacing:0; margin:0 0 0.4rem; color:var(--text); }
+  .concierge-card p{ color:var(--text-faint); font-size:0.85rem; line-height:1.6; margin:0; }
+  @media (max-width:900px){ .concierge-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .concierge-grid{ grid-template-columns:1fr; } }
+
+  /* process — live-animated rail, advances on its own (no click), loops */
+  .proc-rail{ position:relative; }
+  .proc-track{ position:relative; height:3px; background:var(--line-strong); border-radius:2px; margin-bottom:2.6rem; overflow:hidden; }
+  .proc-fill{ position:absolute; inset:0; width:0%; background:linear-gradient(90deg, var(--rose), var(--rose-bright));
+    border-radius:2px; transition:width 700ms cubic-bezier(.4,0,.2,1); }
+  .proc-steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+  .proc-step .num{ font-family:var(--display); font-size:0.85rem; color:var(--text-faint); display:block; margin-bottom:0.5rem; transition:color 400ms ease; }
+  .proc-step.active .num{ color:var(--rose); }
+  .proc-step h3{ font-size:0.98rem; text-transform:none; margin:0 0 0.3rem; color:var(--text-dim); transition:color 400ms ease; }
+  .proc-step.active h3{ color:var(--text); }
+  .proc-step p{ font-size:0.85rem; color:var(--text-faint); line-height:1.55; margin:0; transition:color 400ms ease; }
+  .proc-step.active p{ color:var(--text-dim); }
+  @media (max-width:700px){ .proc-steps{ grid-template-columns:1fr 1fr; gap:1.8rem; } }
+  @media (max-width:420px){ .proc-steps{ grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion:reduce){ .proc-fill{ transition:none; } }
+  .feature-cta{ display:flex; justify-content:center; margin-top:3.4rem; }
+  .feature-cta .btn-answer{ color:var(--text); }
+
+  /* faq — full white, gold hairlines between questions, near-black text (per direction: lines
+     gold, letters black — no other color introduced). Answer text does a per-character
+     blur+fade stagger reveal on open, adapted from a client-supplied React/shadcn/framer-motion
+     component spec to this site's plain HTML/CSS/JS, since the project has no build step, React,
+     or shadcn — see .faq-item's <script> below for the vanilla reimplementation. */
+  #faq{ background:#ffffff;
+    --faq-line: var(--rose-deep);
+    --text-dim:rgba(5,11,20,0.62); --text-faint:rgba(5,11,20,0.42); }
+  #faq h2{ color:var(--bg-deep); }
+  #faq .eyebrow{ color:var(--rose-deep); }
+  #faq .section-head p{ color:var(--text-dim); max-width:36ch; }
+
+  .faq-list{ max-width:860px; margin:3rem auto 0; border-top:1px solid var(--faq-line); }
+  .faq-item{ border-bottom:1px solid var(--faq-line); }
+  .faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+    background:none; border:0; margin:0; padding:1.6rem 0.2rem; cursor:pointer; text-align:left;
+    font-family:var(--sans); font-size:1.05rem; font-weight:600; color:var(--bg-deep); }
+  .faq-q:focus-visible{ outline:2px solid var(--rose-deep); outline-offset:4px; }
+  .faq-q svg{ flex-shrink:0; color:var(--rose-deep); transition:transform 250ms cubic-bezier(.16,1,.3,1); }
+  .faq-q[aria-expanded="true"] svg{ transform:rotate(180deg); }
+  .faq-a{ height:0; overflow:hidden; transition:height 300ms cubic-bezier(.16,1,.3,1); }
+  .faq-a-inner{ padding:0 2.2rem 1.7rem 0.2rem; }
+  .faq-a p{ margin:0; color:var(--text-dim); font-size:0.98rem; line-height:1.7; max-width:60ch; }
+  .faq-char{ display:inline-block; opacity:0; filter:blur(10px);
+    transition:opacity 0.35s cubic-bezier(.16,1,.3,1), filter 0.35s cubic-bezier(.16,1,.3,1); }
+  .faq-a-text.is-revealed .faq-char{ opacity:1; filter:blur(0); }
+  @media (prefers-reduced-motion:reduce){
+    .faq-a{ transition:none; }
+    .faq-q svg{ transition:none; }
+    .faq-char{ opacity:1; filter:none; transition:none; }
+  }
+  @media (max-width:640px){
+    .faq-q{ font-size:0.98rem; padding:1.3rem 0; gap:1rem; }
+    .faq-a-inner{ padding-right:1.2rem; }
+  }
+
+  /* cta — blue, photography-free */
+  .cta{ position:relative; padding:9rem 0; overflow:hidden; text-align:center; background:var(--bg-deep); }
+  .cta-bg{ position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, rgba(212,175,140,0.16), transparent 60%); }
+  .cta-inner{ position:relative; z-index:2; }
+  .cta h2{ font-size:clamp(2.1rem,4.2vw,3.6rem); max-width:24ch; line-height:1.08; margin:0.9rem auto 1.8rem; }
+  .cta p{ color:var(--text-dim); max-width:38ch; margin:0 auto 1.6rem; line-height:1.7; }
+  .cta-micro{ color:var(--text-faint); font-size:0.8rem; margin-top:1.4rem; }
+
+  /* footer */
+  footer{ background:#000; border-top:1px solid var(--line); padding:5rem 0 2.2rem; position:relative; overflow:hidden; }
+  .footer-col span.static{ display:block; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; }
+  .footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand p{ color:var(--text-faint); font-size:0.87rem; line-height:1.7; max-width:32ch; margin-top:1.1rem; }
+  .footer-col h3{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1.2rem; font-weight:700; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; transition:color 0.3s ease; }
+  .footer-col a:hover{ color:var(--rose); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:2.2rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.78rem; flex-wrap:wrap; gap:1rem; align-items:center; }
+  .footer-legal{ display:flex; gap:1.4rem; }
+  .footer-legal a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .footer-legal a:hover{ color:var(--rose); }
+  .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
+  .ph-footer{ color:var(--rose-deep); }
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
+</style>
+</head>
+<body class="locked">
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo" fetchpriority="high"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html" class="current">Home</a></li>
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<main>
+<header class="hero">
+  <div class="hero-video-wrap">
+    <video id="heroVideo" muted playsinline preload="auto" poster="assets/video/hero-poster.jpg">
+      <source src="assets/video/hero-final.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+  </div>
+  <div class="hero-scrim"></div>
+  <h1 class="sr-only">Privé Motors — Dubai's Finest Collection of Sports, Executive, and Luxury Rental Cars</h1>
+  <div class="hero-cta">
+    <a href="#problem" class="btn btn-line">Our Why</a>
+  </div>
+</header>
+
+<section class="discovery" id="discovery" data-nav-theme="light">
+  <div class="discovery-lane discovery-lane--center">
+    <div class="container">
+      <div class="eyebrow eyebrow-ar reveal">The Collection</div>
+      <h2 class="reveal reveal-d1">You already know the one.</h2>
+      <p class="reveal reveal-d1">Choose your marque. See what's available tonight.</p>
+    </div>
+    <div class="brand-strip-wrap reveal reveal-d2">
+      <div class="brand-strip" id="brandStrip"></div>
+    </div>
+  </div>
+
+  <div class="discovery-divider"></div>
+
+  <div class="discovery-lane">
+    <div class="container discovery-split">
+      <div class="discovery-main">
+        <h2 class="reveal reveal-d1">Not sure yet?</h2>
+        <div class="discovery-help reveal reveal-d1">We'll help you.</div>
+      </div>
+      <div class="discovery-side">
+        <p class="reveal reveal-d2">Answer us, and <b>skip scrolling through eighty cars yourself.</b><br>We'll help you to pick a good match.</p>
+        <a href="collection.html#finder=open" class="btn btn-answer reveal reveal-d2">Answer Us
+          <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="grain"></div>
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-ar">What We Offer</div>
+        <h2>One call. Everything you need.</h2>
+      </div>
+      <p class="reveal reveal-d1">The concierge team and the process that gets you from message to engine start — bundled into a single reservation.</p>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-sub reveal"><span class="eyebrow">Concierge Services</span></div>
+      <div class="concierge-grid reveal reveal-d1">
+        <div class="concierge-card">
+          <span class="num">01</span>
+          <h3>Airport Delivery</h3><p>Your vehicle is waiting at the gate — no counters, no queues.</p>
+        </div>
+        <div class="concierge-card">
+          <span class="num">02</span>
+          <h3>Chauffeur Service</h3><p>Licensed drivers on call for evenings you'd rather not drive yourself.</p>
+        </div>
+        <div class="concierge-card">
+          <span class="num">03</span>
+          <h3>Event Transport</h3><p>Coordinated fleets for weddings, premieres, and private functions.</p>
+        </div>
+        <div class="concierge-card">
+          <span class="num">04</span>
+          <h3>Yacht Transfers &amp; VIP Security</h3><p>Marina-to-driveway logistics and discreet protection for high-visibility travel.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-sub reveal"><span class="eyebrow">The Process</span></div>
+      <div class="proc-rail reveal reveal-d1">
+        <div class="proc-track"><div class="proc-fill" id="procFill"></div></div>
+        <div class="proc-steps" id="procSteps">
+          <div class="proc-step"><span class="num">01</span><h3>Reserve</h3><p>Confirmed by a concierge within minutes, any hour.</p></div>
+          <div class="proc-step"><span class="num">02</span><h3>Verify</h3><p>A brief, discreet check — done once, remembered after.</p></div>
+          <div class="proc-step"><span class="num">03</span><h3>Delivery</h3><p>Arrives detailed and fuelled, wherever you are in the Emirates.</p></div>
+          <div class="proc-step"><span class="num">04</span><h3>Drive</h3><p>Full insurance, 24/7 support, and a direct concierge line.</p></div>
+        </div>
+      </div>
+      <div class="feature-cta reveal reveal-d2">
+        <a href="collection.html" class="btn btn-answer">Rent a Car
+          <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="fleet" data-nav-theme="light">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-ar">The Fleet</div>
+        <h2>A taste of the collection.</h2>
+      </div>
+      <a href="collection.html" class="fleet-cta-top reveal reveal-d1">See All 24+
+        <span class="circ"><svg width="12" height="9" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#96602E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+
+    <div class="fleet-row reveal reveal-d1">
+      <div class="fleet-col fleet-col-left">
+        <a href="collection.html#brand=rolls-royce" class="fleet-card big">
+          <div class="f-badges-wrap"><div class="fleet-card-badges"><span class="fleet-badge">Free Delivery</span></div></div>
+          <h3>Rolls-Royce Cullinan</h3>
+          <div class="fleet-price">from <b>AED 2,672</b> / day</div>
+          <div class="f-stats-wrap"><div class="fleet-stats">
+            <span class="fleet-stat-chip">5 Seats</span><span class="fleet-stat-chip">563 HP</span><span class="fleet-stat-chip">2022</span>
+          </div></div>
+          <div class="fleet-media"><div class="fleet-media-glow"></div><img src="assets/fleet/rolls-royce-cullinan-2022-1500.webp" alt="Rolls-Royce Cullinan"></div>
+          <div class="fleet-card-cta"><span>View details</span><span>0–100 in 5.2s</span></div>
+        </a>
+      </div>
+      <div class="fleet-col fleet-col-mid">
+        <a href="collection.html#brand=lamborghini" class="fleet-card">
+          <div class="f-badges-wrap"><div class="fleet-card-badges"><span class="fleet-badge">No Deposit</span></div></div>
+          <h3>Lamborghini Huracán Evo</h3>
+          <div class="fleet-price">from <b>AED 1,815</b> / day</div>
+          <div class="f-stats-wrap"><div class="fleet-stats">
+            <span class="fleet-stat-chip">2 Seats</span><span class="fleet-stat-chip">640 HP</span><span class="fleet-stat-chip">2020</span>
+          </div></div>
+          <div class="fleet-media"><div class="fleet-media-glow"></div><img src="assets/fleet/lamborghini-huracan-evo-2020-1500.webp" alt="Lamborghini Huracán Evo"></div>
+          <div class="fleet-card-cta"><span>View details</span><span>0–100 in 2.9s</span></div>
+        </a>
+        <a href="collection.html#brand=rolls-royce" class="fleet-card">
+          <div class="f-badges-wrap"><div class="fleet-card-badges"><span class="fleet-badge">Free Delivery</span></div></div>
+          <h3>Rolls-Royce Ghost</h3>
+          <div class="fleet-price">from <b>AED 1,373</b> / day</div>
+          <div class="f-stats-wrap"><div class="fleet-stats">
+            <span class="fleet-stat-chip">5 Seats</span><span class="fleet-stat-chip">563 HP</span><span class="fleet-stat-chip">2020</span>
+          </div></div>
+          <div class="fleet-media"><div class="fleet-media-glow"></div><img src="assets/fleet/rolls-royce-ghost-2020-1500.webp" alt="Rolls-Royce Ghost"></div>
+          <div class="fleet-card-cta"><span>View details</span><span>0–100 in 4.8s</span></div>
+        </a>
+      </div>
+      <div class="fleet-col fleet-col-right">
+        <a href="collection.html#brand=bentley" class="fleet-card big">
+          <div class="f-badges-wrap"><div class="fleet-card-badges"><span class="fleet-badge">No Deposit</span></div></div>
+          <h3>Bentley Continental GTC</h3>
+          <div class="fleet-price">from <b>AED 1,366</b> / day</div>
+          <div class="f-stats-wrap"><div class="fleet-stats">
+            <span class="fleet-stat-chip">4 Seats</span><span class="fleet-stat-chip">542 HP</span><span class="fleet-stat-chip">2021</span>
+          </div></div>
+          <div class="fleet-media"><div class="fleet-media-glow"></div><img src="assets/fleet/bentley-continental-gtc-2021-1500.webp" alt="Bentley Continental GTC V12"></div>
+          <div class="fleet-card-cta"><span>View details</span><span>0–100 in 3.7s</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ethos" id="ethos">
+  <div class="ethos-sticky">
+    <div class="grain" style="z-index:2;"></div>
+    <div class="ethos-video-wrap">
+      <video id="ethosVideo" muted playsinline preload="auto">
+        <source src="assets/video/ethos-loop.mp4" type="video/mp4">
+      </video>
+      <video id="ethosVideoB" muted playsinline preload="auto">
+        <source src="assets/video/ethos-loop.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="ethos-bg"></div>
+    <div class="ethos-scrim"></div>
+    <div class="ethos-inner">
+      <div class="ethos-eyebrow eyebrow-ar">The Privé Standard</div>
+      <h2 class="ethos-headline" id="ethosHeadline">Luxury is felt, not announced.</h2>
+      <p class="ethos-body" id="ethosBody">We don't chase attention. Every delivery, every handoff, every drive — designed to disappear into your day, not disrupt it.</p>
+    </div>
+    <div class="ethos-progress">
+      <div class="ethos-step active" data-i="0">
+        <div class="ethos-step-line"><span class="ethos-step-fill"></span></div>
+        <div class="ethos-step-label">01 Discretion</div>
+      </div>
+      <div class="ethos-step" data-i="1">
+        <div class="ethos-step-line"><span class="ethos-step-fill"></span></div>
+        <div class="ethos-step-label">02 Precision</div>
+      </div>
+      <div class="ethos-step" data-i="2">
+        <div class="ethos-step-line"><span class="ethos-step-fill"></span></div>
+        <div class="ethos-step-label">03 Access</div>
+      </div>
+      <div class="ethos-step" data-i="3">
+        <div class="ethos-step-line"><span class="ethos-step-fill"></span></div>
+        <div class="ethos-step-label">04 Craft</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ethos-stack">
+    <div class="ethos-stack-item"><span class="num">01 Discretion</span><h3>Luxury is felt, not announced.</h3><p>We don't chase attention. Every delivery, every handoff, every drive — designed to disappear into your day, not disrupt it.</p></div>
+    <div class="ethos-stack-item"><span class="num">02 Precision</span><h3>Every detail, accounted for.</h3><p>From the inspection report to the invoice total, nothing is approximate. Precision is the whole product.</p></div>
+    <div class="ethos-stack-item"><span class="num">03 Access</span><h3>Anywhere in the Emirates, any hour.</h3><p>A concierge that answers at 3am like it's 3pm. Access isn't a feature — it's the baseline.</p></div>
+    <div class="ethos-stack-item"><span class="num">04 Craft</span><h3>A car is chosen. A drive is crafted.</h3><p>The vehicle is only the beginning. What we build is the experience around it.</p></div>
+  </div>
+</section>
+
+<section class="section" id="proof" data-nav-theme="light">
+  <div class="proof-container">
+    <div class="p-head"><div class="p-eyebrow eyebrow-ar">The Receipts</div><h2 class="p-title">Numbers over promises.</h2></div>
+    <div class="grid">
+      <div class="bcard bhero">
+        <div class="bgrid"></div>
+        <div class="bicon lottie-icon" data-lottie="icons/receipt-bill-check.json" data-color="gold-bright"></div>
+        <div class="bnum-wrap"><div class="bnum">24+</div><div class="bcap">Cars ready for the city.</div></div>
+      </div>
+      <div class="bcard light">
+        <div class="bgrid"></div>
+        <div class="bicon lottie-icon" data-lottie="icons/repeat.json" data-color="gold"></div>
+        <div><div class="bnum">24/7</div><div class="bcap">Delivery &amp; support.</div></div>
+      </div>
+      <div class="bcard light">
+        <div class="bgrid"></div>
+        <div class="bicon lottie-icon" data-lottie="icons/number-9-circle.json" data-color="gold"></div>
+        <div><div class="bnum bnum-dubai">Dubai</div><div class="bcap">One collection. Every destination.</div></div>
+      </div>
+    </div>
+    <div class="cta-wrap">
+      <a href="collection.html" class="cta-b">Rent a Car
+        <span class="arrow-circle"><svg width="14" height="12" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-ar">The Difference</div>
+        <h2>Elsewhere in Dubai. Here, instead.</h2>
+      </div>
+      <a href="https://wa.me/971400000000" class="btn btn-answer reveal reveal-d1">Message us
+        <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+
+    <div class="e-compare reveal reveal-d1" id="eCompare">
+      <div class="e-panel e-us">
+        <div class="e-panel-label e-us-logo"><img src="assets/logo/prive-logo.webp" alt="Privé Motors"></div>
+        <div class="e-rows">
+          <div class="e-row"><div class="e-num">01</div><p>The exact VIN you booked. 24+ vehicles, every one inspected before it reaches you.</p></div>
+          <div class="e-row"><div class="e-num">02</div><p>One number on the phone. The same number on the invoice.</p></div>
+          <div class="e-row"><div class="e-num">03</div><p>Delivered anywhere in Dubai, any hour. The concierge line never closes.</p></div>
+          <div class="e-row"><div class="e-num">04</div><p>Timestamped inspection video, both ways. Zero disputed deposits in 2025.</p></div>
+        </div>
+      </div>
+      <div class="e-panel e-them">
+        <div class="e-panel-label">Elsewhere</div>
+        <div class="e-rows">
+          <div class="e-row"><div class="e-num">01</div><p>The car online. Something with "similar spec" in the lot — handed over and called an upgrade.</p></div>
+          <div class="e-row"><div class="e-num">02</div><p>A deposit that quietly grows at pickup — cleaning fees, "insurance excess," mileage nobody mentioned.</p></div>
+          <div class="e-row"><div class="e-num">03</div><p>Forty minutes at a desk after a twelve-hour flight, filling out forms.</p></div>
+          <div class="e-row"><div class="e-num">04</div><p>A scratch you didn't make. A deposit you don't get back. No recourse.</p></div>
+        </div>
+      </div>
+      <div class="e-handle-track"></div>
+      <div class="e-handle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L3 12L8 17"/><path d="M16 7L21 12L16 17"/></svg></div>
+      <div class="e-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L3 12L8 17"/><path d="M16 7L21 12L16 17"/></svg>Drag to reveal</div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var wrap = document.getElementById('eCompare');
+  var them = wrap.querySelector('.e-them');
+  var us = wrap.querySelector('.e-us');
+  var track = wrap.querySelector('.e-handle-track');
+  var handle = wrap.querySelector('.e-handle');
+  var themRows = them.querySelectorAll('.e-row');
+  var usRows = us.querySelectorAll('.e-row');
+  var dragging = false;
+  var DEFAULT_X = 50;
+
+  function syncRowHeights(){
+    var rowsStyle = getComputedStyle(them.querySelector('.e-rows'));
+    var padTop = parseFloat(rowsStyle.paddingTop);
+    var padBottom = parseFloat(rowsStyle.paddingBottom);
+    for (var i = 0; i < themRows.length; i++) { themRows[i].style.height = 'auto'; usRows[i].style.height = 'auto'; }
+    var total = padTop + padBottom;
+    for (var j = 0; j < themRows.length; j++) {
+      var h = Math.max(themRows[j].offsetHeight, usRows[j].offsetHeight);
+      themRows[j].style.height = h + 'px';
+      usRows[j].style.height = h + 'px';
+      total += h;
+    }
+    wrap.style.height = total + 'px';
+  }
+
+  function setX(pct){
+    pct = Math.max(0, Math.min(100, pct));
+    them.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+    track.style.left = pct + '%';
+    handle.style.left = pct + '%';
+  }
+
+  function fromClientX(clientX){
+    var rect = wrap.getBoundingClientRect();
+    setX(((clientX - rect.left) / rect.width) * 100);
+  }
+
+  wrap.addEventListener('pointerdown', function(e){
+    dragging = true;
+    wrap.classList.add('dragging');
+    wrap.setPointerCapture(e.pointerId);
+    fromClientX(e.clientX);
+  });
+  wrap.addEventListener('pointermove', function(e){ if (dragging) fromClientX(e.clientX); });
+  wrap.addEventListener('pointerup', function(){ dragging = false; wrap.classList.remove('dragging'); });
+  wrap.addEventListener('pointercancel', function(){ dragging = false; wrap.classList.remove('dragging'); });
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(syncRowHeights, 120);
+  });
+
+  syncRowHeights();
+  setX(DEFAULT_X);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(syncRowHeights); }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          wrap.classList.add('revealed');
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(wrap);
+  } else {
+    wrap.classList.add('revealed');
+  }
+})();
+</script>
+
+<section class="section" id="faq" data-nav-theme="light">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-ar">Common Questions</div>
+        <h2>Everything before you call.</h2>
+      </div>
+      <p class="reveal reveal-d1">Can't find what you're looking for? Message our concierge on WhatsApp — the same line, day or night.</p>
+    </div>
+
+    <div class="faq-list reveal reveal-d1">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What's included in the price?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">The vehicle, comprehensive insurance, and delivery and collection anywhere in the Emirates. No cleaning fees, no "insurance excess" sprung on you at pickup — Salik tolls and fuel are the only extras, and only for what you actually use.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What documents do I need to book?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">A valid driving license (UAE, GCC, or an internationally recognized license), a passport or Emirates ID, and a credit card in the driver's name for the security hold. Bring them once — verified for every booking after.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Is a security deposit required?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Yes, held on your card at handover and released after the car comes back. Every inspection is filmed and timestamped, both ways, so there's nothing left to argue about — zero disputed deposits in 2025.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What's the minimum age to drive?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">25 for the core fleet, 30 for the ultra-performance tier. Under that, you can still ride — just book a chauffeur instead.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can someone else drive the car?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Yes. Any additional driver just needs to be verified and added to the reservation before delivery — same documents, same nine-minute process.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Do you deliver outside Dubai?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Anywhere in the Emirates, including straight to the arrivals gate at the airport — no delivery surcharge, no waiting at a counter.</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What happens if there's an accident or the car needs attention?</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            <p class="faq-a-text">Call our concierge line first, any hour — we coordinate with police, recovery, and your replacement vehicle from there. One number, the same one on your invoice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var reduceMotionFAQ = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('#faq .faq-item');
+
+  function buildChars(item){
+    var textEl = item.querySelector('.faq-a-text');
+    if (textEl.dataset.built) return;
+    textEl.dataset.built = '1';
+    if (reduceMotionFAQ) return; // plain text stays as-is, CSS shows it fully opaque
+    var raw = textEl.textContent;
+    textEl.textContent = '';
+    raw.split('').forEach(function(ch, i){
+      var span = document.createElement('span');
+      span.className = 'faq-char';
+      span.style.transitionDelay = (i * 12) + 'ms';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      textEl.appendChild(span);
+    });
+  }
+
+  function openItem(item){
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    var textEl = item.querySelector('.faq-a-text');
+    buildChars(item);
+    btn.setAttribute('aria-expanded', 'true');
+    panel.style.height = panel.scrollHeight + 'px';
+    requestAnimationFrame(function(){ textEl.classList.add('is-revealed'); });
+    panel.addEventListener('transitionend', function te(e){
+      if (e.propertyName === 'height') {
+        panel.removeEventListener('transitionend', te);
+        if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
+      }
+    });
+  }
+
+  function closeItem(item){
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    if (btn.getAttribute('aria-expanded') !== 'true') return;
+    panel.style.height = panel.scrollHeight + 'px'; // lock to a px value first — can't transition from 'auto'
+    void panel.offsetHeight; // force reflow so the browser registers the px height before the next change
+    btn.setAttribute('aria-expanded', 'false');
+    panel.style.height = '0px';
+  }
+
+  items.forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', function(){
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      items.forEach(function(other){ if (other !== item) closeItem(other); });
+      if (isOpen) closeItem(item); else openItem(item);
+    });
+  });
+})();
+</script>
+
+<section class="cta" id="contact">
+  <div class="cta-bg"></div>
+  <div class="grain"></div>
+  <div class="container cta-inner">
+    <div class="eyebrow eyebrow-ar reveal">One Call Away</div>
+    <h2 class="reveal reveal-d1">Your next drive is a call away.</h2>
+    <p class="reveal reveal-d2">Contact our concierge on WhatsApp — the same line, day or night.</p>
+    <div class="hero-actions cta-actions reveal reveal-d3" style="justify-content:center;">
+      <a href="https://wa.me/971400000000" class="btn btn-answer">Contact us
+        <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="collection.html" class="btn btn-answer">Rent a Car
+        <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="grain"></div>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div class="footer-col"><h3>Company</h3><a href="about.html">About Us</a><a href="#fleet">The Fleet</a><a href="#proof">Reviews</a><a href="#features">What's Included</a></div>
+      <div class="footer-col"><h3>Contact</h3><a href="tel:+971400000000">+971 4 000 0000</a><a href="mailto:concierge@privemotors.ae">concierge@privemotors.ae</a><span class="static">Downtown Dubai, UAE</span></div>
+      <div class="footer-col"><h3>Book</h3><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data/fleet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script>
+  // discovery — brand strip, duplicated for a seamless loop, links into the collection
+  const brandStrip = document.getElementById('brandStrip');
+  // links use a #hash, not a ?query — static hosts (and local dev servers like `serve`'s
+  // clean-URL redirect) can rewrite/redirect a path and silently drop the query string;
+  // a hash is never sent to the server, so it always survives the navigation.
+  if (brandStrip) {
+    [...BRANDS, ...BRANDS].forEach((b) => {
+      const a = document.createElement('a');
+      a.href = `collection.html#brand=${encodeURIComponent(b.toLowerCase().replace(/\s+/g, '-'))}`;
+      a.innerHTML = `<img src="${BRAND_LOGOS_HOME[b]}" alt="${b}">`;
+      brandStrip.appendChild(a);
+    });
+  }
+
+  // features — "The Process" rail advances on its own (Reserve -> Verify -> Delivery -> Drive -> loop),
+  // starts only once scrolled into view, and stays on step 1 (no animation) if reduced-motion is requested
+  const procSteps = document.querySelectorAll('.proc-step');
+  const procFill = document.getElementById('procFill');
+  if (procSteps.length && procFill) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let procIdx = 0;
+    function procAdvance() {
+      procSteps.forEach(el => el.classList.remove('active'));
+      procSteps[procIdx].classList.add('active');
+      procFill.style.width = ((procIdx + 1) / procSteps.length * 100) + '%';
+      procIdx = (procIdx + 1) % procSteps.length;
+    }
+    if (reduceMotion) {
+      procSteps[0].classList.add('active');
+      procFill.style.width = (100 / procSteps.length) + '%';
+    } else {
+      const procObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            procAdvance();
+            setInterval(procAdvance, 2400);
+            procObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      procObserver.observe(document.querySelector('.proc-rail'));
+    }
+  }
+  const heroVideo = document.getElementById('heroVideo');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scrollThumb = document.getElementById('scrollThumb');
+
+  // in-page anchor links (nav "FAQ", hero "Our Why", footer section links) get their smooth
+  // scroll from here instead of the global CSS scroll-behavior — see the html{} rule for why
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  function unlock(){ document.body.classList.remove('locked'); }
+
+  if (reduceMotion || !heroVideo.canPlayType('video/mp4')) {
+    // no video playback here by design (respects reduced-motion, or the browser can't play
+    // it at all) — but the hero still needs *something* visible, so show the static poster
+    // frame instead of leaving the bare dark background. Every other reduced-motion fallback
+    // on this site (ethos section, contact hero) shows a static substitute; this was the one
+    // spot that didn't, and it's exactly what a Reduce Motion (iOS Accessibility) user sees.
+    heroVideo.classList.add('ready');
+    unlock();
+  } else {
+    // readyState may already be past 'canplay' by the time this script runs (preload="auto"
+    // starts fetching as soon as the tag is parsed, near the top of the page — a fast-loading
+    // video can finish before this bottom-of-body script attaches a listener, and a missed
+    // one-time event never fires again, leaving the video invisible forever). Check the
+    // current state first instead of assuming the event is still ahead of us.
+    if (heroVideo.readyState >= 3) heroVideo.classList.add('ready');
+    else heroVideo.addEventListener('canplay', () => heroVideo.classList.add('ready'), { once:true });
+    heroVideo.play().catch(unlock);
+    setTimeout(unlock, 600);
+  }
+
+  /* ---- nav: spring hide/show, no material to interpolate anymore (apple-design §4, §12) ----
+     The nav's translateY is driven by a critically-damped spring that always reads the live
+     (presentation) value — so a fast scroll-direction reversal redirects it instantly,
+     it never has to finish a CSS transition first. */
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){
+    navTargetY = y;
+    if (!navRAF) navRAF = requestAnimationFrame(springNav);
+  }
+
+  // nav text flips dark whenever a light section sits behind it
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30; // roughly the vertical center of the nav bar
+
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
+     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
+     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
+     back-to-back on every native scroll event, the second listener's geometry read
+     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
+     right after the first listener's style write — layout thrashing on every scroll tick,
+     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
+     geometry READ done before any style WRITE, lets the browser batch it into one recalc
+     per frame instead of several per raw scroll event. */
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+
+    // ---- reads ----
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    // ---- compute ----
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt; // px/ms
+    lastScrollY = y; lastScrollT = t;
+    // smooth the velocity (EMA) so a decelerating flick's trailing low/negative
+    // samples don't flip the hide/reveal decision — direction intent, not noise
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    // ---- writes ----
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    // hide on a confident scroll-down past the hero, reveal on any scroll-up — never mid-gesture-locked
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  // instant press feedback on the CTA and wordmark — fires on pointerdown, not click (apple-design §1)
+  document.querySelectorAll('#navCta, #navWordmark').forEach((el) => {
+    el.addEventListener('pointerdown', () => { el.style.transform = 'scale(0.94)'; el.style.opacity = '0.85'; });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((evt) =>
+      el.addEventListener(evt, () => { el.style.transform = ''; el.style.opacity = ''; })
+    );
+  });
+
+  // mobile sheet — opens anchored to the toggle, closes on scrim tap, link tap, or Escape
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+
+  function openSheet(){
+    navSheet.classList.add('open');
+    requestAnimationFrame(() => navSheet.classList.add('in'));
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('locked');
+  }
+  function closeSheet(){
+    navSheet.classList.remove('in');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('locked');
+    setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400);
+  }
+  navToggle.addEventListener('click', () => {
+    navSheet.classList.contains('in') ? closeSheet() : openSheet();
+  });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const ethos = document.getElementById('ethos');
+  const ethosBg = document.querySelector('.ethos-bg');
+  const ethosHeadline = document.getElementById('ethosHeadline');
+  const ethosBody = document.getElementById('ethosBody');
+  const ethosSteps = document.querySelectorAll('.ethos-step');
+  const ethosBgFixed = "radial-gradient(ellipse at 78% 32%, rgba(212,175,140,0.22) 0%, transparent 58%), radial-gradient(ellipse at 20% 72%, rgba(27,50,85,0.4) 0%, transparent 55%)";
+  const ethosContent = [
+    { h: "Luxury is felt, not announced.", p: "We don't chase attention. Every delivery, every handoff, every drive — designed to disappear into your day, not disrupt it.",
+      bg: ethosBgFixed },
+    { h: "Every detail, accounted for.", p: "From the inspection report to the invoice total, nothing is approximate. Precision is the whole product.",
+      bg: ethosBgFixed },
+    { h: "Anywhere in the Emirates, any hour.", p: "A concierge that answers at 3am like it's 3pm. Access isn't a feature — it's the baseline.",
+      bg: ethosBgFixed },
+    { h: "A car is chosen. A drive is crafted.", p: "The vehicle is only the beginning. What we build is the experience around it.",
+      bg: ethosBgFixed },
+  ];
+  let ethosActiveIdx = -1;
+  const ethosReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateEthos(){
+    const rect = ethos.getBoundingClientRect();
+    const total = ethos.offsetHeight - window.innerHeight;
+    const progress = Math.min(1, Math.max(0, -rect.top / total));
+    const raw = progress * ethosSteps.length;
+    const idx = Math.min(ethosSteps.length - 1, Math.floor(raw));
+    const within = raw - idx;
+
+    ethosSteps.forEach((el, i) => {
+      const fill = el.querySelector('.ethos-step-fill');
+      el.classList.toggle('active', i === idx);
+      fill.style.width = (i < idx ? 100 : i === idx ? within * 100 : 0) + '%';
+    });
+
+    if (idx !== ethosActiveIdx) {
+      ethosActiveIdx = idx;
+      ethosHeadline.style.opacity = 0;
+      ethosBody.style.opacity = 0;
+      ethosBg.style.background = ethosContent[idx].bg;
+      setTimeout(() => {
+        ethosHeadline.textContent = ethosContent[idx].h;
+        ethosBody.textContent = ethosContent[idx].p;
+        ethosHeadline.style.opacity = 1;
+        ethosBody.style.opacity = 1;
+      }, 200);
+    }
+  }
+
+  if (ethosReduceMotion) {
+    // static stacked fallback — no pin, no scroll-jack, all 4 statements already in the DOM (.ethos-stack)
+    ethos.classList.add('reduced');
+  } else {
+    const ethosVideo = document.getElementById('ethosVideo');
+    const ethosVideoB = document.getElementById('ethosVideoB');
+    if (ethosVideo.readyState >= 3) ethosVideo.classList.add('ready');
+    else ethosVideo.addEventListener('canplay', () => ethosVideo.classList.add('ready'), { once:true });
+    ethosVideo.play().catch(() => {});
+
+    // native `loop` restart hitches on this clip regardless of keyframe spacing — instead,
+    // cross-fade to a second, already-playing copy a moment before the first ends, so neither
+    // element ever actually hits its own end while visible.
+    const ETHOS_XFADE_S = 0.6;
+    let ethosActive = ethosVideo;
+    let ethosStandby = ethosVideoB;
+    let ethosSwapping = false;
+
+    function ethosLoopTick(){
+      const v = ethosActive;
+      if (ethosSwapping || !v.duration) return;
+      if (v.currentTime >= v.duration - ETHOS_XFADE_S) {
+        ethosSwapping = true;
+        const incoming = ethosStandby;
+        const outgoing = v;
+        incoming.currentTime = 0;
+        incoming.style.transition = 'opacity ' + ETHOS_XFADE_S + 's linear';
+        outgoing.style.transition = 'opacity ' + ETHOS_XFADE_S + 's linear';
+        incoming.play().catch(() => {});
+        incoming.style.opacity = 1;
+        outgoing.style.opacity = 0;
+        setTimeout(() => {
+          outgoing.pause();
+          outgoing.currentTime = 0;
+          ethosActive = incoming;
+          ethosStandby = outgoing;
+          ethosSwapping = false;
+        }, ETHOS_XFADE_S * 1000 + 80);
+      }
+    }
+    ethosVideo.addEventListener('timeupdate', ethosLoopTick);
+    ethosVideoB.addEventListener('timeupdate', ethosLoopTick);
+
+    // safety net — if the cross-fade trigger is ever missed, hard-restart immediately
+    // rather than leaving the section frozen on the last frame
+    function ethosSafetyRestart(e){
+      const v = e.target;
+      if (v === ethosActive && !ethosSwapping) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      }
+    }
+    ethosVideo.addEventListener('ended', ethosSafetyRestart);
+    ethosVideoB.addEventListener('ended', ethosSafetyRestart);
+
+    let ethosTicking = false;
+    function onEthosScroll(){
+      if (!ethosTicking) {
+        ethosTicking = true;
+        requestAnimationFrame(() => { updateEthos(); ethosTicking = false; });
+      }
+    }
+    window.addEventListener('scroll', onEthosScroll, { passive: true });
+    window.addEventListener('resize', updateEthos);
+    updateEthos();
+  }
+
+  /* #proof — ported verbatim from proof-stepout-precise.html, see the CSS
+     comment above #proof for why. Do not modify without also updating the
+     demo file, they're meant to stay in sync. */
+  const PALETTE = {
+    'gold-bright': [201/255, 149/255, 94/255],
+    'gold': [169/255, 114/255, 60/255],
+  };
+  function recolor(node, rgb){
+    if (!node || typeof node !== 'object') return;
+    if ((node.ty === 'st' || node.ty === 'fl') && node.c && node.c.k) {
+      const hasAlpha = node.c.k.length === 4;
+      node.c.k = hasAlpha ? [...rgb, node.c.k[3]] : [...rgb];
+    }
+    for (const key in node) {
+      const val = node[key];
+      if (Array.isArray(val)) val.forEach(v => recolor(v, rgb));
+      else if (val && typeof val === 'object') recolor(val, rgb);
+    }
+  }
+
+  document.querySelectorAll('.lottie-icon[data-lottie]').forEach(async (el) => {
+    const res = await fetch(el.dataset.lottie);
+    const data = await res.json();
+    recolor(data, PALETTE[el.dataset.color] || PALETTE['gold']);
+    const anim = lottie.loadAnimation({
+      container: el, renderer: 'svg', loop: false, autoplay: false, animationData: data
+    });
+    el.closest('.bcard').addEventListener('mouseenter', () => anim.goToAndPlay(0, true));
+  });
+
+  const BASE_AXES = { wght: 460, wdth: 95 };
+  const PEAK_AXES = { wght: 650, wdth: 118 };
+
+  function initMagnify(numEl){
+    const chars = [...numEl.textContent].map(ch => {
+      const span = document.createElement('span');
+      span.className = 'ch';
+      span.textContent = ch;
+      if (ch === ' ') span.style.whiteSpace = 'pre';
+      return span;
+    });
+    numEl.innerHTML = '';
+    chars.forEach(span => numEl.appendChild(span));
+
+    const card = numEl.closest('.bcard');
+    const radius = parseFloat(getComputedStyle(numEl).fontSize) * 0.7;
+
+    function setChar(span, t){
+      const wght = Math.round(BASE_AXES.wght + (PEAK_AXES.wght - BASE_AXES.wght) * t);
+      const wdth = Math.round(BASE_AXES.wdth + (PEAK_AXES.wdth - BASE_AXES.wdth) * t);
+      span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}`;
+    }
+
+    card.addEventListener('mousemove', (e) => {
+      chars.forEach(span => {
+        const r = span.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const dist = Math.abs(e.clientX - cx);
+        setChar(span, Math.max(0, 1 - dist / radius));
+      });
+    });
+    card.addEventListener('mouseleave', () => chars.forEach(span => setChar(span, 0)));
+  }
+  document.querySelectorAll('#proof .bnum').forEach(initMagnify);
+</script>
+
+</body>
+</html>

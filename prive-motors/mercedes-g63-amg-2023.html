@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercedes-Benz G 63 AMG — Privé Motors</title>
+<meta name="description" content="Reserve the Mercedes-Benz G 63 AMG (2023) from Privé Motors — Dubai's finest collection. Real prices, no bait, delivered anywhere in the Emirates.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  @font-face{ font-family:'Mustopha'; src:url('fonts/Mustopha.otf') format('opentype'); font-display:swap; }
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #565D68;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html{ overflow-y:scroll; overflow-x:hidden; scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+  .eyebrow{ font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--rose); font-weight:500; }
+  .container{ max-width:1160px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  a{ color:inherit; }
+
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:0.55rem; font-family:var(--sans);
+    font-size:0.86rem; font-weight:700; letter-spacing:0.03em; text-decoration:none; cursor:pointer;
+    border:1px solid transparent; padding:0.95rem 2rem; border-radius:999px;
+    transition:transform 0.16s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.2s ease; }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--rose); color:#1A130D; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+  .btn-primary:disabled{ opacity:0.4; cursor:not-allowed; }
+  .btn-primary:disabled:active{ transform:none; }
+
+  /* nav — identical spring + material-weight system used sitewide */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
+    will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+
+  /* over light sections, links flip dark; the CTA stays rose-gold but drops to
+     --rose-deep for AA contrast on white (same fix already applied to .eyebrow sitewide) */
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* hamburger — hidden on desktop, springs into a sheet on mobile */
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right;
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:0.1s; } .reveal-d2{ transition-delay:0.2s; }
+
+  .section{ padding:6rem 0; }
+  @media (max-width:820px){ .section{ padding:4rem 0; } }
+
+  /* ===== breadcrumb + hero ===== */
+  .car-crumb{ padding-top:8.5rem; }
+  .car-crumb a{ display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none; color:var(--text-faint);
+    font-size:0.82rem; transition:color 0.2s ease; }
+  .car-crumb a:hover{ color:var(--rose); }
+
+  .car-hero{ display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,0.65fr); gap:clamp(2rem,4vw,3.5rem); align-items:center;
+    padding:1.8rem 0 3rem; }
+  @media (max-width:900px){ .car-hero{ grid-template-columns:1fr; } }
+
+  /* ---- image: no card/box/glow-blob — the car sits on the page itself, grounded by a
+     soft contact shadow, entering with a strong-ease scale+fade (emil-design-eng "nothing
+     appears from nothing" — starts at scale(0.94), never 0). ---- */
+  .car-hero-media{ position:relative; }
+  .car-hero-ground{ position:absolute; left:50%; bottom:4%; width:58%; height:1.8rem; transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 72%); filter:blur(3px); z-index:0;
+    opacity:0; transition:opacity 700ms cubic-bezier(.23,1,.32,1) 200ms; }
+  .car-hero-media.in-view .car-hero-ground{ opacity:1; }
+  .car-hero-media img{ position:relative; z-index:1; width:100%; max-width:760px; margin:0 auto; display:block;
+    filter:drop-shadow(0 30px 40px rgba(0,0,0,0.5));
+    opacity:0; transform:scale(0.94);
+    transition:opacity 700ms cubic-bezier(.23,1,.32,1), transform 700ms cubic-bezier(.23,1,.32,1); }
+  .car-hero-media.in-view img{ opacity:1; transform:scale(1); }
+
+  /* spec annotations pinned directly on the photo (apple-design §7 — anchored to their
+     source, spring scale-in from the dot itself, hover only where hover is real) */
+  .spec-pin{ position:absolute; z-index:2; }
+  .spec-pin-dot{ display:block; width:8px; height:8px; border-radius:50%; background:var(--rose);
+    box-shadow:0 0 0 4px rgba(212,175,140,0.22); transform-origin:center; transform:scale(0.6); opacity:0;
+    transition:transform 400ms cubic-bezier(.23,1,.32,1) 550ms, opacity 400ms cubic-bezier(.23,1,.32,1) 550ms; }
+  .car-hero-media.in-view .spec-pin-dot{ transform:scale(1); opacity:1; }
+  .spec-pin-line{ position:absolute; top:4px; left:4px; width:1px; background:rgba(242,230,215,0.35);
+    transform-origin:top; transform:scaleY(0); transition:transform 350ms cubic-bezier(.23,1,.32,1) 620ms; }
+  .car-hero-media.in-view .spec-pin-line{ transform:scaleY(1); }
+  .spec-pin-label{ position:absolute; white-space:nowrap; font-family:var(--sans); font-size:0.72rem; font-weight:600;
+    color:var(--text); background:rgba(5,11,20,0.6); border:1px solid rgba(242,230,215,0.16);
+    border-top-color:rgba(255,255,255,0.22); padding:0.35rem 0.6rem; border-radius:6px;
+    opacity:0; transform:translateY(4px);
+    transition:opacity 300ms ease 700ms, transform 300ms cubic-bezier(.23,1,.32,1) 700ms, border-color 0.2s ease, background 0.2s ease; }
+  .car-hero-media.in-view .spec-pin-label{ opacity:1; transform:translateY(0); }
+  @media (hover:hover) and (pointer:fine){
+    .spec-pin:hover .spec-pin-label{ border-color:var(--rose); background:rgba(5,11,20,0.8); }
+    .spec-pin:hover .spec-pin-dot{ transform:scale(1.3); }
+  }
+  @media (max-width:640px){ .spec-pin{ display:none; } }
+
+  .car-badges{ display:flex; gap:0.5rem; margin-bottom:1.1rem; flex-wrap:wrap; }
+  .car-badge{ font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:700;
+    color:var(--text); }
+
+  /* ---- info column: the parent no longer moves as one fade-up block — each child gets
+     its own entrance, staggered ~60-80ms apart, gated by the parent's .in-view (still the
+     same IntersectionObserver wiring already used sitewide, just bespoke child treatment) ---- */
+  .car-hero-info.reveal{ opacity:1; transform:none; transition:none; }
+  .car-hero-info h1{ font-family:'Mustopha', var(--display); font-weight:400; text-transform:none; letter-spacing:0;
+    font-size:clamp(2.9rem,5.8vw,4.8rem); line-height:1.04; margin:0 0 0; white-space:nowrap;
+    display:inline-block;
+    background:linear-gradient(100deg, var(--rose) 0%, var(--rose-bright) 55%, var(--rose) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    clip-path:inset(0 0 100% 0); transition:clip-path 650ms cubic-bezier(.23,1,.32,1) 60ms; }
+  .car-hero-info.in-view h1{ clip-path:inset(0 0 0% 0); }
+
+  /* ---- price — pulled out of the meta grid and given its own prominent line right under
+     the title, since it's the number visitors actually scan for first ---- */
+  .car-hero-price{ display:flex; align-items:baseline; gap:0.5rem; margin:1.1rem 0 0;
+    opacity:0; transform:translateY(8px); transition:opacity 450ms cubic-bezier(.23,1,.32,1) 110ms, transform 450ms cubic-bezier(.23,1,.32,1) 110ms; }
+  .car-hero-info.in-view .car-hero-price{ opacity:1; transform:translateY(0); }
+  .car-hero-price .amount{ font-family:var(--display); font-weight:700; font-size:clamp(1.7rem,2.8vw,2.2rem); color:var(--rose-bright); letter-spacing:0.01em; }
+  .car-hero-price .per{ font-family:var(--sans); font-size:0.86rem; color:var(--text-dim); }
+
+  .car-hero-meta{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0 1.8rem;
+    padding-top:1.1rem; border-top:1px solid var(--line);
+    opacity:0; transform:translateY(8px); transition:opacity 450ms cubic-bezier(.23,1,.32,1) 160ms, transform 450ms cubic-bezier(.23,1,.32,1) 160ms; }
+  .car-hero-info.in-view .car-hero-meta{ opacity:1; transform:translateY(0); }
+  .car-hero-meta .l{ display:block; font-family:var(--sans); font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); margin-bottom:0.4rem; }
+  .car-hero-meta .v{ font-family:var(--display); font-weight:700; font-size:1.1rem; color:var(--text); }
+
+  .car-hero-desc{ color:var(--text-dim); font-size:0.98rem; line-height:1.75; margin:0 0 1.8rem; max-width:44ch;
+    opacity:0; transform:translateY(8px); transition:opacity 450ms cubic-bezier(.23,1,.32,1) 220ms, transform 450ms cubic-bezier(.23,1,.32,1) 220ms; }
+  .car-hero-info.in-view .car-hero-desc{ opacity:1; transform:translateY(0); }
+
+  .car-badges{ opacity:0; transform:translateY(8px); transition:opacity 450ms cubic-bezier(.23,1,.32,1), transform 450ms cubic-bezier(.23,1,.32,1); }
+  .car-hero-info.in-view .car-badges{ opacity:1; transform:translateY(0); }
+
+  .car-hero-cta{ display:flex; align-items:center; gap:0.9rem; flex-wrap:wrap;
+    opacity:0; transform:translateY(8px); transition:opacity 450ms cubic-bezier(.23,1,.32,1) 280ms, transform 450ms cubic-bezier(.23,1,.32,1) 280ms; }
+  .car-hero-info.in-view .car-hero-cta{ opacity:1; transform:translateY(0); }
+  /* ---- CTA pair — outlined pill, diagonal rose sweep fills in on hover ---- */
+  .car-hero-cta .btn-primary, .car-hero-cta .btn-line{ position:relative; overflow:hidden; display:inline-flex; align-items:center; justify-content:center;
+    background:transparent; color:var(--text); border:1px solid var(--line-strong); border-radius:999px; padding:0.95rem 2rem;
+    text-decoration:none; font-size:0.86rem; font-weight:700; letter-spacing:0.03em;
+    transition:transform 160ms cubic-bezier(.23,1,.32,1), color 200ms ease 160ms, border-color 240ms ease; }
+  .car-hero-cta .btn-primary .cta-sweep, .car-hero-cta .btn-line .cta-sweep{ position:absolute; top:-20px; bottom:-20px; left:-40%; width:180%;
+    background:var(--rose); z-index:0; transform:skewX(-18deg) translateX(-100%); transition:transform 480ms cubic-bezier(.77,0,.175,1); }
+  .car-hero-cta .btn-primary .label, .car-hero-cta .btn-line .label{ position:relative; z-index:1; }
+  .car-hero-cta .btn-primary:hover, .car-hero-cta .btn-line:hover{ color:#1A130D; border-color:var(--rose); }
+  .car-hero-cta .btn-primary:hover .cta-sweep, .car-hero-cta .btn-line:hover .cta-sweep{ transform:skewX(-18deg) translateX(0); }
+  .car-hero-cta .btn-primary:active, .car-hero-cta .btn-line:active{ transform:scale(0.97); }
+
+  /* ---- specs — numbered, horizontal row. Value sits under its number, hairline
+     underline draws in under each figure on hover ---- */
+  .car-specs-strip{ display:flex; margin-bottom:5rem; }
+  .car-spec{ flex:1; position:relative; text-align:center; padding:0 1.6rem 1.1rem; border-bottom:1px solid var(--line);
+    opacity:0; transform:translateY(8px); transition:opacity 400ms cubic-bezier(.23,1,.32,1), transform 400ms cubic-bezier(.23,1,.32,1); }
+  .car-spec::after{ content:''; position:absolute; left:50%; bottom:-1px; width:0; height:2px; background:var(--rose);
+    transform:translateX(-50%); transition:width 420ms cubic-bezier(.23,1,.32,1); }
+  .car-spec:hover::after{ width:2.4rem; }
+  .car-specs-strip.in-view .car-spec{ opacity:1; transform:translateY(0); }
+  .car-spec .n{ display:block; font-family:var(--display); font-weight:600; color:var(--text-faint); font-size:0.72rem; margin-bottom:0.6rem; }
+  .car-spec .v{ display:block; font-family:var(--display); font-weight:700; font-size:1.5rem; color:var(--text); margin-bottom:0.4rem; transition:color 300ms ease; }
+  .car-spec:hover .v{ color:var(--rose-bright); }
+  .car-spec .l{ display:block; font-family:var(--sans); font-size:0.76rem; color:var(--text-dim); }
+  .car-spec:nth-child(1){ transition-delay:0ms; }
+  .car-spec:nth-child(2){ transition-delay:50ms; }
+  .car-spec:nth-child(3){ transition-delay:100ms; }
+  .car-spec:nth-child(4){ transition-delay:150ms; }
+  .car-spec:nth-child(5){ transition-delay:200ms; }
+  @media (max-width:820px){ .car-specs-strip{ flex-wrap:wrap; } .car-spec{ flex:1 1 33%; margin-bottom:1.2rem; } }
+
+  /* ===== booking form (single continuous form — the car is already fixed by being on
+     this page, so no "pick a car" step; reuses the calendar/chip/glass-card language
+     from booking-demo.html) ===== */
+  .book-head{ text-align:center; max-width:640px; margin:0 auto 3rem; }
+  .book-head h2{ font-size:clamp(1.8rem,3.2vw,2.4rem); margin:0.6rem 0 0.8rem; }
+  .book-head p{ color:var(--text-dim); line-height:1.7; margin:0; }
+
+  .book-form{ max-width:760px; margin:0 auto; }
+  .bk-row{ margin-bottom:1.2rem; }
+  .bk-row-split{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:560px){ .bk-row-split{ grid-template-columns:1fr; } }
+  .bk-row label{ display:block; font-family:var(--sans); font-size:0.72rem; font-weight:600; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--text); margin-bottom:0.5rem; }
+  .bk-row input, .bk-row select{ width:100%; background:rgba(5,11,20,0.35); border:1px solid rgba(242,230,215,0.16);
+    border-radius:10px; padding:0.9rem 1rem; color:var(--text); font-family:var(--sans); font-size:0.95rem;
+    transition:border-color 150ms ease-out, background 150ms ease-out; color-scheme:dark; }
+  .bk-row input::placeholder{ color:rgba(242,230,215,0.4); }
+  .bk-row input:hover, .bk-row select:hover{ border-color:rgba(242,230,215,0.28); }
+  .bk-row input:focus-visible, .bk-row select:focus-visible{ outline:none; border-color:var(--rose); background:rgba(5,11,20,0.5); }
+  .bk-row select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%23D4AF8C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.4rem; }
+
+  .bk-section-label{ font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--rose);
+    font-weight:700; margin:2.2rem 0 1rem; }
+  .bk-section-label:first-child{ margin-top:0; }
+
+  .bk-date-wrap{ position:relative; }
+  .bk-date-trigger{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:0.6rem;
+    background:rgba(5,11,20,0.35); border:1px solid rgba(242,230,215,0.16); border-radius:10px;
+    padding:0.9rem 1rem; color:var(--text); font-family:var(--sans); font-size:0.95rem; text-align:left; cursor:pointer;
+    transition:border-color 150ms ease-out, background 150ms ease-out; }
+  .bk-date-trigger:hover{ border-color:rgba(242,230,215,0.28); }
+  .bk-date-trigger.open{ border-color:var(--rose); background:rgba(5,11,20,0.5); }
+  .bk-date-trigger .ph{ color:rgba(242,230,215,0.4); }
+  .bk-date-trigger svg{ flex:none; width:15px; height:15px; stroke:var(--rose); }
+
+  .bk-cal{ position:absolute; top:calc(100% + 0.6rem); left:0; z-index:30; width:272px; max-width:88vw;
+    background:rgba(16,31,56,0.96); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.18); border-radius:16px; padding:0.9rem 0.9rem 1rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    opacity:0; pointer-events:none; transform:scale(0.96) translateY(-6px);
+    transition:opacity 0.2s ease, transform 0.2s cubic-bezier(.16,1,.3,1); }
+  .bk-cal.open{ opacity:1; pointer-events:auto; transform:scale(1) translateY(0); }
+  .bk-cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:0.7rem; }
+  .bk-cal-month{ font-family:var(--display); font-weight:600; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; }
+  .bk-cal-nav{ display:flex; gap:0.3rem; }
+  .bk-cal-nav button{ width:1.7rem; height:1.7rem; border-radius:50%; border:1px solid rgba(242,230,215,0.2); background:transparent;
+    color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0;
+    transition:border-color 0.2s ease, background-color 0.2s ease, transform 0.15s cubic-bezier(.16,1,.3,1); }
+  .bk-cal-nav button:hover:not(:disabled){ border-color:var(--rose); background:rgba(212,175,140,0.08); }
+  .bk-cal-nav button:active:not(:disabled){ transform:scale(0.9); }
+  .bk-cal-nav button:disabled{ opacity:0.25; cursor:not-allowed; }
+  .bk-cal-nav svg{ width:11px; height:11px; stroke:currentColor; }
+  .bk-cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:1px; text-align:center; }
+  .bk-cal-dow{ font-size:0.6rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-faint); padding:0.25rem 0 0.4rem; }
+  .bk-cal-day{ position:relative; aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:7px;
+    font-size:0.78rem; color:var(--text); background:none; border:none; cursor:pointer; font-family:var(--sans); padding:0;
+    transition:background-color 0.15s ease, color 0.15s ease, transform 0.12s cubic-bezier(.16,1,.3,1); }
+  .bk-cal-day:hover:not(:disabled){ background:rgba(212,175,140,0.12); }
+  .bk-cal-day:active:not(:disabled){ transform:scale(0.9); }
+  .bk-cal-day:disabled{ color:var(--text-faint); opacity:0.28; cursor:not-allowed; }
+  .bk-cal-day.other-month{ color:var(--text-faint); opacity:0.35; }
+  .bk-cal-day.today:not(.selected)::after{ content:''; position:absolute; bottom:2px; left:50%; width:3px; height:3px;
+    border-radius:50%; background:var(--rose); transform:translateX(-50%); }
+  .bk-cal-day.selected{ background:var(--rose); color:#1A130D; font-weight:700; }
+
+  .bk-chips{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:560px){ .bk-chips{ grid-template-columns:1fr; } }
+  .bk-chip{ padding:1.2rem 1.4rem; border:1px solid rgba(242,230,215,0.2); border-radius:8px; background:rgba(255,255,255,0.02);
+    color:var(--text); font-family:var(--sans); font-size:0.95rem; font-weight:600; cursor:pointer; text-align:left;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    transition:border-color 0.25s ease, background-color 0.25s ease, transform 0.15s cubic-bezier(.16,1,.3,1); }
+  .bk-chip:hover{ border-color:var(--rose); background:rgba(212,175,140,0.06); }
+  .bk-chip:active{ transform:scale(0.98); }
+  .bk-chip .bk-chip-sub{ font-weight:400; font-size:0.78rem; color:var(--text-faint); display:block; margin-top:0.2rem; }
+  .bk-chip-mark{ flex:none; width:1.3rem; height:1.3rem; border-radius:5px; border:1px solid rgba(242,230,215,0.3);
+    display:flex; align-items:center; justify-content:center; transition:border-color 0.2s ease, background-color 0.2s ease; }
+  .bk-chip.active{ border-color:var(--rose); background:rgba(212,175,140,0.1); }
+  .bk-chip.active .bk-chip-mark{ border-color:var(--rose); background:var(--rose); }
+  .bk-chip-mark svg{ width:9px; height:9px; stroke:var(--bg-deep); opacity:0; }
+  .bk-chip.active .bk-chip-mark svg{ opacity:1; }
+
+  .bk-doc-note{ display:flex; align-items:flex-start; gap:0.7rem; margin-top:0.9rem; padding:0.9rem 1rem;
+    border:1px solid rgba(242,230,215,0.14); border-radius:10px; background:rgba(255,255,255,0.02); cursor:pointer; }
+  .bk-doc-note input{ margin-top:0.2rem; accent-color:var(--rose); flex:none; }
+  .bk-doc-note span{ font-size:0.85rem; color:var(--text-dim); line-height:1.5; }
+
+  .bk-price-live{ text-align:center; margin:1.8rem 0 0; padding:1.1rem; border-radius:12px;
+    border:1px solid rgba(212,175,140,0.25); background:rgba(212,175,140,0.06); font-size:0.92rem; color:var(--text-dim); }
+  .bk-price-live b{ color:var(--rose-bright); font-family:var(--display); font-size:1.15rem; }
+
+  .book-summary{ position:relative; isolation:isolate; overflow:hidden;
+    background:radial-gradient(120% 90% at 50% -15%, rgba(212,175,140,0.12), transparent 55%),
+      linear-gradient(175deg, rgba(27,50,85,0.5), rgba(5,11,20,0.7));
+    backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%);
+    border:1px solid rgba(212,175,140,0.16);
+    border-radius:22px; padding:clamp(1.8rem,3vw,2.6rem);
+    box-shadow:0 30px 70px -26px rgba(5,11,20,0.75), inset 0 1px 0 rgba(255,255,255,0.05); margin-top:2.6rem; }
+  .book-summary::before{ content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; padding:1px;
+    background:linear-gradient(160deg, rgba(212,175,140,0.4), rgba(212,175,140,0) 45%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+  .bk-summary-row{ display:flex; justify-content:space-between; gap:1rem; padding:0.8rem 0; border-bottom:1px solid rgba(242,230,215,0.08); font-size:0.9rem; }
+  .bk-summary-row:last-of-type{ border-bottom:none; }
+  .bk-summary-row .l{ color:var(--text-dim); }
+  .bk-summary-row .v{ color:var(--text); font-weight:600; text-align:right; }
+  .bk-summary-total{ display:flex; justify-content:space-between; align-items:baseline; margin-top:1.1rem; padding-top:1.1rem;
+    border-top:1px solid rgba(212,175,140,0.3); }
+  .bk-summary-total .l{ font-size:0.82rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; }
+  .bk-summary-total .v{ font-family:var(--display); font-size:1.6rem; color:var(--rose-bright); font-weight:700; }
+  .bk-actions{ display:flex; flex-direction:column; align-items:center; gap:0.7rem; margin-top:2rem; }
+  .bk-hint{ font-size:0.78rem; color:var(--text-dim); text-align:center; min-height:1.1em; }
+  #bkSend:disabled{ background:rgba(212,175,140,0.08); color:var(--text-faint); opacity:1; border:1px solid var(--line-strong); box-shadow:none; }
+  .bk-success{ text-align:center; }
+  .bk-success h3{ font-size:1.4rem; margin:1rem 0 0.6rem; text-transform:none; }
+  .bk-success p{ color:var(--text-dim); font-size:0.94rem; line-height:1.6; margin:0; }
+  .bk-success-icon{ width:3.2rem; height:3.2rem; border-radius:50%; background:rgba(212,175,140,0.15); border:1px solid var(--rose);
+    display:flex; align-items:center; justify-content:center; margin:0 auto; }
+  .bk-success-icon svg{ width:1.4rem; height:1.4rem; stroke:var(--rose); }
+
+  /* footer */
+  footer{ background:#000; border-top:1px solid var(--line); padding:5rem 0 2.2rem; }
+  .footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:3rem; margin-bottom:4rem; }
+  .footer-brand p{ color:var(--text-faint); font-size:0.87rem; line-height:1.7; max-width:32ch; margin-top:1.1rem; }
+  .footer-col h4{ font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin:0 0 1.2rem; font-weight:700; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.88rem; margin-bottom:0.75rem; transition:color 0.3s ease; }
+  .footer-col a:hover{ color:var(--rose); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:2.2rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.78rem; flex-wrap:wrap; gap:1rem; align-items:center; }
+  .footer-legal{ display:flex; gap:1.4rem; }
+  .footer-legal a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .footer-legal a:hover{ color:var(--rose); }
+  .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
+  .ph-footer{ color:var(--rose-deep); }
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{ transform:none; transition:opacity 300ms ease; }
+    .bk-cal{ transition:opacity 200ms ease; transform:none !important; }
+    .car-hero-info h1{ clip-path:none !important; opacity:0; transition:opacity 300ms ease; }
+    .car-hero-info.in-view h1{ opacity:1; }
+    .car-hero-media img, .car-hero-ground, .car-badges, .car-hero-price, .car-hero-meta, .car-hero-desc, .car-hero-cta,
+    .spec-pin-dot, .spec-pin-line, .spec-pin-label, .car-spec{ transform:none !important; transition:opacity 300ms ease !important; }
+    .car-spec::before{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo" fetchpriority="high"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html">Home</a></li>
+      <li><a href="collection.html" class="current">Collection</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prive-motors.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="prive-motors.html#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<div class="container car-crumb">
+  <a href="collection.html">&larr; Back to Collection</a>
+</div>
+
+<div class="container">
+  <div class="car-hero">
+    <div class="car-hero-media reveal">
+      <div class="car-hero-ground"></div>
+      <img src="assets/fleet/mercedes-g63-amg-2023-1500.webp" alt="Mercedes-Benz G 63 AMG">
+    </div>
+    <div class="car-hero-info reveal">
+      <div class="car-badges">
+        <span class="car-badge">No Deposit</span>
+      </div>
+      <h1>Mercedes-Benz G 63 AMG</h1>
+      <div class="car-hero-price"><span class="amount">AED 1,600</span><span class="per">/ day</span></div>
+      <div class="car-hero-meta">
+        <div><span class="l">Year</span><span class="v">2023</span></div>
+        <div><span class="l">Category</span><span class="v">SUV</span></div>
+      </div>
+      <p class="car-hero-desc">The G-Wagon's boxy silhouette hides an AMG V8 built to embarrass cars that look faster. The G 63 is Dubai's most recognizable status symbol for a reason — it's genuinely capable, on-road or off.</p>
+      <div class="car-hero-cta">
+        <a href="#book" class="btn btn-primary"><span class="cta-sweep"></span><span class="label">Reserve This Car</span></a>
+        <a href="https://wa.me/971400000000?text=Interested%20in%20the%20Mercedes-Benz%20G%2063%20AMG" class="btn-line"><span class="cta-sweep"></span><span class="label">Message Concierge</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="car-specs-strip reveal">
+    <div class="car-spec"><span class="n">01</span><span class="v">5</span><span class="l">Seats</span></div>
+    <div class="car-spec"><span class="n">02</span><span class="v">577 HP</span><span class="l">Horsepower</span></div>
+    <div class="car-spec"><span class="n">03</span><span class="v">4.5s</span><span class="l">0–100 km/h</span></div>
+    <div class="car-spec"><span class="n">04</span><span class="v">City / Desert</span><span class="l">Terrain</span></div>
+    <div class="car-spec"><span class="n">05</span><span class="v">2023</span><span class="l">Model Year</span></div>
+  </div>
+</div>
+
+<section class="section" id="book">
+  <div class="container">
+    <div class="book-head reveal">
+      <div class="eyebrow">Reserve</div>
+      <h2>Book the G 63 AMG</h2>
+      <p>Pick your dates, tell us how you'd like it delivered, and our concierge takes it from there.</p>
+    </div>
+
+    <div class="book-form reveal reveal-d1">
+      <div class="bk-section-label">Dates</div>
+      <div class="bk-row-split">
+        <div class="bk-row bk-date-wrap">
+          <label>Pickup Date</label>
+          <button type="button" class="bk-date-trigger" id="bkPickupTrigger">
+            <span id="bkPickupLabel"><span class="ph">Select date</span></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          </button>
+          <div class="bk-cal" id="bkPickupCal">
+            <div class="bk-cal-head">
+              <div class="bk-cal-month" id="bkPickupMonth"></div>
+              <div class="bk-cal-nav"><button type="button" id="bkPickupPrev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" id="bkPickupNext"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button></div>
+            </div>
+            <div class="bk-cal-grid" id="bkPickupGrid"></div>
+          </div>
+        </div>
+        <div class="bk-row bk-date-wrap">
+          <label>Return Date</label>
+          <button type="button" class="bk-date-trigger" id="bkReturnTrigger">
+            <span id="bkReturnLabel"><span class="ph">Select date</span></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          </button>
+          <div class="bk-cal" id="bkReturnCal">
+            <div class="bk-cal-head">
+              <div class="bk-cal-month" id="bkReturnMonth"></div>
+              <div class="bk-cal-nav"><button type="button" id="bkReturnPrev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" id="bkReturnNext"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button></div>
+            </div>
+            <div class="bk-cal-grid" id="bkReturnGrid"></div>
+          </div>
+        </div>
+      </div>
+      <div id="bkPriceLive"></div>
+
+      <div class="bk-section-label">Delivery &amp; Extras</div>
+      <div class="bk-row" style="max-width:360px;">
+        <label for="bkDelivery">Delivery Location</label>
+        <select id="bkDelivery">
+          <option>Home</option><option>Hotel</option><option>Airport</option>
+        </select>
+      </div>
+      <div class="bk-chips" style="margin-top:1rem;">
+        <button type="button" class="bk-chip" data-id="driver"><span>Additional Driver<span class="bk-chip-sub">Add a second verified driver</span></span><span class="bk-chip-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></button>
+        <button type="button" class="bk-chip" data-id="seat"><span>Child Seat<span class="bk-chip-sub">Fitted before delivery</span></span><span class="bk-chip-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></button>
+        <button type="button" class="bk-chip" data-id="chauffeur"><span>Chauffeur<span class="bk-chip-sub">A driver comes with the car</span></span><span class="bk-chip-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></button>
+        <button type="button" class="bk-chip" data-id="none"><span>Nothing<span class="bk-chip-sub">None of the above</span></span><span class="bk-chip-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></button>
+      </div>
+
+      <div class="bk-section-label">Your Details</div>
+      <div class="bk-row"><label for="bkName">Full Name</label><input id="bkName" type="text" placeholder="Your name"></div>
+      <div class="bk-row-split">
+        <div class="bk-row"><label for="bkEmail">Email</label><input id="bkEmail" type="email" placeholder="you@email.com"></div>
+        <div class="bk-row"><label for="bkPhone">Phone (optional)</label><input id="bkPhone" type="tel" placeholder="+971 ..."></div>
+      </div>
+      <div class="bk-row" style="max-width:360px;">
+        <label for="bkDoc">Document You'll Bring</label>
+        <select id="bkDoc">
+          <option>Emirates ID</option><option>Passport</option><option>Driving License</option>
+        </select>
+      </div>
+      <label class="bk-doc-note">
+        <input type="checkbox" id="bkDocReady">
+        <span>I understand I'll need to present this document (plus a valid driving license) at handover — we don't collect document numbers online, only verify them in person.</span>
+      </label>
+      <label class="bk-doc-note">
+        <input type="checkbox" id="bkPrivacyConsent">
+        <span>I agree to the <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</span>
+      </label>
+
+      <div class="book-summary" id="bookSummary">
+        <div class="bk-summary-row"><span class="l">Vehicle</span><span class="v">Mercedes-Benz G 63 AMG (2023)</span></div>
+        <div class="bk-summary-row" id="sumDatesRow"><span class="l">Dates</span><span class="v" id="sumDates">—</span></div>
+        <div class="bk-summary-row"><span class="l">Delivery</span><span class="v" id="sumDelivery">Home</span></div>
+        <div class="bk-summary-row"><span class="l">Extras</span><span class="v" id="sumExtras">None</span></div>
+        <div class="bk-summary-total"><span class="l">Estimated Total</span><span class="v" id="sumTotal">AED 0</span></div>
+        <div class="bk-actions"><button type="button" class="btn btn-primary" id="bkSend" disabled>Request Reservation</button><div class="bk-hint" id="bkHint"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="prive-motors.html" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="prive-motors.html#faq">FAQ</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="#">+971 4 000 0000</a><a href="#">concierge@privemotors.ae</a><a href="#">Downtown Dubai, UAE</a></div>
+      <div class="footer-col"><h4>Book</h4><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // in-page anchor links get their smooth scroll from here instead of the global CSS
+  // scroll-behavior (see the html{} rule for why it isn't set there anymore)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+  const CAR = { brand:'Mercedes-Benz', model:'G 63 AMG', year:2023, day:1600, week:10100, month:35200 };
+  const state = { pickup:'', ret:'', delivery:'Home', extras:[], name:'', email:'', phone:'', doc:'Emirates ID', docReady:false, privacyConsent:false };
+
+  /* ---- custom scrollbar ---- */
+  const scrollThumb = document.getElementById('scrollThumb');
+  /* ---- shrink the hero title to fit one line, regardless of car-name length. Allowed
+     to spill into the grid gap (dead space between the two columns) rather than shrink
+     all the way down to a tiny, hard-to-read size. The h1 is display:inline-block so its
+     box (and the gradient painted via background-clip:text) grows to match the actual
+     text width, instead of being capped at the grid column's width. ---- */
+  const _fitCanvas = document.createElement('canvas').getContext('2d');
+  function fitHeroTitle(){
+    const h1 = document.querySelector('.car-hero-info h1');
+    const hero = document.querySelector('.car-hero');
+    if (!h1 || !hero) return;
+    h1.style.fontSize = '';
+    const cs = getComputedStyle(h1);
+    let size = parseFloat(cs.fontSize);
+    const gap = parseFloat(getComputedStyle(hero).columnGap) || 0;
+    const allowance = h1.parentElement.clientWidth + gap * 0.85;
+    const min = 44;
+    function textWidth(px){
+      _fitCanvas.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + px + 'px ' + cs.fontFamily;
+      return _fitCanvas.measureText(h1.textContent).width;
+    }
+    while (textWidth(size) > allowance && size > min) size -= 1;
+    h1.style.fontSize = size + 'px';
+  }
+  window.addEventListener('resize', fitHeroTitle);
+  fitHeroTitle();
+  if (document.fonts) document.fonts.ready.then(fitHeroTitle);
+
+  /* ---- nav spring + material weight ---- */
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){ navTargetY = y; if (!navRAF) navRAF = requestAnimationFrame(springNav); }
+
+  // nav text flips dark whenever a light section sits behind it
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30;
+  function updateNavTheme(){
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+    nav.classList.toggle('on-light', onLight);
+  }
+
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
+     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
+     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
+     back-to-back on every native scroll event, the second listener's geometry read
+     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
+     right after the first listener's style write — layout thrashing on every scroll tick,
+     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
+     geometry READ done before any style WRITE, lets the browser batch it into one recalc
+     per frame instead of several per raw scroll event. */
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+
+    // ---- reads ----
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    // ---- compute ----
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt;
+    lastScrollY = y; lastScrollT = t;
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    // ---- writes ----
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+  function openSheet(){ navSheet.classList.add('open'); requestAnimationFrame(() => navSheet.classList.add('in')); navToggle.setAttribute('aria-expanded','true'); document.body.classList.add('locked'); }
+  function closeSheet(){ navSheet.classList.remove('in'); navToggle.setAttribute('aria-expanded','false'); document.body.classList.remove('locked'); setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400); }
+  navToggle.addEventListener('click', () => { navSheet.classList.contains('in') ? closeSheet() : openSheet(); });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach(a => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---- pricing ---- */
+  function fmtAED(n){ return 'AED ' + Math.round(n).toLocaleString(); }
+  function nights(){
+    if (!state.pickup || !state.ret) return 0;
+    return Math.max(0, Math.round((new Date(state.ret) - new Date(state.pickup)) / 86400000));
+  }
+  function estimate(){
+    const n = Math.max(1, nights() || 1);
+    let rate;
+    if (n >= 28) rate = CAR.month / 30;
+    else if (n >= 7) rate = CAR.week / 7;
+    else rate = CAR.day;
+    return Math.round(rate * n);
+  }
+  function refreshSummary(){
+    const n = nights();
+    document.getElementById('bkPriceLive').innerHTML = n > 0
+      ? `<div class="bk-price-live">${n} night${n===1?'':'s'} — estimated <b>${fmtAED(estimate())}</b></div>` : '';
+    document.getElementById('sumDates').textContent = (state.pickup && state.ret) ? `${state.pickup} → ${state.ret} (${n} night${n===1?'':'s'})` : '—';
+    document.getElementById('sumDelivery').textContent = state.delivery;
+    document.getElementById('sumExtras').textContent = state.extras.length
+      ? state.extras.map(id => ({driver:'Additional Driver',seat:'Child Seat',chauffeur:'Chauffeur',none:'Nothing'}[id])).join(', ')
+      : 'None';
+    document.getElementById('sumTotal').textContent = n > 0 ? fmtAED(estimate()) : 'AED 0';
+    validate();
+  }
+  function validate(){
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email.trim());
+    const ok = nights() > 0 && state.name.trim() && emailOk && state.docReady && state.privacyConsent;
+    document.getElementById('bkSend').disabled = !ok;
+    const hint = document.getElementById('bkHint');
+    if (hint) {
+      hint.textContent = ok ? '' :
+        nights() <= 0 ? 'Select your pickup and return dates to continue' :
+        !state.name.trim() ? 'Add your name to continue' :
+        !emailOk ? 'Enter a valid email to continue' :
+        !state.docReady ? 'Confirm the document checkbox to continue' :
+        'Please accept the Privacy Policy and Terms to continue';
+    }
+  }
+
+  /* ---- extras (mutually-exclusive "Nothing") ---- */
+  document.getElementById('bkDelivery').addEventListener('change', e => { state.delivery = e.target.value; refreshSummary(); });
+  document.querySelectorAll('.bk-chip').forEach(chip => chip.addEventListener('click', () => {
+    const id = chip.dataset.id;
+    const idx = state.extras.indexOf(id);
+    if (id === 'none') {
+      state.extras = idx === -1 ? ['none'] : [];
+    } else {
+      const noneIdx = state.extras.indexOf('none');
+      if (noneIdx !== -1) state.extras.splice(noneIdx, 1);
+      if (idx === -1) state.extras.push(id); else state.extras.splice(state.extras.indexOf(id), 1);
+    }
+    document.querySelectorAll('.bk-chip').forEach(c => c.classList.toggle('active', state.extras.includes(c.dataset.id)));
+    refreshSummary();
+  }));
+
+  ['bkName','bkEmail','bkPhone'].forEach(id => {
+    document.getElementById(id).addEventListener('input', e => {
+      state[id === 'bkName' ? 'name' : id === 'bkEmail' ? 'email' : 'phone'] = e.target.value;
+      validate();
+    });
+  });
+  document.getElementById('bkDoc').addEventListener('change', e => { state.doc = e.target.value; });
+  document.getElementById('bkDocReady').addEventListener('change', e => { state.docReady = e.target.checked; validate(); });
+  document.getElementById('bkPrivacyConsent').addEventListener('change', e => { state.privacyConsent = e.target.checked; validate(); });
+
+  document.getElementById('bkSend').addEventListener('click', () => {
+    document.getElementById('bookSummary').innerHTML = `
+      <div class="bk-success">
+        <div class="bk-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Request sent</h3>
+        <p>A confirmation is on its way to <b style="color:var(--text)">${state.email}</b>. Our concierge will follow up shortly to lock in the G 63 AMG for your dates.</p>
+      </div>`;
+    // TODO: wire to an email-backend service (Formspree/Resend) — UI-only placeholder for now.
+  });
+
+  /* ---- custom calendar (shared with booking-demo.html) ---- */
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DOW = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+  function toISO(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function fmtLabel(iso){
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  }
+  function initDatePicker({ triggerId, calId, gridId, monthId, prevId, nextId, getValue, setValue, minValue }){
+    const trigger = document.getElementById(triggerId);
+    const cal = document.getElementById(calId);
+    const grid = document.getElementById(gridId);
+    const monthLabel = document.getElementById(monthId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    const initial = getValue() ? new Date(getValue() + 'T00:00:00') : new Date();
+    let viewYear = initial.getFullYear(), viewMonth = initial.getMonth();
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    function draw(){
+      monthLabel.textContent = MONTH_NAMES[viewMonth] + ' ' + viewYear;
+      const min = minValue() ? new Date(minValue() + 'T00:00:00') : null;
+      const firstOfMonth = new Date(viewYear, viewMonth, 1);
+      const startOffset = (firstOfMonth.getDay() + 6) % 7;
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const selected = getValue();
+      let html = DOW.map(d => `<div class="bk-cal-dow">${d}</div>`).join('');
+      for (let i = 0; i < startOffset; i++){
+        const d = new Date(viewYear, viewMonth, 1 - (startOffset - i));
+        html += `<button type="button" class="bk-cal-day other-month" disabled>${d.getDate()}</button>`;
+      }
+      for (let day = 1; day <= daysInMonth; day++){
+        const d = new Date(viewYear, viewMonth, day);
+        const iso = toISO(d);
+        const disabled = min ? d < min : false;
+        const isToday = d.getTime() === today.getTime();
+        const isSelected = iso === selected;
+        html += `<button type="button" class="bk-cal-day${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}" data-iso="${iso}" ${disabled ? 'disabled' : ''}>${day}</button>`;
+      }
+      grid.innerHTML = html;
+      grid.querySelectorAll('.bk-cal-day:not(:disabled)').forEach(btn => btn.addEventListener('click', () => { setValue(btn.dataset.iso); close(); }));
+      const canGoPrev = !min || (viewYear > min.getFullYear() || (viewYear === min.getFullYear() && viewMonth > min.getMonth()));
+      prevBtn.disabled = !canGoPrev;
+    }
+    function open(){
+      document.querySelectorAll('.bk-cal.open').forEach(o => { if (o !== cal) o.classList.remove('open'); });
+      document.querySelectorAll('.bk-date-trigger.open').forEach(o => { if (o !== trigger) o.classList.remove('open'); });
+      draw(); cal.classList.add('open'); trigger.classList.add('open');
+    }
+    function close(){ cal.classList.remove('open'); trigger.classList.remove('open'); }
+    trigger.addEventListener('click', e => { e.stopPropagation(); cal.classList.contains('open') ? close() : open(); });
+    prevBtn.addEventListener('click', () => { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } draw(); });
+    nextBtn.addEventListener('click', () => { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } draw(); });
+    return { close, redraw: draw };
+  }
+
+  const pickupPicker = initDatePicker({
+    triggerId:'bkPickupTrigger', calId:'bkPickupCal', gridId:'bkPickupGrid', monthId:'bkPickupMonth', prevId:'bkPickupPrev', nextId:'bkPickupNext',
+    getValue:() => state.pickup, minValue:() => '',
+    setValue:(iso) => {
+      state.pickup = iso;
+      document.getElementById('bkPickupLabel').textContent = fmtLabel(iso);
+      if (state.ret && state.ret < state.pickup) { state.ret = ''; document.getElementById('bkReturnLabel').innerHTML = '<span class="ph">Select date</span>'; }
+      returnPicker.redraw();
+      refreshSummary();
+    }
+  });
+  var returnPicker = initDatePicker({
+    triggerId:'bkReturnTrigger', calId:'bkReturnCal', gridId:'bkReturnGrid', monthId:'bkReturnMonth', prevId:'bkReturnPrev', nextId:'bkReturnNext',
+    getValue:() => state.ret, minValue:() => state.pickup,
+    setValue:(iso) => { state.ret = iso; document.getElementById('bkReturnLabel').textContent = fmtLabel(iso); refreshSummary(); }
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.bk-date-wrap')) { pickupPicker.close(); returnPicker.close(); } });
+
+  refreshSummary();
+})();
+</script>
+
+</body>
+</html>

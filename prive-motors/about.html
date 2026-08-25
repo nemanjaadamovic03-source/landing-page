@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Privé Motors</title>
+<meta name="description" content="The story behind Privé Motors — Dubai's finest collection of sports, executive, and luxury rental cars, delivered with a concierge standard.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  @font-face{ font-family:'Mustopha'; src:url('fonts/Mustopha.otf') format('opentype'); font-display:swap; }
+  :root{
+    --bg: #0A1628;
+    --bg-deep: #050B14;
+    --surface: #101F38;
+    --surface-2: #162B4A;
+    --line: rgba(242,230,215,0.10);
+    --line-strong: rgba(242,230,215,0.20);
+    --text: #F2E6D7;
+    --text-dim: #9AA1AC;
+    --text-faint: #565D68;
+    --rose: #D4AF8C;
+    --rose-bright: #E8CBA8;
+    --rose-deep: #96602E;
+    --sapphire: #1B3255;
+    --sapphire-bright: #2C4A78;
+    --display: 'Jost', sans-serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  /* native OS scrollbars (esp. Windows Fluent) ignore width/track-color CSS and add arrow
+     buttons — hidden entirely in favor of a custom floating thumb built below */
+  html{ overflow-y:scroll; overflow-x:hidden;
+    scrollbar-width:none; }
+  html::-webkit-scrollbar{ display:none; width:0; height:0; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  ::selection{ background:var(--rose); color:var(--bg-deep); }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
+  h1,h2{ text-transform:uppercase; }
+  .eyebrow{ font-family:var(--display); font-size:0.78rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--sapphire-bright); font-weight:500; }
+  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  a{ color:inherit; }
+
+  .btn{ display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-size:0.82rem; font-weight:700;
+    letter-spacing:0.03em; text-decoration:none; cursor:pointer; border:1px solid transparent;
+    transition:transform 0.16s ease-out, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--rose); color:#1A130D; padding:0.9rem 1.8rem; }
+  .btn-primary:hover{ background:var(--rose-bright); }
+
+  body.locked{ overflow:hidden; height:100vh; }
+
+  /* nav — identical to home/collection; JS drives the same continuous material weight + spring hide/show */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
+    will-change:transform; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
+  .wordmark-logo{ height:2.4rem; width:auto; display:block; }
+  .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.82rem; letter-spacing:0.02em; color:var(--text); position:relative;
+    transition:color 0.4s ease, opacity 0.15s ease; display:inline-block; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--rose);
+    transition:width 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ color:var(--rose-bright); } .nav-links a:hover::after{ width:100%; }
+  .nav-links a.current{ color:var(--rose); }
+
+  /* over light sections, links flip dark; the CTA stays rose-gold but drops to
+     --rose-deep for AA contrast on white (same fix already applied to .eyebrow sitewide) */
+  nav.on-light .nav-links a{ color:var(--bg-deep); }
+  nav.on-light .nav-links a:hover{ color:var(--rose-deep); }
+  nav.on-light .nav-links a.current{ color:var(--rose-deep); }
+  .nav-right{ display:flex; align-items:center; gap:0.5rem; }
+  .nav-cta{ font-family:var(--sans); font-size:0.8rem; font-weight:700; letter-spacing:0.02em; text-decoration:none;
+    color:var(--rose); padding-bottom:0.2rem; border-bottom:1px solid var(--rose);
+    transition:color 0.4s ease, border-color 0.4s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .nav-cta:hover{ color:var(--rose-bright); border-color:var(--rose-bright); }
+  nav.on-light .nav-cta{ color:var(--rose-deep); border-color:var(--rose-deep); text-shadow:none; }
+  nav.on-light .nav-cta:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* hamburger — hidden on desktop, springs into a sheet on mobile */
+  .nav-toggle{ display:none; position:relative; width:2.5rem; height:2.5rem; border:none; background:none; cursor:pointer;
+    padding:0; -webkit-tap-highlight-color:transparent; }
+  .nav-toggle span{ position:absolute; left:0.55rem; right:0.55rem; height:1.5px; background:var(--text);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), opacity 0.25s ease, top 0.35s cubic-bezier(.16,1,.3,1); }
+  .nav-toggle span:nth-child(1){ top:0.9rem; }
+  .nav-toggle span:nth-child(2){ top:1.19rem; }
+  .nav-toggle span:nth-child(3){ top:1.48rem; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){ top:1.19rem; transform:rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){ top:1.19rem; transform:rotate(-45deg); }
+  nav.on-light .nav-toggle span{ background:var(--bg-deep); }
+
+  @media (max-width:820px){
+    nav{ padding:1.2rem 1.3rem; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
+  .nav-sheet.open{ display:block; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
+    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    display:flex; flex-direction:column;
+    transform-origin:top right;
+    transform:scale(0.92) translateY(-8px); opacity:0;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
+  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
+    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
+  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+
+  /* reveal — same fire-once pattern as the rest of the site */
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-d1{ transition-delay:0.1s; } .reveal-d2{ transition-delay:0.2s; } .reveal-d3{ transition-delay:0.3s; }
+
+  /* car entrance — each car slides in from the same side it already bleeds off-canvas toward
+     (spatial consistency: the motion continues a direction the crop already implies, rather than
+     an arbitrary one). transform+opacity only, same fire-once observer and easing curve as the
+     site's existing .reveal system — this extends that pattern, it doesn't fork a new one.
+     Applied to a wrapper (not the car <img> itself) everywhere the car uses its own calibrated
+     position/transform chain, so the entrance transform never composes with — and can't disturb —
+     that already pixel-tuned positioning. */
+  .reveal-car{ opacity:0; transition:opacity 1.4s cubic-bezier(.16,1,.3,1), transform 1.4s cubic-bezier(.16,1,.3,1); }
+  .reveal-car-l{ transform:translateX(-64px); }
+  .reveal-car-r{ transform:translateX(64px); }
+  .reveal-car.in-view{ opacity:1; transform:translateX(0); }
+
+  /* text entrance — a wipe-up reveal via clip-path, distinct from the site's usual fade+drift, so
+     the About Us copy reads as its own moment rather than reusing the generic .reveal pattern.
+     The clip-path lives on the inner .reveal-text element, but the trigger class goes on the
+     unclipped .reveal-text-wrap around it — IntersectionObserver computes a target's intersection
+     against its OWN clipped geometry, so an element that's clip-path'd down to zero visible area
+     (its own pre-reveal hidden state) can never report as intersecting itself. Observing an
+     unclipped wrapper sidesteps that deadlock. */
+  .reveal-text{ clip-path:inset(0 0 100% 0); transition:clip-path 0.7s cubic-bezier(.16,1,.3,1); }
+  .reveal-text-wrap.in-view .reveal-text{ clip-path:inset(0 0 0% 0); }
+
+  /* flourish entrance — for the one decorative accent piece (the Arabic-script tagline), scale+fade
+     rather than a wipe or a slide, since it's a single ornamental line, not body copy or a car. */
+  .reveal-flourish{ opacity:0; transform:scale(0.95); transition:opacity 0.6s cubic-bezier(.16,1,.3,1), transform 0.6s cubic-bezier(.16,1,.3,1); }
+  .reveal-flourish.in-view{ opacity:1; transform:scale(1); }
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{ transform:none; transition:opacity 300ms ease; }
+    .reveal-car{ transform:none; transition:opacity 300ms ease; }
+    .reveal-text{ clip-path:none; opacity:0; transition:opacity 300ms ease; }
+    .reveal-text-wrap.in-view .reveal-text{ opacity:1; }
+    .reveal-flourish{ transform:none; transition:opacity 300ms ease; }
+  }
+
+  .section{ padding:7.5rem 0; }
+  @media (max-width:820px){ .section{ padding:5rem 0; } }
+
+  /* light zone — pure white for the About Us hero (per explicit direction: whole section white,
+     not the usual site off-white) */
+  .light-zone{ background:#FFFFFF;
+    --line:rgba(5,11,20,0.08); --line-strong:rgba(5,11,20,0.18);
+    --text-dim:rgba(5,11,20,0.55); --text-faint:rgba(5,11,20,0.42); }
+  .light-zone h1, .light-zone h2, .light-zone h3{ color:var(--bg-deep); }
+  .light-zone .eyebrow{ color:var(--sapphire); }
+
+  /* hero — editorial layout (Gauchère-reference structure) + full-bleed cropped mirrored-car pair
+     (car-mirroring reference): giant title, meta row, subheading flanked by two short text blocks,
+     then a wide frame where both cars overflow past the frame's outer edge and get cropped —
+     only the rear ~half of each car is visible, nose cut off, tails leaving a gap in the middle. */
+  .hero-block{ padding:9.5rem 0 0; overflow:hidden; }
+  .hero-title-wrap{ padding:0 clamp(1rem,3vw,2.5rem); overflow:hidden; }
+  .hero-title{ text-align:center; font-size:clamp(5rem,17.5vw,14.5rem); line-height:0.82; margin:0; letter-spacing:-0.015em; }
+
+  .hero-meta{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:2.4rem; padding-top:1.4rem;
+    border-top:1px solid var(--line); font-family:var(--display); font-size:0.7rem; font-weight:500;
+    letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); }
+  .hero-meta div:nth-child(2){ text-align:center; color:var(--sapphire-bright); }
+  .hero-meta div:nth-child(3){ text-align:right; }
+
+  /* "Modern Femininity" grid — asymmetric two-column editorial block, replaces the old symmetric
+     car strip. Left column: subheading + a large half-cropped car bleeding off the true left edge.
+     Right column, stacked: a small half-cropped car bleeding off the right edge, the brief's own
+     paragraph copy, then an "Est. 2025" watermark with a third car layered on top of it (same
+     word-behind-car technique already proven in .monument below). */
+  .mf-block{ margin-top:5rem; overflow:hidden; }
+  .mf-grid{ display:grid; grid-template-columns:1.35fr 1fr; align-items:start; }
+
+  .mf-left{ position:relative; height:clamp(380px,42vw,560px); padding-left:clamp(1.5rem,4vw,4.5rem); }
+  /* body copy — bold/uppercase, kept small enough to stay readable (not the old oversized
+     heading treatment). Shared by all four About Us paragraphs (.about-copy below); each
+     position-specific class here only carries layout (width/margin/placement), never type. */
+  .about-copy{ font-weight:700; text-transform:uppercase; letter-spacing:0.01em;
+    font-size:0.95rem; line-height:1.7; color:var(--text-dim); }
+  /* left edge visually matched to .hero-meta/.container's own left inset above — .mf-left is a
+     full-bleed box (padding-left only, no auto margin) while .container centers with margin:0 auto
+     once the viewport exceeds its 1360px max-width, so above that width .container's content sits
+     an extra (100vw-1360px)/2 to the right of .mf-left's content. Added back here so the two align. */
+  .mf-copy-1{ position:relative; z-index:3; margin:0; max-width:26ch;
+    margin-left:max(0px, calc((100vw - 1360px) / 2)); font-size:1.1rem; text-align:justify; }
+  /* tablet-only stand-ins for .mf-copy-1/.mf-copy-3 — see the 821-1279px media query below for why */
+  .mf-copy-1-tablet, .mf-copy-3-tablet{ display:none; }
+  /* positioned in the blank space below where .mf-car-big visually ends (~1244px in a
+     1440-viewport render) and roughly level with "Est. 2025" in the right column — measured
+     directly off the rendered layout rather than guessed, see about.html port notes.
+     Position/offset lives on this wrapper (not the <p> itself) so IntersectionObserver — used for
+     the .reveal-text entrance below — reads the wrapper's real on-screen position instead of
+     wherever a plain in-flow marker would fall; see the .reveal-text-wrap comment for why the
+     clip-path trigger can't live on the same element as the clip-path itself either. */
+  .copy3-wrap{ position:absolute; z-index:1; top:139%; left:clamp(1.5rem,4vw,4.5rem); }
+  .mf-copy-3{ max-width:24ch; margin:0; padding-right:clamp(1.5rem,4vw,4.5rem); font-size:1.1rem; text-align:justify; }
+  /* same baked-in canvas padding as every other cutout on this page — translateY compensates so the
+     visible car, not the transparent canvas, lands where intended. Sized via a fixed clamp() (NOT
+     % of .mf-left) because .mf-left's width balloons at wide viewports — the "2025" text below is
+     unwrapped and pins .mf-right near a fixed min-content width, so all extra viewport width goes
+     to .mf-left alone. A %-based car width would inherit that runaway growth and dwarf the Urus
+     opposite it. The clamp() below is calibrated directly against the Urus's own measured rendered
+     width (874–1023px across 1024–2560px viewports) so the two stay visually matched without
+     touching the grid/column sizing itself. left is derived from the same var so the ~44% bleed-off
+     crop fraction stays constant regardless of viewport. */
+  /* entrance-animation wrapper only — inset:0 replicates .mf-left's own box exactly (the same
+     reference frame .mf-car-big's left/top percentages were calibrated against), so this wrapper
+     changes nothing about the car's existing position; it only gives the slide-in transform
+     somewhere to live without composing with (and risking) that calibrated transform chain. */
+  .car-big-wrap{ position:absolute; inset:0; }
+  .mf-car-big{ --gwidth: clamp(875px, calc(892px + 3.1vw), 1000px);
+    position:absolute; z-index:2; width:var(--gwidth); max-width:none;
+    left:calc(-0.4375 * var(--gwidth)); top:97.1%; transform:translateY(-60.8%) scaleX(-1); }
+
+  /* right-hand padding would otherwise stop the Urus short of the true edge — cancel it here so the
+     wrap itself reaches x:100vw and the car's right:-X% offset is measured from the real edge */
+  .mf-right{ padding:0 clamp(1.5rem,4vw,4.5rem) 0 1.5rem; }
+  /* auto-height flow (not a fixed clamp() height) so the full car is always visible top-to-bottom
+     regardless of viewport width — margin-left pushes it right so only the bleed-off-edge crop is
+     ever horizontal, never vertical */
+  .mf-urus-wrap{ position:relative; overflow:hidden;
+    margin-right:calc(-1 * clamp(1.5rem,4vw,4.5rem)); }
+  .mf-car-urus{ display:block; width:96%; margin-left:44.3%; }
+  .mf-text{ max-width:36ch; margin:2.2rem 0 0; font-size:1.1rem; text-align:justify; }
+
+  /* .mf-right's own right padding otherwise stops this box (and its overflow:hidden clip line)
+     short of the true viewport edge, clipping the "2025" text ~57.6px before it should */
+  .mf-est{ margin-top:2.6rem; overflow:hidden; margin-right:calc(-1 * clamp(1.5rem,4vw,4.5rem)); }
+  .mf-est-label{ display:block; font-family:var(--display); font-size:0.7rem; letter-spacing:0.24em;
+    text-transform:uppercase; color:var(--text-faint); margin-bottom:0.6rem; }
+  /* number sits on its own line, drastically oversized (Gauchère "2012" reference) and stretched
+     taller via scaleY to match that reference's elongated numeral proportions; the car sits
+     BELOW it in normal flow — no overlap, unlike the monument word/car overlap technique above */
+  .mf-est-stage{ position:relative; }
+  .mf-est-year{ display:block; font-family:var(--display); font-weight:700;
+    font-size:clamp(11rem,34vw,23rem); line-height:0.8; color:var(--sapphire);
+    transform:scaleY(1.18); transform-origin:left top;
+    opacity:0.12; letter-spacing:-0.02em; white-space:nowrap; margin-left:-0.04em; }
+  /* layout (sizing/position/margins) lives on this wrapper so the entrance slide-in transform has
+     somewhere to apply without composing with .mf-car-rs6's own separate fine-tune transform below */
+  .car-rs6-wrap{ display:block; position:relative; z-index:2; width:66%; margin-top:1.4rem;
+    margin-left:auto; margin-right:calc(-1 * clamp(1.5rem,4vw,4.5rem)); }
+  .mf-car-rs6{ display:block; width:100%;
+    filter:drop-shadow(0 22px 26px rgba(5,11,20,0.14)); }
+  /* swapped into the .monument section (was originally below the Audi RS6 in .mf-block — see the
+     "Dubai's Finest Collection" ↔ "At Privé Motors, luxury is more than..." position swap) as a
+     direct sibling of .monument-inner, so it still centers against the section's true full width
+     rather than a narrower column. margin-top pulled down from 1.6rem to 9px (was calibrated for
+     the old spot) — .monument-inner's box has a lot of empty flex space below its actual visible
+     word/car content before its own box ends (align-items:center on a fixed-height container, same
+     issue documented on .monument-cap below), so the visual gap above this line and the gap below
+     it (before .about-links) were measured and equalized the same way, at the 1440px reference
+     viewport, rather than guessed.
+     (option 6 from arabic-tagline-demo.html: Mustopha, gold gradient fill) — chosen for its warm,
+     full brand-gold read against the section's white background. */
+  .mf-tagline-ar{ margin:9px 0 0; text-align:center;
+    font-family:'Mustopha', var(--display); font-size:clamp(2.4rem, 4.6vw, 4.4rem);
+    line-height:1.2; white-space:nowrap;
+    background:linear-gradient(100deg, var(--rose) 0%, var(--rose-bright) 55%, var(--rose) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  .hero-bleed{ overflow:hidden; padding:1rem 0 2.5rem; text-align:center; }
+  .hero-bleed span{ font-family:var(--display); font-weight:700; text-transform:uppercase; letter-spacing:-0.01em;
+    font-size:clamp(5rem,15vw,11rem); color:var(--bg-deep); white-space:nowrap; display:inline-block; }
+
+  @media (max-width:820px){
+    .hero-meta{ grid-template-columns:1fr; gap:0.4rem; text-align:center; }
+    .hero-meta div{ text-align:center !important; }
+    .mf-grid{ grid-template-columns:1fr; }
+    .mf-left{ height:300px; padding-left:1.3rem; }
+    .mf-copy-1{ max-width:none; }
+    .mf-car-big{ width:96%; left:-8%; }
+    /* car's rendered bottom edge (relative to .mf-left's own top) doesn't scale as a constant
+       % of mf-left on mobile — mf-left's height is a fixed 300px here while the car's own height
+       still grows with viewport width. Measured the car's actual bottom edge at four widths
+       (390/500/700/820px) and fit a linear px+vw formula directly to that data instead of
+       guessing a single margin that only cleared at one width. */
+    .copy3-wrap{ left:1.3rem; top:calc(321px + 23.53vw); }
+    .mf-copy-3{ max-width:none; padding-right:1.3rem; }
+    /* .mf-copy-3 is absolutely positioned inside .mf-left, so it doesn't contribute to
+       .mf-left's own (fixed 300px) row height in the single-column mobile grid — without this,
+       .mf-right/the Urus start right after that 300px mark and run straight through the
+       paragraph. Measured .mf-copy-3's bottom edge (~590px below .mf-left's top, fairly stable
+       across mobile widths) and pushed .mf-right down past it instead of changing .mf-left's
+       height, which would have also reflowed the car's position (it's a % of .mf-left's height). */
+    .mf-right{ padding:2.5rem 1.3rem 0; margin-top:330px; }
+    .mf-urus-wrap{ margin-right:0; margin-top:2rem; }
+    .mf-car-urus{ width:100%; margin-left:0; }
+    .mf-text{ max-width:none; }
+    .mf-est-year{ font-size:20vw; }
+    .hero-bleed span{ font-size:clamp(3rem,16vw,6rem); }
+  }
+
+  /* manual fine-tune positions from the about-editor drag tool (desktop-only, matches the
+     viewport the positions were tuned at — mobile keeps its own layout rules above untouched) */
+  @media (min-width:821px){
+    .mf-car-big{ transform:translateY(-60.8%) scaleX(-1) translate(-47.11px, -29px); }
+    .mf-car-urus{ transform:translate(2.67px, -242.78px); }
+    /* X pushed right (was -14.71px) so this paragraph's right edge lines up with the container's
+       right inset — the same edge "CONCIERGE STANDARD" sits on in .hero-meta above, mirroring the
+       left-edge fix already applied to .mf-copy-1. Y re-tuned (was -66.67px) so the paragraph's own
+       bottom edge lands on the G-Class tire's true bottom pixel (sampled from the source webp's
+       alpha channel — last opaque row was 842 of 938 — not the image element's box, which carries
+       baked-in transparent canvas padding). Re-tuned again (-112.2px -> -142.1px) after adding
+       text-align:justify below wrapped this paragraph onto one extra line, growing its height and
+       pushing the same bottom edge back down. Calibrated at the 1440px reference viewport. */
+    .mf-text{ transform:translate(394.81px, -142.1px); }
+    .car-rs6-wrap{ width:932px; max-width:none; }
+    /* Y pulled up less (was -233.78px) so the car sits further down — the gap between "2025" and
+       the car (only ~36px) was much tighter than the gap between "2025" and the paragraph above it
+       (~259px, mf-text to "2025"); nudged down by that same ~223px difference, measured pixel-by-
+       pixel off the rendered page (not the boxes, which carry the numeral's font leading and the
+       car image's transparent canvas padding), so the two gaps now match. Changing only this
+       image's own transform — not .car-rs6-wrap's layout/margin — keeps the wrapper's box (and
+       everything that flows after it, like the paragraph below) exactly where it was. Calibrated
+       at the 1440px reference viewport. */
+    .mf-car-rs6{ transform:translate(283.56px, -37.78px); }
+  }
+
+  /* .mf-copy-1 only occupies its true "About Us" position at 1280px+ (below that it's swapped for
+     the tablet stand-in above) — bottom edge pushed down to meet the Urus's visual tire-bottom
+     (sampled from the source PNG's alpha channel, not the image element's box, which carries baked-in
+     transparent canvas padding), calibrated at the 1440px reference viewport used for the rest of
+     this block's manual offsets. */
+  @media (min-width:1280px){
+    .mf-copy-1{ margin-top:133px; }
+    /* nudged down from the base top:139% so this paragraph's own visual ink-top (not its line-box
+       top, which carries ~7-8px of leading at this font-size) lands on the "2025" numeral's visual
+       ink-top (not "EST."'s) — both measured pixel-by-pixel off the rendered page, not guessed from
+       box metrics, since neither line-height leading nor the numeral's own font metrics are 1:1
+       with their element boxes. Calibrated at the 1440px reference viewport. */
+    .copy3-wrap{ top:calc(139% + 122px); }
+  }
+
+  /* tablet/narrow-desktop only — .mf-left's column gets squeezed to ~130px in this range
+     (.mf-est-year's unwrapped size plus .mf-car-rs6's fixed 932px both force .mf-right's
+     min-content wide — the RS6 width is a previously-approved manual calibration, left alone
+     per instruction). Rather than fight that squeeze, .mf-copy-1 is swapped for a full-width
+     duplicate placed above the car row entirely, where the column width doesn't apply. */
+  @media (min-width:821px) and (max-width:1279px){
+    .mf-est-year{ font-size:clamp(5rem,16vw,8rem); }
+    .mf-copy-1, .mf-copy-3{ display:none; }
+    .mf-copy-1-tablet{ display:block; max-width:56ch; margin:1.5rem 0 0; }
+    .mf-copy-3-tablet{ display:block; max-width:56ch; margin:0.75rem 0 0; }
+  }
+
+  /* pre-existing bug, unrelated to the new paragraphs: .mf-text's own drag-tool transform
+     (-66.67px up) was only ever checked against a ~1440px viewport. Anywhere narrower than that
+     (down to 821px), pulling it up by that fixed amount runs it straight into the G-Class's
+     wheel arch. Confirmed by scanning the full range in 50-100px steps — clear at 821-950 and
+     at 1440+, colliding everywhere between. Dropping the upward pull in that band only (car and
+     text both keep their approved 1440px+ position untouched). */
+  @media (min-width:951px) and (max-width:1439px){
+    .mf-text{ transform:translate(394.81px, 0); margin-top:calc(2.2rem + 190px); }
+  }
+
+
+  /* monument — big condensed word behind the car; only the letters that physically cross the
+     car's silhouette get an off-white accent (masked to the car's own alpha channel, sampled
+     from the Gauchère "PARISIENNE" reference), everywhere else stays plain dark navy. Car and
+     mask share ONE box (car-stage) so they're pixel-identical by construction — two
+     independently-laid-out boxes drifted a few px at sharp edges in earlier passes and leaked
+     stray colored pixels off the car body. Worked out across several rounds in
+     monument-effect-demo.html (H4). */
+  .monument{ position:relative; margin-top:2rem; padding:2rem 0 5rem; overflow:hidden; }
+  .monument-inner{ position:relative; height:clamp(420px,46vw,620px); display:flex; align-items:center; justify-content:center; }
+  .monument-word{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scaleY(1.22); z-index:1;
+    font-family:var(--display); font-weight:800; text-transform:uppercase; letter-spacing:-0.045em;
+    font-size:clamp(5.5rem,16vw,11.5rem); color:var(--bg-deep); white-space:nowrap; }
+  .monument-car-stage{ position:absolute; top:50%; left:50%;
+    width:min(58%,760px); aspect-ratio:1500/938;
+    transform:translate(-50%, calc(-50% - 18.6%)); z-index:2; }
+  .monument-car-bg{ position:absolute; inset:0;
+    background-image:url(assets/fleet/tesla-model-s-plaid-2023-1500.webp);
+    background-size:100% 100%; background-repeat:no-repeat; }
+  .monument-reveal-mask{ position:absolute; inset:0; z-index:1;
+    -webkit-mask-image:url(assets/fleet/tesla-model-s-plaid-2023-1500.webp);
+    mask-image:url(assets/fleet/tesla-model-s-plaid-2023-1500.webp);
+    -webkit-mask-size:100% 100%; mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    -webkit-mask-mode:alpha; mask-mode:alpha; }
+  .monument-reveal-text{ position:absolute; left:50%; top:calc(50% + 18.6%);
+    transform:translate(-50%,-50%) scaleY(1.22);
+    font-family:var(--display); font-weight:800; text-transform:uppercase; letter-spacing:-0.045em;
+    font-size:clamp(5.5rem,16vw,11.5rem); white-space:nowrap; color:#EDEAE4; }
+  /* margin-top pulled up from 2.5rem to -35.74px (calibrated at the 1440px reference viewport) —
+     .monument-inner's box is a fixed clamp() height with align-items:center, so a lot of empty
+     flex space sits below the actual word/car graphic before its box even ends; the visual gap
+     above this paragraph (graphic's real bottom pixel to text) was ~188px against a fixed ~112px
+     below it (.monument's own padding-bottom + .about-links' margin-top, both untouched), so this
+     pulls the text up into that empty space until the two visual gaps match, without touching
+     anything else in the section. */
+  .monument-cap{ text-align:center; max-width:52ch; margin:-35.74px auto 0; font-size:1.1rem; }
+  @media (max-width:820px){
+    .monument{ padding:1rem 0 3rem; }
+    .monument-inner{ height:clamp(280px,60vw,420px); }
+    .monument-word, .monument-reveal-text{ font-size:clamp(3.4rem,17vw,5.5rem); }
+    /* .monument-cap's -35.74px margin is a desktop-only calibration (pulls it up to sit close to
+       the Est./RS6 block at the 1440px reference) — on every width from 375–820px the RS6 car
+       image's rendered bottom edge sits a constant 63.73px below that pulled-up position, so the
+       paragraph overlaps the car. Reset to a positive margin that clears it (measured constant
+       across the whole range, not viewport-relative, so a flat value holds everywhere here). */
+    .monument-cap{ margin-top:3rem; }
+  }
+
+  /* links — footer content folded into the same continuous white flow (no separate dark footer) */
+  .about-links{ margin-top:2rem; padding-top:2.6rem; border-top:1px solid var(--line);
+    display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:2.5rem; }
+  .about-links h4{ font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint);
+    margin:0 0 1.1rem; font-weight:700; }
+  .about-links a{ display:block; text-decoration:none; color:var(--text-dim); font-size:0.85rem;
+    margin-bottom:0.65rem; transition:color 0.3s ease; }
+  .about-links a:hover{ color:var(--sapphire-bright); }
+  .about-links p{ color:var(--text-faint); font-size:0.85rem; line-height:1.7; max-width:32ch; margin:0.9rem 0 0; }
+  .about-links .wordmark{ color:var(--bg-deep); }
+  .about-links .wordmark em{ color:var(--rose); font-style:normal; }
+  @media (max-width:820px){ .about-links{ grid-template-columns:1fr 1fr; margin-top:1rem; } }
+  @media (max-width:520px){ .about-links{ grid-template-columns:1fr; text-align:center; } }
+
+  .about-legal{ display:flex; justify-content:space-between; align-items:center; margin-top:2.6rem;
+    padding-top:1.4rem; border-top:1px solid var(--line); color:var(--text-faint); font-size:0.75rem;
+    flex-wrap:wrap; gap:1rem; }
+  .about-legal .monogram{ border-color:rgba(27,50,85,0.32); color:var(--sapphire); }
+  .about-legal-links{ display:flex; gap:1.4rem; }
+  .about-legal-links a{ color:var(--text-faint); text-decoration:none; transition:color 0.3s ease; }
+  .about-legal-links a:hover{ color:var(--sapphire-bright); }
+  .about-license{ color:var(--text-faint); font-size:0.85rem; margin:0.9rem 0 0; }
+  .about-license .ph-footer{ color:var(--sapphire-bright); }
+
+  /* navy btn-answer variant used throughout this page */
+  .btn-answer{ display:inline-flex; align-items:center; border:1px solid var(--line-strong); border-radius:999px;
+    padding:0.8rem 3.6rem 0.8rem 1.7rem; color:var(--text); font-size:0.86rem; position:relative;
+    transition:border-color 0.3s ease, transform 0.16s ease-out; }
+  .btn-answer:active{ transform:scale(0.97); }
+  .btn-answer .arrow-circle{ position:absolute; right:-2px; top:50%; transform:translateY(-50%); width:2.9rem; height:2.9rem;
+    border-radius:50%; background:var(--sapphire-bright); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 16px -6px rgba(5,11,20,0.4); transition:background 0.3s ease, transform 0.3s cubic-bezier(.16,1,.3,1); }
+  .btn-answer:hover{ border-color:var(--sapphire-bright); }
+  .btn-answer:hover .arrow-circle{ background:var(--sapphire); transform:translateY(-50%) translateX(3px); }
+  .light-zone .btn-answer{ color:var(--bg-deep); }
+
+  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  @media (max-width:820px){ .nav-links{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="prive-motors.html" class="wordmark" id="navWordmark"><img src="assets/logo/prive-logo.webp" alt="Privé Motors" class="wordmark-logo"></a>
+    <ul class="nav-links">
+      <li><a href="prive-motors.html">Home</a></li>
+      <li><a href="collection.html">Collection</a></li>
+      <li><a href="about.html" class="current">About Us</a></li>
+      <li><a href="prive-motors.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta" id="navCta">Contact Us</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <div class="nav-sheet-scrim" id="navScrim"></div>
+  <div class="nav-sheet-panel" id="navPanel">
+    <a href="prive-motors.html">Home</a>
+    <a href="collection.html">Collection</a>
+    <a href="about.html">About Us</a>
+    <a href="prive-motors.html#faq">FAQ</a>
+    <a href="contact.html" class="btn btn-primary nav-sheet-cta">Contact Us</a>
+  </div>
+</div>
+
+<div class="light-zone" data-nav-theme="light">
+  <header class="hero-block">
+    <div class="hero-title-wrap">
+      <h1 class="hero-title reveal">About Us</h1>
+    </div>
+    <div class="container">
+      <div class="hero-meta reveal reveal-d1">
+        <div>Dubai, UAE</div>
+        <div>The Story</div>
+        <div>Concierge Standard</div>
+      </div>
+      <p class="mf-copy-1-tablet about-copy reveal reveal-d1">At Privé Motors, we are passionate about delivering an unrivaled luxury car rental experience in Dubai.</p>
+      <p class="mf-copy-3-tablet about-copy reveal reveal-d1">Whether you're exploring Dubai, attending a business event, or celebrating a special occasion, our dedicated team is committed to providing a seamless, reliable, and first-class experience from reservation to vehicle return.</p>
+    </div>
+    <div class="mf-block">
+      <div class="mf-grid">
+        <div class="mf-left">
+          <div class="reveal-text-wrap">
+            <p class="mf-copy-1 about-copy reveal-text">At Privé Motors, we are passionate about delivering an unrivaled luxury car rental experience in Dubai.</p>
+          </div>
+          <div class="car-big-wrap reveal-car reveal-car-l">
+            <img src="assets/fleet/mercedes-g63-amg-2023-1500.webp" alt="Mercedes-AMG G63" class="mf-car-big" loading="lazy">
+          </div>
+          <div class="copy3-wrap reveal-text-wrap">
+            <p class="mf-copy-3 about-copy reveal-text">Whether you're exploring Dubai, attending a business event, or celebrating a special occasion, our dedicated team is committed to providing a seamless, reliable, and first-class experience from reservation to vehicle return.</p>
+          </div>
+        </div>
+        <div class="mf-right">
+          <div class="mf-urus-wrap reveal-car reveal-car-r">
+            <img src="assets/fleet/lamborghini-urus-2023-1500.webp" alt="Lamborghini Urus" class="mf-car-urus" loading="lazy">
+          </div>
+          <div class="reveal-text-wrap">
+            <p class="mf-text about-copy reveal-text">Our exclusive fleet showcases some of the world's most prestigious vehicles, including exotic supercars, luxury SUVs, executive sedans, and high-performance sports cars. Every vehicle is selected to meet the highest standards of luxury, performance, and comfort.</p>
+          </div>
+          <div class="mf-est reveal">
+            <span class="mf-est-label">Est.</span>
+            <div class="mf-est-stage">
+              <div class="mf-est-year" aria-hidden="true">2025</div>
+              <div class="car-rs6-wrap reveal-car reveal-car-r">
+                <img src="assets/fleet/audi-rs6-2022-1500.webp" alt="Audi RS6" class="mf-car-rs6" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-text-wrap">
+        <p class="monument-cap about-copy reveal-text">At Privé Motors, luxury is more than transportation — it's a lifestyle. We pride ourselves on exceptional service, attention to detail, and creating unforgettable moments behind the wheel.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="monument" id="contact">
+    <div class="container">
+      <div class="monument-inner reveal">
+        <div class="monument-word">A Lifestyle</div>
+        <div class="monument-car-stage" role="img" aria-label="Tesla Model S Plaid">
+          <div class="monument-car-bg"></div>
+          <div class="monument-reveal-mask"><div class="monument-reveal-text">A Lifestyle</div></div>
+        </div>
+      </div>
+      <div class="mf-tagline-ar reveal-flourish">Dubai's Finest Collection</div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="about-links reveal">
+      <div>
+        <a href="prive-motors.html" class="wordmark">Priv<em>é</em> Motors</a>
+        <p>Dubai's finest collection of sports, executive, and luxury vehicles — delivered with a concierge standard the city expects.</p>
+        <p class="about-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
+      </div>
+      <div><h4>Company</h4><a href="collection.html">The Collection</a><a href="prive-motors.html#proof">Reviews</a><a href="prive-motors.html#features">What's Included</a></div>
+      <div><h4>The Process</h4><a href="prive-motors.html#features">Reserve</a><a href="prive-motors.html#features">Verify</a><a href="prive-motors.html#features">Drive</a></div>
+      <div><h4>Book</h4><a href="collection.html">View the Collection</a><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+    </div>
+    <div class="about-legal">
+      <span>© 2026 Privé Motors. All rights reserved.</span>
+      <div class="about-legal-links"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+      <div class="monogram">PM</div>
+    </div>
+  </div>
+
+  <div class="hero-bleed reveal">
+    <span>Privé Motors</span>
+  </div>
+</div>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // in-page anchor links get their smooth scroll from here instead of the global CSS
+  // scroll-behavior (see the html{} rule for why it isn't set there anymore)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---- custom scrollbar thumb (native OS scrollbars don't respect thin/color styling) ---- */
+  const scrollThumb = document.getElementById('scrollThumb');
+  /* ---- nav: identical spring + material-weight system used sitewide ---- */
+  const nav = document.getElementById('nav');
+  let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
+  let lastScrollY = window.scrollY, lastScrollT = performance.now();
+
+  function springNav(){
+    const dt = 1 / 60;
+    const delta = navTargetY - navY;
+    const accel = delta * 210 - navVel * 26;
+    navVel += accel * dt;
+    navY += navVel * dt;
+    nav.style.transform = `translateY(${navY}px)`;
+    if (Math.abs(delta) > 0.15 || Math.abs(navVel) > 0.15) {
+      navRAF = requestAnimationFrame(springNav);
+    } else {
+      navY = navTargetY;
+      nav.style.transform = `translateY(${navY}px)`;
+      navRAF = null;
+    }
+  }
+  function setNavTarget(y){ navTargetY = y; if (!navRAF) navRAF = requestAnimationFrame(springNav); }
+
+  // nav text flips dark whenever a light section sits behind it
+  const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
+  const navProbeY = 30;
+  function updateNavTheme(){
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+    nav.classList.toggle('on-light', onLight);
+  }
+
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
+     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
+     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
+     back-to-back on every native scroll event, the second listener's geometry read
+     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
+     right after the first listener's style write — layout thrashing on every scroll tick,
+     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
+     geometry READ done before any style WRITE, lets the browser batch it into one recalc
+     per frame instead of several per raw scroll event. */
+  let smoothedVel = 0;
+  let scrollRAF = null;
+  function scrollTick(){
+    scrollRAF = null;
+
+    // ---- reads ----
+    const y = window.scrollY;
+    const t = performance.now();
+    const doc = document.documentElement;
+    const trackHeight = doc.clientHeight;
+    const docScrollHeight = doc.scrollHeight;
+    const docScrollTop = doc.scrollTop;
+    let onLight = false;
+    lightSections.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
+    });
+
+    // ---- compute ----
+    const dt = Math.max(1, t - lastScrollT);
+    const rawVelocity = (y - lastScrollY) / dt;
+    lastScrollY = y; lastScrollT = t;
+    smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
+    const velocity = smoothedVel;
+    const scrollable = docScrollHeight - trackHeight;
+    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
+    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+
+    // ---- writes ----
+    scrollThumb.style.height = thumbHeight + 'px';
+    scrollThumb.style.top = thumbTop + 'px';
+    nav.classList.toggle('on-light', onLight);
+
+    if (reduceMotion) return;
+    if (y < 120) { setNavTarget(0); return; }
+    if (velocity > 0.35) setNavTarget(-110);
+    else if (velocity < -0.15) setNavTarget(0);
+  }
+  function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
+  window.addEventListener('scroll', requestScrollTick, { passive: true });
+  window.addEventListener('resize', scrollTick);
+  scrollTick();
+
+  const navToggle = document.getElementById('navToggle');
+  const navSheet = document.getElementById('navSheet');
+  const navScrim = document.getElementById('navScrim');
+  function openSheet(){ navSheet.classList.add('open'); requestAnimationFrame(() => navSheet.classList.add('in')); navToggle.setAttribute('aria-expanded', 'true'); document.body.classList.add('locked'); }
+  function closeSheet(){ navSheet.classList.remove('in'); navToggle.setAttribute('aria-expanded', 'false'); document.body.classList.remove('locked'); setTimeout(() => navSheet.classList.remove('open'), reduceMotion ? 0 : 400); }
+  navToggle.addEventListener('click', () => { navSheet.classList.contains('in') ? closeSheet() : openSheet(); });
+  navScrim.addEventListener('click', closeSheet);
+  navSheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSheet));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  /* reveal — fire-once fade-up (.reveal), plus the car slide-in (.reveal-car), text wipe-up
+     (.reveal-text), and flourish scale-in (.reveal-flourish) variants — same observer, same
+     fire-once toggle, just a wider selector. Observes everything unconditionally on load, same
+     as every other page on the site — an already-visible element fires its transition almost
+     immediately, which is exactly what makes above-the-fold content appear on arrival instead
+     of staying blank until the user's first scroll. */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .reveal-car, .reveal-text-wrap, .reveal-flourish').forEach(el => io.observe(el));
+
+  /* stat count-up — new, guarded against reduced motion */
+  const statEls = document.querySelectorAll('.stat-count');
+  if (statEls.length) {
+    const statIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        statIO.unobserve(el);
+        if (reduceMotion || target === 0) { el.textContent = target; return; }
+        const start = performance.now();
+        const dur = 800;
+        function step(t){
+          const p = Math.min(1, (t - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(el => statIO.observe(el));
+  }
+</script>
+
+</body>
+</html>
