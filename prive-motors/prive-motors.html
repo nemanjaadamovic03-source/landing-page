@@ -1253,8 +1253,8 @@
     // video can finish before this bottom-of-body script attaches a listener, and a missed
     // one-time event never fires again, leaving the video invisible forever). Check the
     // current state first instead of assuming the event is still ahead of us.
-    if (heroVideo.readyState >= 3) heroVideo.classList.add('ready');
-    else heroVideo.addEventListener('canplay', () => heroVideo.classList.add('ready'), { once:true });
+    if (heroVideo.readyState >= 4) heroVideo.classList.add('ready');
+    else heroVideo.addEventListener('canplaythrough', () => heroVideo.classList.add('ready'), { once:true });
     heroVideo.play().catch(unlock);
     setTimeout(unlock, 600);
   }
@@ -1436,8 +1436,8 @@
   } else {
     const ethosVideo = document.getElementById('ethosVideo');
     const ethosVideoB = document.getElementById('ethosVideoB');
-    if (ethosVideo.readyState >= 3) ethosVideo.classList.add('ready');
-    else ethosVideo.addEventListener('canplay', () => ethosVideo.classList.add('ready'), { once:true });
+    if (ethosVideo.readyState >= 4) ethosVideo.classList.add('ready');
+    else ethosVideo.addEventListener('canplaythrough', () => ethosVideo.classList.add('ready'), { once:true });
     ethosVideo.play().catch(() => {});
 
     // native `loop` restart hitches on this clip regardless of keyframe spacing — instead,

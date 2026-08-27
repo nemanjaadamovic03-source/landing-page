@@ -667,8 +667,8 @@
   if (reduceMotion) {
     contactHero.classList.add('reduced');
   } else {
-    if (contactVideo.readyState >= 3) contactVideo.classList.add('ready');
-    else contactVideo.addEventListener('canplay', () => contactVideo.classList.add('ready'), { once:true });
+    if (contactVideo.readyState >= 4) contactVideo.classList.add('ready');
+    else contactVideo.addEventListener('canplaythrough', () => contactVideo.classList.add('ready'), { once:true });
     contactVideo.play().catch(() => {});
   }
 
