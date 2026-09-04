@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privé Motors — Dubai's Finest Collection</title>
+<meta name="theme-color" content="#050B14">
+<title>Privé Motors | Dubai's Finest Collection</title>
 <meta name="description" content="Dubai's finest collection of sports, executive, and luxury rental cars — delivered with a concierge standard, any hour.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -37,22 +38,20 @@
   [tabindex]:focus-visible{ outline:2px solid var(--rose); outline-offset:3px; border-radius:2px; }
   /* native OS scrollbars (esp. Windows Fluent) ignore width/track-color CSS and add arrow
      buttons — hidden entirely in favor of a custom floating thumb built below */
-  /* scroll-behavior:smooth deliberately NOT set here — at the html level it hijacks every
-     scroll input (wheel/trackpad included, not just anchor jumps), and rapid successive
-     scroll events each queue their own smooth-scroll animation that Chrome doesn't always
-     merge cleanly, producing exactly the stutter/rubber-band feel this was meant to fix.
-     In-page anchor links get their smooth scroll from JS instead (scrollIntoView, scoped to
-     click only), so section jumps still animate but raw wheel/trackpad scrolling is instant
-     and un-hijacked. */
+  /* Native scroll. CSS `scroll-behavior:smooth` is intentionally NOT set at the html level —
+     it only animates programmatic jumps yet makes keyboard/scrollbar scrolling feel laggy.
+     A small wheel-smoother (bottom of the page) eases just the chunky Windows mouse-wheel
+     step; it snaps every frame to an INTEGER scrollY so hairline borders never sub-pixel
+     shimmer. Anchor jumps use scrollIntoView. */
   html{ overflow-y:scroll; overflow-x:hidden;
-    scrollbar-width:none; }
+    scrollbar-width:none; font-size:75%; }
   html::-webkit-scrollbar{ display:none; width:0; height:0; }
   body{
     margin:0; background:var(--bg); color:var(--text);
     font-family:var(--sans); -webkit-font-smoothing:antialiased;
   }
   .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
-  .custom-scrollbar-thumb{ position:absolute; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; }
+  .custom-scrollbar-thumb{ position:absolute; top:0; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; will-change:transform; }
   ::selection{ background:var(--rose); color:var(--bg-deep); }
   img{ max-width:100%; display:block; }
   .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
@@ -76,7 +75,7 @@
     letter-spacing:0.01em; text-transform:none;
   }
 
-  .container{ max-width:1360px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
+  .container{ max-width:85rem; margin:0 auto; padding:0 clamp(1.5rem,4vw,4.5rem); }
 
   a{ color:inherit; }
 
@@ -102,7 +101,7 @@
      it just no longer has any background/blur material to interpolate). */
   nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:1.6rem clamp(1.5rem,4vw,4.5rem);
     will-change:transform; }
-  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:1360px; margin:0 auto; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; max-width:85rem; margin:0 auto; }
   .wordmark{ display:inline-block; text-decoration:none; transition:opacity 0.15s ease; }
   .wordmark-logo{ height:2.4rem; width:auto; display:block; }
   .nav-links{ display:flex; gap:2.4rem; list-style:none; margin:0; padding:0; }
@@ -140,7 +139,8 @@
   nav.on-light .nav-toggle span{ background:var(--bg-deep); }
 
   @media (max-width:820px){
-    nav{ padding:1.2rem 1.3rem; }
+    nav{ padding:1.2rem 1.6rem; }
+    .wordmark-logo{ height:2rem; }
     .nav-links{ display:none; }
     .nav-cta{ display:none; }
     .nav-toggle{ display:block; }
@@ -149,21 +149,41 @@
   /* mobile sheet — anchored to the toggle, dims and pushes the page back (apple-design §7, §12) */
   .nav-sheet{ position:fixed; inset:0; z-index:99; display:none; }
   .nav-sheet.open{ display:block; }
-  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.6); opacity:0; transition:opacity 0.35s ease; }
+  .nav-sheet-scrim{ position:absolute; inset:0; background:rgba(5,11,20,0.55); opacity:0; transition:opacity 0.35s ease; }
   .nav-sheet.in .nav-sheet-scrim{ opacity:1; }
-  .nav-sheet-panel{ position:absolute; top:5.2rem; right:1.2rem; left:1.2rem; z-index:1;
-    background:rgba(16,31,56,0.86); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
-    border:1px solid rgba(242,230,215,0.16); border-radius:20px; padding:0.75rem;
-    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
-    display:flex; flex-direction:column;
-    transform-origin:top right; /* springs open from the hamburger, not the center */
-    transform:scale(0.92) translateY(-8px); opacity:0;
-    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.25s ease; }
-  .nav-sheet.in .nav-sheet-panel{ transform:scale(1) translateY(0); opacity:1; }
-  .nav-sheet-panel a{ text-decoration:none; color:var(--text-dim); font-size:0.95rem; padding:0.9rem 0.9rem;
-    border-radius:12px; transition:background-color 0.2s ease, color 0.2s ease; }
-  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ background:rgba(242,230,215,0.06); color:var(--text); }
-  .nav-sheet-cta{ margin-top:0.4rem; justify-content:center; }
+  /* right-side drawer — frosted glass, sized to its content (not full-screen), slides in
+     from the screen edge and floats below the nav bar */
+  .nav-sheet-panel{ position:absolute; top:5.2rem; right:0; z-index:1; width:min(87vw,360px);
+    max-height:calc(100vh - 6.8rem);
+    background:rgba(10,22,40,0.72); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%);
+    border:1px solid rgba(242,230,215,0.12); border-right:none; border-radius:20px 0 0 20px;
+    box-shadow:0 30px 60px -15px rgba(0,0,0,0.5), -20px 0 40px -20px rgba(0,0,0,0.35);
+    padding:1.5rem 1.6rem 1.6rem;
+    display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    transform:translateX(100%);
+    transition:transform 0.4s cubic-bezier(.16,1,.3,1); }
+  .nav-sheet.in .nav-sheet-panel{ transform:translateX(0); }
+  .nav-sheet-panel a{ text-decoration:none; color:var(--text); font-family:var(--sans);
+    text-transform:uppercase; letter-spacing:0.13em; font-size:0.92rem; font-weight:500;
+    padding:1.15rem 0.25rem; border-bottom:1px solid var(--line);
+    transition:color 0.2s ease, padding-left 0.2s ease; }
+  .nav-sheet-panel a:hover, .nav-sheet-panel a:active{ color:var(--rose); padding-left:0.6rem; }
+  .nav-sheet-panel a.current{ color:var(--rose); }
+  .nav-sheet-panel .nav-sheet-cta{ margin-top:1.4rem; border-bottom:none; text-align:center; justify-content:center;
+    background:var(--rose); color:#1A130D; border-radius:12px; padding:1rem;
+    font-weight:700; letter-spacing:0.09em; text-transform:uppercase; }
+  .nav-sheet-panel .nav-sheet-cta:hover, .nav-sheet-panel .nav-sheet-cta:active{ background:var(--rose-bright); color:#1A130D; padding-left:1rem; }
+  nav.on-light + .nav-sheet .nav-sheet-scrim{ background:rgba(5,11,20,0.32); }
+  nav.on-light + .nav-sheet .nav-sheet-panel{ background:rgba(255,255,255,0.72);
+    border-color:rgba(5,11,20,0.10); box-shadow:0 30px 60px -15px rgba(5,11,20,0.22), -20px 0 40px -20px rgba(5,11,20,0.14); }
+  nav.on-light + .nav-sheet .nav-sheet-panel a{ color:var(--bg-deep); border-bottom-color:rgba(5,11,20,0.08); }
+  nav.on-light + .nav-sheet .nav-sheet-panel a:hover, nav.on-light + .nav-sheet .nav-sheet-panel a.current{ color:var(--rose-deep); }
+  @media (max-width:820px){ body.locked #nav .wordmark{ opacity:0; pointer-events:none; transition:opacity 0.2s ease; } }
+  @media (prefers-reduced-motion:reduce){ .nav-sheet-panel, .nav-sheet-scrim{ transition:none; } }
+  @media (min-width:821px){ .nav-sheet{ display:none !important; } }
+  nav.on-light + .nav-sheet .nav-sheet-panel a:hover, nav.on-light + .nav-sheet .nav-sheet-panel a.current{ color:var(--rose-deep); }
+  @media (max-width:820px){ body.locked #nav .wordmark{ opacity:0; pointer-events:none; transition:opacity 0.2s ease; } }
+  @media (prefers-reduced-motion:reduce){ .nav-sheet-panel, .nav-sheet-scrim{ transition:none; } }
   @media (min-width:821px){ .nav-sheet{ display:none !important; } }
 
   /* hero — video fills the full screen, no overlay copy */
@@ -180,6 +200,14 @@
     backface-visibility:hidden; will-change:transform; }
   .hero-video-wrap video.ready{ opacity:1; }
   .hero-video-wrap .grain{ z-index:2; opacity:0.05; }
+  /* phone hero: the 1:1 square video (hero-phone-1080p.mp4). Desktop keeps the 16:9 #heroVideo;
+     on phone the hero section itself becomes a 1:1 frame and this square clip fills it exactly. */
+  #heroVideoPhone{ display:none; }
+  @media (max-width:820px){
+    .hero{ height:auto; aspect-ratio:1/1; }
+    #heroVideo{ display:none; }
+    #heroVideoPhone{ display:block; }
+  }
 
   .hero-scrim{ position:absolute; inset:0; z-index:3; pointer-events:none;
     background:linear-gradient(180deg, rgba(5,11,20,0) 42%, rgba(5,11,20,0.55) 74%, rgba(5,11,20,0.92) 100%); }
@@ -232,9 +260,14 @@
   .btn-answer:hover .arrow-circle{ background:var(--rose-bright); transform:translateY(-50%) translateX(3px); }
   .discovery-divider{ height:1px; background:var(--line); margin:0 clamp(1.5rem,4vw,4.5rem); }
 
+  .brand-strip-hint{ display:none; }
+  .brand-strip-outer{ position:relative; }
   .brand-strip-wrap{ overflow:hidden;
     -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  /* phone-only scroll arrows — sit on .brand-strip-outer (unmasked), not .brand-strip-wrap
+     itself, so they aren't faded out by its edge mask */
+  .brand-strip-nav{ display:none; }
   .brand-strip{ display:flex; gap:clamp(1.2rem,2.4vw,2rem); width:max-content; padding:0 clamp(1.5rem,4vw,4.5rem);
     animation:brandScroll 32s linear infinite; }
   .brand-strip-wrap:hover .brand-strip{ animation-play-state:paused; }
@@ -248,6 +281,25 @@
   .brand-strip a img[alt="Porsche"]{ max-width:98%; max-height:94%; }
   .brand-strip a img[alt="Mercedes-Benz"]{ max-width:88%; max-height:88%; }
   @keyframes brandScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  /* phone: no auto-marquee — the row is hand-scrolled so a marque can actually be tapped.
+     Drop the duplicate loop copies; keep the edge-fade mask (reads as "more to the right"). */
+  @media (max-width:820px){
+    .brand-strip-wrap{ overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    .brand-strip-wrap::-webkit-scrollbar{ display:none; }
+    .brand-strip{ animation:none; }
+    .brand-strip a.brand-dupe{ display:none; }
+    .marque-copy{ display:none; }
+    .brand-strip-hint{ display:block; font-size:0.9rem; line-height:1.5; color:var(--text-dim); margin:0.5rem auto 2rem; }
+    .brand-strip-nav{ display:flex; align-items:center; justify-content:center;
+      position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+      width:2.1rem; height:2.1rem; border-radius:50%; border:1px solid var(--line-strong);
+      background:rgba(255,255,255,0.92); color:var(--bg-deep); padding:0; cursor:pointer;
+      box-shadow:0 6px 16px -8px rgba(5,11,20,0.28); -webkit-tap-highlight-color:transparent;
+      transition:background-color 0.2s ease; }
+    .brand-strip-nav:active{ background-color:rgba(212,175,140,0.25); }
+    .brand-strip-prev{ left:0.5rem; }
+    .brand-strip-next{ right:0.5rem; }
+  }
 
   /* sections */
   .section{ padding:7.5rem 0; }
@@ -398,11 +450,13 @@
   /* ethos — AVATR-style scroll section: pinned viewport, headline swaps as a segmented line-progress bar fills,
      ambient gradient shifts mood per step. rAF-throttled scroll handler; prefers-reduced-motion gets a static
      stacked fallback (no pin, no scroll-jack) via .ethos.reduced below. */
-  .ethos{ position:relative; height:400vh; background:var(--bg-deep); }
+  /* always-visible photo fallback (same reasoning as .hero above) — if the video is blocked
+     (e.g. iOS Low Power Mode), this shows instead of a flat gradient */
+  .ethos{ position:relative; height:400vh; background:var(--bg-deep) url('assets/video/ethos-poster.jpg') center/cover no-repeat; }
   .ethos-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; align-items:center; }
   .ethos-video-wrap{ position:absolute; inset:0; z-index:0; overflow:hidden; }
   .ethos-video-wrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
-    filter:saturate(0.82) brightness(0.88); transition:opacity 1.2s ease; }
+    transition:opacity 1.2s ease; }
   .ethos-video-wrap video.ready{ opacity:1; }
   .ethos-bg{ position:absolute; inset:0; z-index:1; transition:background 900ms ease;
     background:radial-gradient(ellipse at 78% 32%, rgba(212,175,140,0.22) 0%, transparent 58%),
@@ -410,7 +464,7 @@
   .ethos-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none;
     background:linear-gradient(90deg, rgba(5,11,20,0.88) 0%, rgba(5,11,20,0.6) 40%, rgba(5,11,20,0.12) 70%, rgba(5,11,20,0.3) 100%),
                 linear-gradient(180deg, rgba(5,11,20,0) 68%, rgba(5,11,20,0.78) 100%); }
-  .ethos-inner{ position:relative; z-index:2; max-width:760px; padding:0 clamp(1.5rem,4vw,4.5rem); font-family:'Inter', var(--sans); }
+  .ethos-inner{ position:relative; z-index:2; max-width:47.5rem; padding:0 clamp(1.5rem,4vw,4.5rem); font-family:'Inter', var(--sans); }
   .ethos-eyebrow{ font-family:'Inter', var(--sans); font-size:0.72rem; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--rose); }
   .ethos-headline{ font-family:'Inter', var(--sans); font-weight:300; letter-spacing:-0.01em;
     font-size:clamp(2rem,4.6vw,3.6rem); line-height:1.12; color:var(--text); margin:1.2rem 0 1.4rem;
@@ -421,7 +475,7 @@
     display:flex; gap:clamp(1.2rem,3vw,2.6rem); padding:0 clamp(1.5rem,4vw,4.5rem) clamp(1.6rem,3vw,2.4rem); }
   .ethos-step{ flex:1; min-width:0; }
   .ethos-step-line{ position:relative; height:2px; background:rgba(242,230,215,0.16); margin-bottom:0.75rem; overflow:hidden; }
-  .ethos-step-fill{ position:absolute; inset:0; width:0%; background:var(--rose); }
+  .ethos-step-fill{ position:absolute; inset:0; width:100%; background:var(--rose); transform:scaleX(0); transform-origin:left; will-change:transform; }
   .ethos-step-label{ font-family:'Inter', var(--sans); font-size:0.68rem; font-weight:500; letter-spacing:0.09em;
     text-transform:uppercase; color:var(--text-faint); transition:color 0.3s ease; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ethos-step.active .ethos-step-label{ color:var(--text); }
@@ -435,7 +489,7 @@
   .ethos.reduced .ethos-video-wrap{ display:none; }
   .ethos-stack{ display:none; }
   .ethos.reduced .ethos-stack{ display:block; position:relative; z-index:1; padding:0 clamp(1.5rem,4vw,4.5rem); }
-  .ethos-stack-item{ max-width:760px; margin:0 0 3.5rem; padding-bottom:3rem; border-bottom:1px solid rgba(242,230,215,0.1); font-family:'Inter', var(--sans); }
+  .ethos-stack-item{ max-width:47.5rem; margin:0 0 3.5rem; padding-bottom:3rem; border-bottom:1px solid rgba(242,230,215,0.1); font-family:'Inter', var(--sans); }
   .ethos-stack-item:last-child{ border-bottom:none; margin-bottom:0; }
   .ethos-stack-item .num{ font-family:'Inter', var(--sans); font-size:0.72rem; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--rose); display:block; margin-bottom:1rem; }
   .ethos-stack-item h3{ font-family:'Inter', var(--sans); font-weight:300; letter-spacing:-0.01em; font-size:clamp(1.6rem,3.4vw,2.4rem); line-height:1.15; margin:0 0 1rem; text-transform:none; }
@@ -455,7 +509,7 @@
   #proof{ background:#ffffff;
     --navy:#050B14; --navy-2:#0D1826; --gold:#A9723C; --gold-bright:#C9955E; --gold-pale:#E8CBA8;
     --proof-text:#0A1628; --proof-text-dim:#4A5461; --proof-text-faint:#8A93A0; --cream:#F7F2EA; }
-  #proof .proof-container{ max-width:1160px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4rem); }
+  #proof .proof-container{ max-width:72.5rem; margin:0 auto; padding:0 clamp(1.5rem,4vw,4rem); }
   #proof .p-head{ text-align:center; margin-bottom:2.8rem; }
   #proof .p-eyebrow{ font-family:var(--display); font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
   #proof .p-eyebrow.eyebrow-ar{ font-family:'Safaniah', var(--display); font-size:1.5rem; font-weight:400; letter-spacing:0.01em; text-transform:none; }
@@ -507,6 +561,14 @@
     border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center;
     box-shadow:0 10px 22px -8px rgba(169,114,60,0.5); transition:background 300ms ease, transform 300ms cubic-bezier(.34,1.56,.64,1); }
   #proof .cta-b:hover .arrow-circle{ background:var(--gold-bright); transform:translateY(-50%) translateX(5px) rotate(-8deg); }
+  /* phone-only tweaks — kept separate from the verbatim Stepout port above, not folded in.
+     (1) drop the small icons — they clutter the stacked cards on a narrow screen.
+     (2) hero card caption: the port right-aligns + margin-left:auto's it so it floats to the
+         right of the giant "24+"; on phone put it plainly below the number. */
+  @media (max-width:820px){
+    #proof .bicon{ display:none; }
+    #proof .bcard.bhero .bcap{ text-align:left; margin-left:0; max-width:none; }
+  }
 
   /* features — dark ambient (matches Ethos gradient), concierge + process */
   #features{ position:relative; overflow:hidden; background:radial-gradient(ellipse at 24% 38%, rgba(212,175,140,0.14) 0%, transparent 55%),
@@ -555,7 +617,7 @@
   #faq .eyebrow{ color:var(--rose-deep); }
   #faq .section-head p{ color:var(--text-dim); max-width:36ch; }
 
-  .faq-list{ max-width:860px; margin:3rem auto 0; border-top:1px solid var(--faq-line); }
+  .faq-list{ max-width:53.75rem; margin:3rem auto 0; border-top:1px solid var(--faq-line); }
   .faq-item{ border-bottom:1px solid var(--faq-line); }
   .faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
     background:none; border:0; margin:0; padding:1.6rem 0.2rem; cursor:pointer; text-align:left;
@@ -601,7 +663,11 @@
   .footer-legal a:hover{ color:var(--rose); }
   .footer-license{ color:var(--text-faint); font-size:0.8rem; margin-top:0.5rem; }
   .ph-footer{ color:var(--rose-deep); }
-  .monogram{ width:2.5rem; height:2.5rem; border:1px solid rgba(212,175,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:600; color:var(--rose); font-size:0.85rem; }
+  /* small brand mark (was a plain "PM" text monogram) — a pill rather than a circle since the
+     real logo is a wide lockup, not a square glyph; border uses --line-strong so it auto-adapts
+     light/dark exactly like every other hairline on the page, no manual per-page override needed */
+  .monogram{ height:2.3rem; padding:0 0.9rem; border:1px solid var(--line-strong); border-radius:999px; display:flex; align-items:center; justify-content:center; }
+  .monogram img{ height:55%; width:auto; display:block; }
   @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } .nav-links{ display:none; } }
 </style>
 </head>
@@ -644,6 +710,9 @@
     <video id="heroVideo" muted playsinline preload="auto" poster="assets/video/hero-poster.jpg">
       <source src="assets/video/hero-final.mp4" type="video/mp4">
     </video>
+    <video id="heroVideoPhone" muted playsinline preload="none" poster="assets/video/hero-poster.jpg">
+      <source src="assets/video/hero-phone-1080p.mp4" type="video/mp4">
+    </video>
     <div class="grain"></div>
   </div>
   <div class="hero-scrim"></div>
@@ -658,10 +727,19 @@
     <div class="container">
       <div class="eyebrow eyebrow-ar reveal">The Collection</div>
       <h2 class="reveal reveal-d1">You already know the one.</h2>
-      <p class="reveal reveal-d1">Choose your marque. See what's available tonight.</p>
+      <p class="marque-copy reveal reveal-d1">Choose your marque. See what's available tonight.</p>
+      <p class="brand-strip-hint reveal reveal-d1">Drag or scroll to choose your marque.<br>See what's available today.</p>
     </div>
-    <div class="brand-strip-wrap reveal reveal-d2">
-      <div class="brand-strip" id="brandStrip"></div>
+    <div class="brand-strip-outer reveal reveal-d2">
+      <div class="brand-strip-wrap">
+        <div class="brand-strip" id="brandStrip"></div>
+      </div>
+      <button class="brand-strip-nav brand-strip-prev" id="brandStripPrev" aria-label="Scroll marques left" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="brand-strip-nav brand-strip-next" id="brandStripNext" aria-label="Scroll marques right" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
 
@@ -803,10 +881,10 @@
   <div class="ethos-sticky">
     <div class="grain" style="z-index:2;"></div>
     <div class="ethos-video-wrap">
-      <video id="ethosVideo" muted playsinline preload="auto">
+      <video id="ethosVideo" muted playsinline preload="auto" poster="assets/video/ethos-poster.jpg">
         <source src="assets/video/ethos-loop.mp4" type="video/mp4">
       </video>
-      <video id="ethosVideoB" muted playsinline preload="auto">
+      <video id="ethosVideoB" muted playsinline preload="auto" poster="assets/video/ethos-poster.jpg">
         <source src="assets/video/ethos-loop.mp4" type="video/mp4">
       </video>
     </div>
@@ -880,7 +958,7 @@
         <div class="eyebrow eyebrow-ar">The Difference</div>
         <h2>Elsewhere in Dubai. Here, instead.</h2>
       </div>
-      <a href="https://wa.me/971400000000" class="btn btn-answer reveal reveal-d1">Message us
+      <a href="https://wa.me/4915215407397" class="btn btn-answer reveal reveal-d1">Message us
         <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
     </div>
@@ -1142,7 +1220,7 @@
     <h2 class="reveal reveal-d1">Your next drive is a call away.</h2>
     <p class="reveal reveal-d2">Contact our concierge on WhatsApp — the same line, day or night.</p>
     <div class="hero-actions cta-actions reveal reveal-d3" style="justify-content:center;">
-      <a href="https://wa.me/971400000000" class="btn btn-answer">Contact us
+      <a href="https://wa.me/4915215407397" class="btn btn-answer">Contact us
         <span class="arrow-circle"><svg width="13" height="13" viewBox="0 0 16 10" fill="none"><path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="#1A130D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
       <a href="collection.html" class="btn btn-answer">Rent a Car
@@ -1163,13 +1241,13 @@
         <p class="footer-license">Trade License No. <span class="ph-footer">[XXXXXXX]</span></p>
       </div>
       <div class="footer-col"><h3>Company</h3><a href="about.html">About Us</a><a href="#fleet">The Fleet</a><a href="#proof">Reviews</a><a href="#features">What's Included</a></div>
-      <div class="footer-col"><h3>Contact</h3><a href="tel:+971400000000">+971 4 000 0000</a><a href="mailto:concierge@privemotors.ae">concierge@privemotors.ae</a><span class="static">Downtown Dubai, UAE</span></div>
-      <div class="footer-col"><h3>Book</h3><a href="https://wa.me/971400000000">Message on WhatsApp</a></div>
+      <div class="footer-col"><h3>Contact</h3><a href="https://wa.me/4915215407397">+49 1521 5407397</a><a href="mailto:info@prive-motors.com">info@prive-motors.com</a><span class="static">Dubai</span></div>
+      <div class="footer-col"><h3>Book</h3><a href="https://wa.me/4915215407397">Message on WhatsApp</a><a href="https://www.instagram.com/privemotorsdubai/" target="_blank" rel="noopener">Instagram</a></div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Privé Motors. All rights reserved.</span>
       <div class="footer-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
-      <div class="monogram">PM</div>
+      <div class="monogram"><img src="assets/logo/prive-logo.webp" alt="Privé Motors"></div>
     </div>
   </div>
 </footer>
@@ -1183,12 +1261,29 @@
   // clean-URL redirect) can rewrite/redirect a path and silently drop the query string;
   // a hash is never sent to the server, so it always survives the navigation.
   if (brandStrip) {
-    [...BRANDS, ...BRANDS].forEach((b) => {
-      const a = document.createElement('a');
-      a.href = `collection.html#brand=${encodeURIComponent(b.toLowerCase().replace(/\s+/g, '-'))}`;
-      a.innerHTML = `<img src="${BRAND_LOGOS_HOME[b]}" alt="${b}">`;
-      brandStrip.appendChild(a);
+    // two passes: the first is the real set, the second (.brand-dupe) only exists so the
+    // desktop translateX(-50%) marquee loops seamlessly. On phone the marquee is off and
+    // the strip is hand-scrolled, so CSS hides the .brand-dupe copies.
+    [[false], [true]].forEach(([isDupe]) => {
+      BRANDS.forEach((b) => {
+        const a = document.createElement('a');
+        if (isDupe) a.className = 'brand-dupe';
+        a.href = `collection.html#brand=${encodeURIComponent(b.toLowerCase().replace(/\s+/g, '-'))}`;
+        a.innerHTML = `<img src="${BRAND_LOGOS_HOME[b]}" alt="${b}">`;
+        brandStrip.appendChild(a);
+      });
     });
+  }
+
+  // phone-only prev/next arrows for the hand-scrolled brand strip (desktop hides them, keeps
+  // the auto-marquee) — just nudge the existing scroll container, no separate mobile-only path
+  const brandStripWrap = document.querySelector('.brand-strip-wrap');
+  const brandStripPrev = document.getElementById('brandStripPrev');
+  const brandStripNext = document.getElementById('brandStripNext');
+  if (brandStripWrap && brandStripPrev && brandStripNext) {
+    const brandStripScrollBy = (dir) => brandStripWrap.scrollBy({ left: dir * brandStripWrap.clientWidth * 0.7, behavior: 'smooth' });
+    brandStripPrev.addEventListener('click', () => brandStripScrollBy(-1));
+    brandStripNext.addEventListener('click', () => brandStripScrollBy(1));
   }
 
   // features — "The Process" rail advances on its own (Reserve -> Verify -> Delivery -> Drive -> loop),
@@ -1220,12 +1315,18 @@
       procObserver.observe(document.querySelector('.proc-rail'));
     }
   }
-  const heroVideo = document.getElementById('heroVideo');
+  // phone gets the 1:1 clip (#heroVideoPhone, preload="none" so desktop never fetches it);
+  // desktop keeps the 16:9 #heroVideo. Same ready/play logic below runs on whichever is live.
+  const heroVideoPhone = document.getElementById('heroVideoPhone');
+  const heroVideo = (heroVideoPhone && window.matchMedia('(max-width:820px)').matches)
+    ? heroVideoPhone
+    : document.getElementById('heroVideo');
+  if (heroVideo === heroVideoPhone) heroVideo.load();
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const scrollThumb = document.getElementById('scrollThumb');
 
   // in-page anchor links (nav "FAQ", hero "Our Why", footer section links) get their smooth
-  // scroll from here instead of the global CSS scroll-behavior — see the html{} rule for why
+  // scroll from JS — the wheel-smoother below is cancelled first so the two don't fight
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -1234,10 +1335,21 @@
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
+    if (window.__cancelWheelGlide) window.__cancelWheelGlide();
     target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   });
 
-  function unlock(){ document.body.classList.remove('locked'); }
+  function unlock(){
+    document.body.classList.remove('locked');
+    // page loaded with a deep-link hash (e.g. FAQ nav link from another page) — the hero
+    // lock above holds the body at overflow:hidden through initial load, so the browser's
+    // own native scroll-to-anchor fires while scrolling is still blocked and silently does
+    // nothing, leaving the visitor stuck on the hero. Retry it now that scrolling is unlocked.
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }
 
   if (reduceMotion || !heroVideo.canPlayType('video/mp4')) {
     // no video playback here by design (respects reduced-motion, or the browser can't play
@@ -1291,51 +1403,54 @@
   const lightSections = document.querySelectorAll('[data-nav-theme="light"]');
   const navProbeY = 30; // roughly the vertical center of the nav bar
 
-  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb) ----
-     Previously the scrollbar thumb and the nav theme/spring logic were two separate,
-     un-throttled 'scroll' listeners, each doing its own read-then-write. Because they ran
-     back-to-back on every native scroll event, the second listener's geometry read
-     (getBoundingClientRect on the light sections) forced a synchronous layout recalculation
-     right after the first listener's style write — layout thrashing on every scroll tick,
-     which is what caused the stutter. Merging them into one rAF-throttled tick, with every
-     geometry READ done before any style WRITE, lets the browser batch it into one recalc
-     per frame instead of several per raw scroll event. */
+  /* ---- single batched scroll tick (nav theme/spring + scrollbar thumb + #ethos scrub) ----
+     Everything geometric is measured ONCE (measureScroll, re-run on resize/load) and cached.
+     The per-frame tick then does pure arithmetic on window.scrollY + cached bounds — no
+     getBoundingClientRect, no scrollHeight read, so it can't force a synchronous layout.
+     The one write is `transform: translateY()` on the thumb (compositor, not layout). */
   let smoothedVel = 0;
   let scrollRAF = null;
+  let ethosScrollHook = null;       // set by the #ethos scrub once its section initialises
+  let ethosMeasureHook = null;      // its re-measure fn, called from measureScroll
+  let lightBounds = [], cachedMax = 0, cachedTrack = 0, cachedThumbH = 0;
+
+  function measureScroll(){
+    const doc = document.documentElement;
+    cachedTrack = doc.clientHeight;
+    cachedMax = Math.max(0, doc.scrollHeight - cachedTrack);
+    cachedThumbH = Math.max(40, cachedTrack * (cachedTrack / doc.scrollHeight));
+    scrollThumb.style.height = cachedThumbH + 'px';
+    const sy = window.scrollY;
+    lightBounds = [...lightSections].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { top: r.top + sy, bottom: r.bottom + sy };
+    });
+    if (ethosMeasureHook) ethosMeasureHook();
+  }
+
   function scrollTick(){
     scrollRAF = null;
-
-    // ---- reads ----
     const y = window.scrollY;
     const t = performance.now();
-    const doc = document.documentElement;
-    const trackHeight = doc.clientHeight;
-    const docScrollHeight = doc.scrollHeight;
-    const docScrollTop = doc.scrollTop;
+    const probe = y + navProbeY;
     let onLight = false;
-    lightSections.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top <= navProbeY && r.bottom >= navProbeY) onLight = true;
-    });
+    for (let i = 0; i < lightBounds.length; i++){
+      if (probe >= lightBounds[i].top && probe <= lightBounds[i].bottom){ onLight = true; break; }
+    }
 
-    // ---- compute ----
     const dt = Math.max(1, t - lastScrollT);
     const rawVelocity = (y - lastScrollY) / dt; // px/ms
     lastScrollY = y; lastScrollT = t;
-    // smooth the velocity (EMA) so a decelerating flick's trailing low/negative
-    // samples don't flip the hide/reveal decision — direction intent, not noise
+    // EMA on velocity so a decelerating flick's trailing samples don't flip the hide/reveal decision
     smoothedVel = smoothedVel * 0.75 + rawVelocity * 0.25;
     const velocity = smoothedVel;
-    const scrollable = docScrollHeight - trackHeight;
-    const thumbHeight = Math.max(40, trackHeight * (trackHeight / docScrollHeight));
-    const thumbTop = scrollable > 0 ? (docScrollTop / scrollable) * (trackHeight - thumbHeight) : 0;
+    const thumbTop = cachedMax > 0 ? (y / cachedMax) * (cachedTrack - cachedThumbH) : 0;
 
-    // ---- writes ----
-    scrollThumb.style.height = thumbHeight + 'px';
-    scrollThumb.style.top = thumbTop + 'px';
+    // ---- writes (transform only) ----
+    scrollThumb.style.transform = 'translateY(' + thumbTop + 'px)';
     nav.classList.toggle('on-light', onLight);
+    if (ethosScrollHook) ethosScrollHook(y);
 
-    // hide on a confident scroll-down past the hero, reveal on any scroll-up — never mid-gesture-locked
     if (reduceMotion) return;
     if (y < 120) { setNavTarget(0); return; }
     if (velocity > 0.35) setNavTarget(-110);
@@ -1343,8 +1458,12 @@
   }
   function requestScrollTick(){ if (!scrollRAF) scrollRAF = requestAnimationFrame(scrollTick); }
   window.addEventListener('scroll', requestScrollTick, { passive: true });
-  window.addEventListener('resize', scrollTick);
+  window.addEventListener('resize', () => { measureScroll(); scrollTick(); });
+  window.addEventListener('load', () => { measureScroll(); scrollTick(); });
+  measureScroll();
   scrollTick();
+  // one late re-measure after web-fonts / video posters have settled the vertical rhythm
+  setTimeout(() => { measureScroll(); scrollTick(); }, 700);
 
   // instant press feedback on the CTA and wordmark — fires on pointerdown, not click (apple-design §1)
   document.querySelectorAll('#navCta, #navWordmark').forEach((el) => {
@@ -1402,10 +1521,15 @@
   let ethosActiveIdx = -1;
   const ethosReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function updateEthos(){
-    const rect = ethos.getBoundingClientRect();
-    const total = ethos.offsetHeight - window.innerHeight;
-    const progress = Math.min(1, Math.max(0, -rect.top / total));
+  let ethosTopDoc = 0, ethosTotal = 1;
+  function measureEthos(){
+    const r = ethos.getBoundingClientRect();
+    ethosTopDoc = r.top + window.scrollY;
+    ethosTotal = Math.max(1, ethos.offsetHeight - window.innerHeight);
+  }
+  function updateEthos(y){
+    if (y === undefined) y = window.scrollY;
+    const progress = Math.min(1, Math.max(0, (y - ethosTopDoc) / ethosTotal));
     const raw = progress * ethosSteps.length;
     const idx = Math.min(ethosSteps.length - 1, Math.floor(raw));
     const within = raw - idx;
@@ -1413,7 +1537,9 @@
     ethosSteps.forEach((el, i) => {
       const fill = el.querySelector('.ethos-step-fill');
       el.classList.toggle('active', i === idx);
-      fill.style.width = (i < idx ? 100 : i === idx ? within * 100 : 0) + '%';
+      // scaleX instead of width % — composited on the GPU, no per-frame layout while scrubbing
+      const frac = i < idx ? 1 : i === idx ? within : 0;
+      fill.style.transform = 'scaleX(' + frac + ')';
     });
 
     if (idx !== ethosActiveIdx) {
@@ -1485,17 +1611,44 @@
     ethosVideo.addEventListener('ended', ethosSafetyRestart);
     ethosVideoB.addEventListener('ended', ethosSafetyRestart);
 
-    let ethosTicking = false;
-    function onEthosScroll(){
-      if (!ethosTicking) {
-        ethosTicking = true;
-        requestAnimationFrame(() => { updateEthos(); ethosTicking = false; });
-      }
-    }
-    window.addEventListener('scroll', onEthosScroll, { passive: true });
-    window.addEventListener('resize', updateEthos);
+    // drive the scrub from the single shared scrollTick rather than a second, un-coordinated
+    // 'scroll' listener + rAF (that arrangement let updateEthos read layout right after
+    // scrollTick's writes, forcing an extra recalc per scroll event through this section)
+    ethosScrollHook = updateEthos;
+    ethosMeasureHook = measureEthos;   // re-measured from measureScroll() on resize/load
+    measureEthos();
     updateEthos();
   }
+
+  /* iOS Low Power Mode (and similar battery-saver modes) silently blocks video autoplay —
+     even muted/playsinline — with no error and no way to detect the mode itself. It does
+     NOT block .play() called from inside a real user-gesture handler, so retry once on the
+     visitor's first tap/click/key; each hero/ethos video's own init above already tried once
+     and already has its .ready/poster fallback, this just unsticks a blocked one. Self-removes
+     once nothing is left paused, and skips entirely under reduced-motion so a hidden video is
+     never woken up by a tap. */
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var EVENTS = ['touchend', 'pointerup', 'click', 'keydown'];
+    function stillBlocked() {
+      return [].some.call(document.querySelectorAll('video[muted]'), function (v) { return v.paused && !v.ended; });
+    }
+    function retry() {
+      [].forEach.call(document.querySelectorAll('video[muted]'), function (v) {
+        if (v.paused && !v.ended) {
+          v.play().catch(function () {});
+          if (v.readyState >= 4) v.classList.add('ready');
+        }
+      });
+      if (!stillBlocked()) {
+        EVENTS.forEach(function (e) { document.removeEventListener(e, retry); });
+        document.removeEventListener('visibilitychange', onVisChange);
+      }
+    }
+    function onVisChange() { if (!document.hidden) retry(); }
+    EVENTS.forEach(function (e) { document.addEventListener(e, retry, { passive: true }); });
+    document.addEventListener('visibilitychange', onVisChange);
+  })();
 
   /* #proof — ported verbatim from proof-stepout-precise.html, see the CSS
      comment above #proof for why. Do not modify without also updating the
@@ -1517,7 +1670,10 @@
     }
   }
 
-  document.querySelectorAll('.lottie-icon[data-lottie]').forEach(async (el) => {
+  // the only .lottie-icon elements are the #proof card icons, which are display:none on phone
+  // (see the phone-only #proof block) — skip fetching/initialising them there entirely.
+  const skipLottie = window.matchMedia('(max-width:820px)').matches;
+  if (!skipLottie) document.querySelectorAll('.lottie-icon[data-lottie]').forEach(async (el) => {
     const res = await fetch(el.dataset.lottie);
     const data = await res.json();
     recolor(data, PALETTE[el.dataset.color] || PALETTE['gold']);
@@ -1561,6 +1717,53 @@
     card.addEventListener('mouseleave', () => chars.forEach(span => setChar(span, 0)));
   }
   document.querySelectorAll('#proof .bnum').forEach(initMagnify);
+
+  /* ---- wheel-smoother ----------------------------------------------------------------
+     The only thing wrong with native scrolling here was the coarse, fixed-distance jump a
+     Windows mouse wheel makes per notch. This eases *just that* — it accumulates wheel
+     delta into a target and glides to it over a few frames — while leaving trackpad pans,
+     touch, keyboard, scrollbar drags and `Find in page` completely native.
+       - rAF loop runs ONLY while a glide is in progress (zero idle cost, unlike a library)
+       - every frame snaps to an INTEGER scrollY, so the page's many 1px hairline borders
+         never land on a sub-pixel and shimmer (the exact failure mode of full smooth-scroll)
+       - any non-wheel scroll (keyboard/scrollbar) instantly resyncs and cancels the glide  */
+  (function(){
+    if (reduceMotion) return;
+    var target = window.scrollY, gliding = false, raf = null, lastStepY = -1;
+    var EASE = 0.22, MULT = 0.8;
+    function maxY(){ return document.documentElement.scrollHeight - window.innerHeight; }
+    function step(){
+      raf = null;
+      var cur = window.scrollY;
+      var d = target - cur;
+      var next = Math.round(cur + d * EASE);
+      if (Math.abs(d) < 1 || next === Math.round(cur)) {   // arrived, or integer-rounding can't get closer
+        lastStepY = Math.round(target);
+        window.scrollTo(0, lastStepY);
+        gliding = false;
+        return;
+      }
+      lastStepY = next;
+      window.scrollTo(0, next);
+      raf = requestAnimationFrame(step);
+    }
+    function start(){ if (!gliding){ gliding = true; raf = requestAnimationFrame(step); } }
+    window.__cancelWheelGlide = function(){ if (raf) cancelAnimationFrame(raf); raf = null; gliding = false; target = window.scrollY; };
+    window.addEventListener('wheel', function(e){
+      if (e.ctrlKey || document.body.classList.contains('locked')) return;   // pinch-zoom / locked sheet
+      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+      e.preventDefault();
+      var base = gliding ? target : window.scrollY;
+      target = Math.max(0, Math.min(maxY(), base + dy * MULT));
+      start();
+    }, { passive: false });
+    // any scroll we didn't cause (keyboard, scrollbar drag, anchor jump, touch) wins outright
+    window.addEventListener('scroll', function(){
+      if (Math.abs(window.scrollY - lastStepY) <= 1) return;   // our own step move
+      if (raf) cancelAnimationFrame(raf);
+      raf = null; gliding = false; target = window.scrollY;
+    }, { passive: true });
+  })();
 </script>
 
 </body>
