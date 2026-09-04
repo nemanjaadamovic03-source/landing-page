@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/prive-motors/prive-motors.html" }
+    { "source": "/", "destination": "/prive-motors/prive-motors.html" },
+    { "source": "/(.*)", "destination": "/prive-motors/$1" }
   ],
   "headers": [
     {
