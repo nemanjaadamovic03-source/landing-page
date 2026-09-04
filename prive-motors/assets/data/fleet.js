@@ -155,7 +155,7 @@ const FLEET = [
     day:1400, week:8850, month:30900,
     occasions:['business','drive'], badges:['no-deposit'], terrain:['city'], img:'assets/fleet/tesla-model-s-plaid-2023-1500.webp' },
 
-  { id:'range-rover-vogue-2023', brand:'Range Rover', model:'Range Rover Vogue', year:2023,
+  { id:'range-rover-vogue-2023', brand:'Range Rover', model:'Vogue', year:2023,
     category:'suv', seats:5, hp:523, accel:4.6,
     day:1400, week:8850, month:30900,
     occasions:['weekend','business'], badges:['no-deposit','free-delivery'], terrain:['city','desert'], img:'assets/fleet/range-rover-vogue-2023-1500.webp' },
