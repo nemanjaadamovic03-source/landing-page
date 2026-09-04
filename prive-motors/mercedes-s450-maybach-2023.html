@@ -613,7 +613,6 @@
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
-    if (window.__cancelWheelGlide) window.__cancelWheelGlide();
     target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   });
   const CAR = { brand:'Mercedes-Benz', model:'S 450 Maybach', year:2023, day:1980, week:12500, month:43600 };
@@ -910,41 +909,5 @@
 })();
 </script>
 
-<script>
-  /* ---- wheel-smoother -------------------------------------------------------------------
-     Eases only the coarse fixed-distance jump a Windows mouse wheel makes per notch; leaves
-     trackpad, touch, keyboard, scrollbar drags and Find-in-page fully native. The rAF loop
-     runs only while a glide is in progress (zero idle cost), and every frame snaps to an
-     INTEGER scrollY so the page's 1px hairline borders never sub-pixel shimmer. */
-  (function(){
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var target = window.scrollY, gliding = false, raf = null, lastStepY = -1;
-    var EASE = 0.22, MULT = 0.8;
-    function maxY(){ return document.documentElement.scrollHeight - window.innerHeight; }
-    function step(){
-      raf = null;
-      var cur = window.scrollY, d = target - cur;
-      var next = Math.round(cur + d * EASE);
-      if (Math.abs(d) < 1 || next === Math.round(cur)) { lastStepY = Math.round(target); window.scrollTo(0, lastStepY); gliding = false; return; }
-      lastStepY = next; window.scrollTo(0, next);
-      raf = requestAnimationFrame(step);
-    }
-    function start(){ if (!gliding){ gliding = true; raf = requestAnimationFrame(step); } }
-    window.__cancelWheelGlide = function(){ if (raf) cancelAnimationFrame(raf); raf = null; gliding = false; target = window.scrollY; };
-    window.addEventListener('wheel', function(e){
-      if (e.ctrlKey || document.body.classList.contains('locked')) return;
-      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
-      e.preventDefault();
-      var base = gliding ? target : window.scrollY;
-      target = Math.max(0, Math.min(maxY(), base + dy * MULT));
-      start();
-    }, { passive: false });
-    window.addEventListener('scroll', function(){
-      if (Math.abs(window.scrollY - lastStepY) <= 1) return;
-      if (raf) cancelAnimationFrame(raf);
-      raf = null; gliding = false; target = window.scrollY;
-    }, { passive: true });
-  })();
-</script>
 </body>
 </html>

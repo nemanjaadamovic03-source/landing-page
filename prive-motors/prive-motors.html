@@ -40,9 +40,7 @@
      buttons — hidden entirely in favor of a custom floating thumb built below */
   /* Native scroll. CSS `scroll-behavior:smooth` is intentionally NOT set at the html level —
      it only animates programmatic jumps yet makes keyboard/scrollbar scrolling feel laggy.
-     A small wheel-smoother (bottom of the page) eases just the chunky Windows mouse-wheel
-     step; it snaps every frame to an INTEGER scrollY so hairline borders never sub-pixel
-     shimmer. Anchor jumps use scrollIntoView. */
+     Anchor jumps use scrollIntoView. */
   html{ overflow-y:scroll; overflow-x:hidden;
     scrollbar-width:none; font-size:75%; }
   html::-webkit-scrollbar{ display:none; width:0; height:0; }
@@ -1326,7 +1324,7 @@
   const scrollThumb = document.getElementById('scrollThumb');
 
   // in-page anchor links (nav "FAQ", hero "Our Why", footer section links) get their smooth
-  // scroll from JS — the wheel-smoother below is cancelled first so the two don't fight
+  // scroll from JS
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -1335,7 +1333,6 @@
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
-    if (window.__cancelWheelGlide) window.__cancelWheelGlide();
     target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   });
 
@@ -1717,53 +1714,6 @@
     card.addEventListener('mouseleave', () => chars.forEach(span => setChar(span, 0)));
   }
   document.querySelectorAll('#proof .bnum').forEach(initMagnify);
-
-  /* ---- wheel-smoother ----------------------------------------------------------------
-     The only thing wrong with native scrolling here was the coarse, fixed-distance jump a
-     Windows mouse wheel makes per notch. This eases *just that* — it accumulates wheel
-     delta into a target and glides to it over a few frames — while leaving trackpad pans,
-     touch, keyboard, scrollbar drags and `Find in page` completely native.
-       - rAF loop runs ONLY while a glide is in progress (zero idle cost, unlike a library)
-       - every frame snaps to an INTEGER scrollY, so the page's many 1px hairline borders
-         never land on a sub-pixel and shimmer (the exact failure mode of full smooth-scroll)
-       - any non-wheel scroll (keyboard/scrollbar) instantly resyncs and cancels the glide  */
-  (function(){
-    if (reduceMotion) return;
-    var target = window.scrollY, gliding = false, raf = null, lastStepY = -1;
-    var EASE = 0.22, MULT = 0.8;
-    function maxY(){ return document.documentElement.scrollHeight - window.innerHeight; }
-    function step(){
-      raf = null;
-      var cur = window.scrollY;
-      var d = target - cur;
-      var next = Math.round(cur + d * EASE);
-      if (Math.abs(d) < 1 || next === Math.round(cur)) {   // arrived, or integer-rounding can't get closer
-        lastStepY = Math.round(target);
-        window.scrollTo(0, lastStepY);
-        gliding = false;
-        return;
-      }
-      lastStepY = next;
-      window.scrollTo(0, next);
-      raf = requestAnimationFrame(step);
-    }
-    function start(){ if (!gliding){ gliding = true; raf = requestAnimationFrame(step); } }
-    window.__cancelWheelGlide = function(){ if (raf) cancelAnimationFrame(raf); raf = null; gliding = false; target = window.scrollY; };
-    window.addEventListener('wheel', function(e){
-      if (e.ctrlKey || document.body.classList.contains('locked')) return;   // pinch-zoom / locked sheet
-      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
-      e.preventDefault();
-      var base = gliding ? target : window.scrollY;
-      target = Math.max(0, Math.min(maxY(), base + dy * MULT));
-      start();
-    }, { passive: false });
-    // any scroll we didn't cause (keyboard, scrollbar drag, anchor jump, touch) wins outright
-    window.addEventListener('scroll', function(){
-      if (Math.abs(window.scrollY - lastStepY) <= 1) return;   // our own step move
-      if (raf) cancelAnimationFrame(raf);
-      raf = null; gliding = false; target = window.scrollY;
-    }, { passive: true });
-  })();
 </script>
 
 </body>
