@@ -1,0 +1,17 @@
+# Privé Motors
+
+> Privé Motors is a luxury and exotic car rental service based in Dubai, UAE, offering concierge-standard delivery of sports, executive, and luxury vehicles anywhere in the Emirates, including direct-to-airport handoff.
+
+Privé Motors operates a fleet of 24+ vehicles across brands including Lamborghini, Ferrari, Rolls-Royce, Bentley, Porsche, Mercedes-Benz, BMW, Audi, Chevrolet, Tesla, and Range Rover. Rentals are booked directly through the website with real daily pricing (no bait pricing), and vehicles are delivered to the customer's home, hotel, or the airport.
+
+## Key pages
+
+- [Home](https://www.prive-motors.com/): Overview of the service and brand promise.
+- [The Collection](https://www.prive-motors.com/collection.html): Full fleet listing with pricing, filterable by category, brand, occasion, and budget.
+- [About Us](https://www.prive-motors.com/about.html): Company background.
+- [Contact](https://www.prive-motors.com/contact.html): Concierge contact via WhatsApp and email.
+
+## Notes
+
+- Pricing shown on vehicle pages is per-day AED pricing; weekly and monthly rates are available on request.
+- Contact is handled via WhatsApp and email; there is no public street address as this is a delivery-only concierge fleet operator.

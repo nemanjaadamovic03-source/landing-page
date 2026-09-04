@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-173TNXBJ96"></script>
+<!-- Google tag (gtag.js) - script fetch deferred to window load to keep it off the critical rendering path -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag("js", new Date());
   gtag("config", "G-173TNXBJ96");
+  window.addEventListener('load', function(){
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-173TNXBJ96';
+    document.head.appendChild(s);
+  });
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050B14">
 <title>Privé Motors | Dubai's Finest Collection</title>
 <meta name="description" content="Dubai's finest collection of sports, executive, and luxury rental cars — delivered with a concierge standard, any hour.">
-<link rel="canonical" href="https://www.prive-motors.com/">
+<link rel="canonical" href="https://www.prive-motors.com/"
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Privé Motors">
+<meta property="og:title" content="Privé Motors | Dubai's Finest Collection">
+<meta property="og:description" content="Dubai's finest collection of sports, executive, and luxury rental cars — delivered with a concierge standard, any hour.">
+<meta property="og:url" content="https://www.prive-motors.com/">
+<meta property="og:image" content="https://www.prive-motors.com/assets/video/hero-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privé Motors | Dubai's Finest Collection">
+<meta name="twitter:description" content="Dubai's finest collection of sports, executive, and luxury rental cars — delivered with a concierge standard, any hour.">
+<meta name="twitter:image" content="https://www.prive-motors.com/assets/video/hero-poster.jpg">
+>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,100..1000,25..151&display=swap" onload="this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,100..1000,25..151&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,400..500,90..100&display=swap" onload="this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600..900&family=Roboto+Flex:opsz,wght,wdth@8..144,400..500,90..100&display=swap" rel="stylesheet"></noscript>
 
 <style>
   :root{

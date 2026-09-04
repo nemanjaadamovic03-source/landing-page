@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-173TNXBJ96"></script>
+<!-- Google tag (gtag.js) - script fetch deferred to window load to keep it off the critical rendering path -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag("js", new Date());
   gtag("config", "G-173TNXBJ96");
+  window.addEventListener('load', function(){
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-173TNXBJ96';
+    document.head.appendChild(s);
+  });
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050B14">
 <title>Contact Us — Privé Motors</title>
 <meta name="description" content="Talk to Privé Motors concierge — Dubai's finest collection of sports, executive, and luxury rental cars. One form, one line, any hour.">
-<link rel="canonical" href="https://www.prive-motors.com/contact.html">
+<link rel="canonical" href="https://www.prive-motors.com/contact.html"
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Privé Motors">
+<meta property="og:title" content="Contact Us — Privé Motors">
+<meta property="og:description" content="Talk to Privé Motors concierge — Dubai's finest collection of sports, executive, and luxury rental cars. One form, one line, any hour.">
+<meta property="og:url" content="https://www.prive-motors.com/contact.html">
+<meta property="og:image" content="https://www.prive-motors.com/assets/video/hero-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact Us — Privé Motors">
+<meta name="twitter:description" content="Talk to Privé Motors concierge — Dubai's finest collection of sports, executive, and luxury rental cars. One form, one line, any hour.">
+<meta name="twitter:image" content="https://www.prive-motors.com/assets/video/hero-poster.jpg">
+>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
