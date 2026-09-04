@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://prive-motors.com/sitemap.xml
+Sitemap: https://www.prive-motors.com/sitemap.xml
