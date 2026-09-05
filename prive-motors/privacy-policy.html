@@ -71,8 +71,10 @@
   html::-webkit-scrollbar{ display:none; width:0; height:0; }
   body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
   body.locked{ overflow:hidden; height:100vh; }
-  .custom-scrollbar{ position:fixed; top:0; right:2px; width:3px; height:100vh; z-index:9999; pointer-events:none; }
-  .custom-scrollbar-thumb{ position:absolute; top:0; right:0; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; will-change:transform; }
+  .custom-scrollbar{ position:fixed; top:0; right:0; width:16px; height:100vh; z-index:9999; pointer-events:none; }
+  .custom-scrollbar-thumb{ position:absolute; top:0; right:6px; width:3px; background:var(--rose); border-radius:3px; opacity:0.75; will-change:transform; pointer-events:none; }
+  .custom-scrollbar-hit{ position:absolute; top:0; right:0; width:16px; background:transparent; pointer-events:auto; cursor:grab; touch-action:none; will-change:transform; }
+  .custom-scrollbar-hit:active{ cursor:grabbing; }
   ::selection{ background:var(--rose); color:var(--bg-deep); }
   img{ max-width:100%; display:block; }
   h1,h2,h3,.display{ font-family:var(--display); font-weight:700; letter-spacing:0.01em; }
@@ -239,7 +241,7 @@
 </head>
 <body>
 
-<div class="custom-scrollbar"><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
+<div class="custom-scrollbar"><div class="custom-scrollbar-hit" id="scrollThumbHit"></div><div class="custom-scrollbar-thumb" id="scrollThumb"></div></div>
 
 <nav id="nav">
   <div class="nav-inner">
@@ -437,6 +439,7 @@
   });
 
   const scrollThumb = document.getElementById('scrollThumb');
+  const scrollThumbHit = document.getElementById('scrollThumbHit');
   const nav = document.getElementById('nav');
   let navY = 0, navVel = 0, navTargetY = 0, navRAF = null;
   let lastScrollY = window.scrollY, lastScrollT = performance.now();
@@ -470,6 +473,7 @@
     cachedMax = Math.max(0, d.scrollHeight - cachedTrack);
     cachedThumbH = Math.max(40, cachedTrack * (cachedTrack / d.scrollHeight));
     scrollThumb.style.height = cachedThumbH + 'px';
+    scrollThumbHit.style.height = cachedThumbH + 'px';
     const sy = window.scrollY;
     lightBounds = [...lightSections].map((el) => { const r = el.getBoundingClientRect(); return { top: r.top + sy, bottom: r.bottom + sy }; });
   }
@@ -491,6 +495,7 @@
     const thumbTop = cachedMax > 0 ? (y / cachedMax) * (cachedTrack - cachedThumbH) : 0;
 
     scrollThumb.style.transform = 'translateY(' + thumbTop + 'px)';
+    scrollThumbHit.style.transform = 'translateY(' + thumbTop + 'px)';
     nav.classList.toggle('on-light', onLight);
 
     if (reduceMotion) return;
@@ -505,6 +510,37 @@
   measureScroll();
   scrollTick();
   setTimeout(() => { measureScroll(); scrollTick(); }, 700);
+
+  // custom scrollbar thumb — click-and-drag support (the visible bar was previously
+  // decoration-only: it tracked scroll position but had no pointer handling of its own)
+  let scrollDragging = false, dragStartClientY = 0, dragStartScrollY = 0;
+  scrollThumbHit.addEventListener('pointerdown', (e) => {
+    if (cachedMax <= 0) return;
+    scrollDragging = true;
+    dragStartClientY = e.clientY;
+    dragStartScrollY = window.scrollY;
+    scrollThumbHit.setPointerCapture(e.pointerId);
+    scrollThumb.style.opacity = '1';
+    e.preventDefault();
+  });
+  scrollThumbHit.addEventListener('pointermove', (e) => {
+    if (!scrollDragging) return;
+    const trackRange = cachedTrack - cachedThumbH;
+    if (trackRange <= 0) return;
+    const deltaY = e.clientY - dragStartClientY;
+    const nextY = dragStartScrollY + deltaY * (cachedMax / trackRange);
+    window.scrollTo(0, Math.min(cachedMax, Math.max(0, nextY)));
+  });
+  function endScrollDrag(e){
+    if (!scrollDragging) return;
+    scrollDragging = false;
+    scrollThumb.style.opacity = '';
+    if (e && e.pointerId != null && scrollThumbHit.hasPointerCapture(e.pointerId)) {
+      scrollThumbHit.releasePointerCapture(e.pointerId);
+    }
+  }
+  scrollThumbHit.addEventListener('pointerup', endScrollDrag);
+  scrollThumbHit.addEventListener('pointercancel', endScrollDrag);
 
   const navToggle = document.getElementById('navToggle');
   const navSheet = document.getElementById('navSheet');
