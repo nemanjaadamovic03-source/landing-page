@@ -979,13 +979,41 @@
   document.getElementById('bkPrivacyConsent').addEventListener('change', e => { state.privacyConsent = e.target.checked; validate(); });
 
   document.getElementById('bkSend').addEventListener('click', () => {
-    document.getElementById('bookSummary').innerHTML = `
+    const sendBtn = document.getElementById('bkSend');
+    sendBtn.disabled = true;
+    const payload = {
+      _subject: `Booking request — ${CAR.brand} ${CAR.model} (${CAR.year})`,
+      vehicle: `${CAR.brand} ${CAR.model} (${CAR.year})`,
+      name: state.name,
+      email: state.email,
+      phone: state.phone,
+      pickup: state.pickup,
+      returnDate: state.ret,
+      delivery: state.delivery,
+      extras: state.extras.length ? state.extras.join(', ') : 'None',
+      document: state.doc,
+      estimatedTotal: nights() > 0 ? fmtAED(estimate()) : 'n/a'
+    };
+    fetch('https://formspree.io/f/mvkobrnw', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then((res) => {
+      if (!res.ok) throw new Error('submit failed');
+      document.getElementById('bookSummary').innerHTML = `
       <div class="bk-success">
         <div class="bk-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
         <h3>Request sent</h3>
         <p>A confirmation is on its way to <b style="color:var(--text)">${state.email}</b>. Our concierge will follow up shortly to lock in the R8 Spyder for your dates.</p>
       </div>`;
-    // TODO: wire to an email-backend service (Formspree/Resend) — UI-only placeholder for now.
+    }).catch(() => {
+      sendBtn.disabled = false;
+      document.getElementById('bookSummary').innerHTML = `
+      <div class="bk-success">
+        <h3>Something went wrong</h3>
+        <p>Please try again, or reach us directly on <a href="https://wa.me/4915215407397">WhatsApp</a>.</p>
+      </div>`;
+    });
   });
 
   /* ---- custom calendar (shared with booking-demo.html) ---- */

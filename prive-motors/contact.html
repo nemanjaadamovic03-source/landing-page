@@ -451,7 +451,6 @@
           <input type="checkbox" id="cfConsent" required>
           <span>I agree to the <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms.html">Terms &amp; Conditions</a>.</span>
         </label>
-        <!-- TODO: wire to Formspree/backend — UI-only placeholder for now, see contact.html plan -->
         <button type="submit" class="btn btn-primary cf-submit" id="cfSubmit">Send Request</button>
         <p class="cf-note" id="cfNote">We usually respond within the hour.</p>
       </form>
@@ -827,7 +826,7 @@
     document.addEventListener('visibilitychange', onVisChange);
   })();
 
-  /* ---- contact form — UI-only placeholder submit, no backend wired yet (see TODO above the button) ---- */
+  /* ---- contact form — submits to Formspree via fetch, no page redirect ---- */
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -839,8 +838,20 @@
       }
       const btn = document.getElementById('cfSubmit');
       btn.disabled = true;
-      btn.textContent = 'Request Sent';
-      note.textContent = 'Thank you — our concierge will reach out shortly.';
+      btn.textContent = 'Sending…';
+      fetch('https://formspree.io/f/mvkobrnw', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(contactForm)
+      }).then((res) => {
+        if (!res.ok) throw new Error('submit failed');
+        btn.textContent = 'Request Sent';
+        note.textContent = 'Thank you — our concierge will reach out shortly.';
+      }).catch(() => {
+        btn.disabled = false;
+        btn.textContent = 'Send Request';
+        note.textContent = 'Something went wrong — please try again or WhatsApp us directly.';
+      });
     });
   }
 </script>
