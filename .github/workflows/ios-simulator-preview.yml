@@ -1,0 +1,73 @@
+name: iOS Simulator preview
+
+# Renders a page in a real iOS Simulator (real WebKit/Safari, not Chromium) and uploads
+# screenshots. Manual only. Useful for things Chromium screenshot scripts cannot check:
+# the Safari status-bar strip colour, viewport-fit=cover, safe-area-inset behaviour.
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description: "Page to load, relative to repo root (served from /)"
+        required: false
+        default: "ViCargo/_demo/home"
+      device:
+        description: "Simulator device name"
+        required: false
+        default: "iPhone 15"
+
+jobs:
+  screenshot:
+    runs-on: macos-14
+    timeout-minutes: 12
+    env:
+      PAGE_PATH: ${{ inputs.path }}
+      DEVICE_NAME: ${{ inputs.device }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start static server
+        run: |
+          nohup npx --yes serve . -l 8765 > server.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf "http://localhost:8765/$PAGE_PATH" > /dev/null && break
+            sleep 1
+          done
+          curl -sf "http://localhost:8765/$PAGE_PATH" > /dev/null || { echo "server did not come up"; cat server.log; exit 1; }
+
+      - name: Pick + boot simulator
+        id: sim
+        run: |
+          set -e
+          RUNTIME=$(xcrun simctl list runtimes available -j | python3 -c "import json,sys; r=[x for x in json.load(sys.stdin)['runtimes'] if x['name'].startswith('iOS')]; r.sort(key=lambda x: x['version']); print(r[-1]['identifier'])")
+          echo "runtime=$RUNTIME"
+          UDID=$(xcrun simctl create preview "$DEVICE_NAME" "$RUNTIME")
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+
+      - name: Open the page in Safari
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          xcrun simctl openurl "$UDID" "http://localhost:8765/$PAGE_PATH"
+          sleep 8
+
+      - name: Screenshots (right after load, then once settled)
+        run: |
+          mkdir -p shots
+          xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot shots/01-load.png
+          sleep 5
+          xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot shots/02-settled.png
+        # Note: simctl has no gesture/tap/swipe command, only openurl + screenshot + status-bar
+        # overrides -- real scroll/tap testing here would need idb, not set up yet. This run only
+        # answers: what colour is the status-bar strip, and how far down is the page scrolled
+        # on open (both visible in a static screenshot, no interaction needed).
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-simulator-shots
+          path: shots/*.png
+          if-no-files-found: error
+
+      - name: Shut down simulator
+        if: always()
+        run: xcrun simctl shutdown "${{ steps.sim.outputs.udid }}" || true
